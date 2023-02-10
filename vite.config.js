@@ -38,4 +38,9 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      sourcemapBaseUrl: "/findactor"
+    }
+  }
 });
