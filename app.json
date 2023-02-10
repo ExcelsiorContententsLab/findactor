@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "vite-vue-app",
+      "script": "npm",
+      "args": "run serve",
+      "exec_mode": "fork",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
