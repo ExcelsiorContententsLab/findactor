@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build
+        run: npm run build && mkdir dist/src && mkdir dist/src/assets && cp -r src/assets/ dist/src/assets
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
