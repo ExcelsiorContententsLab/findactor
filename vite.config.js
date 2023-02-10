@@ -7,8 +7,6 @@ import { AntDesignVueResolver } from "unplugin-vue-components/resolvers";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // TODO: 커스텀 도메인 확보시에 변경.
-  base: '/findactor/',
   plugins: [
     vue(),
     Components({
@@ -37,10 +35,5 @@ export default defineConfig({
         additionalData: '@import "@/assets/styles/style.scss";',
       },
     },
-  },
-  build: {
-    rollupOptions: {
-      sourcemapBaseUrl: "/findactor"
-    }
   }
 });
