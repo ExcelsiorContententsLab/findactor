@@ -26,7 +26,7 @@ export default {
         myOfferedProductionList() {
             let productionList = [{
                 name: "한겨레영화아카데미",
-                imgSrc: "/src/assets/production/han.png",
+                imgSrc: "/assets/production/han.png",
                 isLiked: true,
                 auditionList: [
                     {

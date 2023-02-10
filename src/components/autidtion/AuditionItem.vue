@@ -76,7 +76,7 @@ export default {
             마감 D-{{ getDDay }}
         </span>
         <img v-if="!onlyView" class="icon"
-            :src="isScrap ? '/src/assets/icon/diamond-true.svg' : '/src/assets/icon/diamond-false.svg'"
+            :src="isScrap ? '/assets/icon/diamond-true.svg' : '/assets/icon/diamond-false.svg'"
             @click="handleClickAddFavorite" />
     </div>
 </template>

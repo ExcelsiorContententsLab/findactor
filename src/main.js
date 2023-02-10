@@ -35,7 +35,7 @@ const store = createStore({
       productionList: [
         {
           name: "찰나",
-          imgSrc: "/src/assets/production/chalna.png",
+          imgSrc: "/assets/production/chalna.png",
           isLiked: true,
           auditionList: [
             {
@@ -57,7 +57,7 @@ const store = createStore({
         },
         {
           name: "엑셀시오르콘텐츠랩",
-          imgSrc: "/src/assets/production/profile.jpg",
+          imgSrc: "/assets/production/profile.jpg",
           isLiked: true,
           auditionList: [
             {
@@ -79,13 +79,13 @@ const store = createStore({
         },
         {
           name: "IHQ",
-          imgSrc: "/src/assets/production/IHQ.png",
+          imgSrc: "/assets/production/IHQ.png",
           isLiked: true,
           auditionList: [],
         },
         {
           name: "카카오M",
-          imgSrc: "/src/assets/production/KAKAOM.jpg",
+          imgSrc: "/assets/production/KAKAOM.jpg",
           isLiked: true,
           auditionList: [],
         },
@@ -287,28 +287,28 @@ const store = createStore({
           {
             title: "강철비2: 정상회담",
             url: "assets/movie/movie1.png",
-            imgSrc: "/src/assets/movie/movie1.jpg",
+            imgSrc: "/assets/movie/movie1.jpg",
             role: "백두호 조타사 역",
             year: "2020",
           },
           {
             title: "가장 보통의 연애",
             url: "assets/movie/movie1.png",
-            imgSrc: "/src/assets/movie/movie2.jpg",
+            imgSrc: "/assets/movie/movie2.jpg",
             role: "단역 이자카야 매니저",
             year: "2019",
           },
           {
             title: "마약왕",
             url: "assets/movie/movie1.png",
-            imgSrc: "/src/assets/movie/movie3.jpg",
+            imgSrc: "/assets/movie/movie3.jpg",
             role: "단역-다방 앞 의원 의사역",
             year: "2018",
           },
           {
             title: "밤의 문이 열린다",
             url: "assets/movie/movie1.png",
-            imgSrc: "/src/assets/movie/movie4.jpg",
+            imgSrc: "/assets/movie/movie4.jpg",
             role: "조연 - 이민성 역",
             year: "2019",
           },
@@ -321,7 +321,7 @@ const store = createStore({
             {
               title: "좋아서만든영화",
               url: "assets/movie/movie1.png",
-              imgSrc: "/src/assets/production/detail/movie1.jpg",
+              imgSrc: "/assets/production/detail/movie1.jpg",
               role: "",
               year: "2009",
             },
@@ -353,7 +353,7 @@ const store = createStore({
             age: "36",
             height: "178",
             weight: "65",
-            imgSrc: "/src/assets/findActor/1.jpg",
+            imgSrc: "/assets/findActor/1.jpg",
           },
           {
             name: "서정하",
@@ -361,7 +361,7 @@ const store = createStore({
             age: "40",
             height: "171",
             weight: "67",
-            imgSrc: "/src/assets/findActor/2.jpg",
+            imgSrc: "/assets/findActor/2.jpg",
           },
           {
             name: "변상윤",
@@ -369,7 +369,7 @@ const store = createStore({
             age: "30",
             height: "177",
             weight: "65",
-            imgSrc: "/src/assets/findActor/3.jpg",
+            imgSrc: "/assets/findActor/3.jpg",
           },
           {
             name: "남예원",
@@ -377,7 +377,7 @@ const store = createStore({
             age: "24",
             height: "169",
             weight: "55",
-            imgSrc: "/src/assets/findActor/4.jpg",
+            imgSrc: "/assets/findActor/4.jpg",
           },
           {
             name: "이지은",
@@ -385,7 +385,7 @@ const store = createStore({
             age: "25",
             height: "162",
             weight: "46",
-            imgSrc: "/src/assets/findActor/5.jpg",
+            imgSrc: "/assets/findActor/5.jpg",
           },
           {
             name: "전지혜",
@@ -393,7 +393,7 @@ const store = createStore({
             age: "29",
             height: "163",
             weight: "47",
-            imgSrc: "/src/assets/findActor/6.jpg",
+            imgSrc: "/assets/findActor/6.jpg",
           },
           {
             name: "이승찬",
@@ -401,7 +401,7 @@ const store = createStore({
             age: "29",
             height: "176",
             weight: "72",
-            imgSrc: "/src/assets/findActor/7.jpg",
+            imgSrc: "/assets/findActor/7.jpg",
           },
           {
             name: "박건규",
@@ -409,7 +409,7 @@ const store = createStore({
             age: "27",
             height: "171",
             weight: "58",
-            imgSrc: "/src/assets/findActor/8.jpg",
+            imgSrc: "/assets/findActor/8.jpg",
           },
           {
             name: "유홍열",
@@ -417,7 +417,7 @@ const store = createStore({
             age: "34",
             height: "181",
             weight: "67",
-            imgSrc: "/src/assets/findActor/9.jpg",
+            imgSrc: "/assets/findActor/9.jpg",
           },
           {
             name: "강성철",
@@ -425,7 +425,7 @@ const store = createStore({
             age: "28",
             height: "180",
             weight: "75",
-            imgSrc: "/src/assets/findActor/10.jpg",
+            imgSrc: "/assets/findActor/10.jpg",
           },
           {
             name: "이정원",
@@ -433,7 +433,7 @@ const store = createStore({
             age: "22",
             height: "171",
             weight: "48",
-            imgSrc: "/src/assets/findActor/11.jpg",
+            imgSrc: "/assets/findActor/11.jpg",
           },
           {
             name: "이보라",
@@ -441,7 +441,7 @@ const store = createStore({
             age: "24",
             height: "163",
             weight: "46",
-            imgSrc: "/src/assets/findActor/12.jpg",
+            imgSrc: "/assets/findActor/12.jpg",
           },
           {
             name: "이정욱",
@@ -449,7 +449,7 @@ const store = createStore({
             age: "19",
             height: "174",
             weight: "57",
-            imgSrc: "/src/assets/findActor/13.jpg",
+            imgSrc: "/assets/findActor/13.jpg",
           },
           {
             name: "장지영",
@@ -457,7 +457,7 @@ const store = createStore({
             age: "24",
             height: "163",
             weight: "47",
-            imgSrc: "/src/assets/findActor/14.jpg",
+            imgSrc: "/assets/findActor/14.jpg",
           },
           {
             name: "정동철",
@@ -465,7 +465,7 @@ const store = createStore({
             age: "29",
             height: "180",
             weight: "75",
-            imgSrc: "/src/assets/findActor/15.jpg",
+            imgSrc: "/assets/findActor/15.jpg",
           },
           {
             name: "김지선",
@@ -473,7 +473,7 @@ const store = createStore({
             age: "26",
             height: "161",
             weight: "44",
-            imgSrc: "/src/assets/findActor/16.jpg",
+            imgSrc: "/assets/findActor/16.jpg",
           },
           {
             name: "김서정",
@@ -481,7 +481,7 @@ const store = createStore({
             age: "28",
             height: "167",
             weight: "49",
-            imgSrc: "/src/assets/findActor/17.jpg",
+            imgSrc: "/assets/findActor/17.jpg",
           },
           {
             name: "김준희",
@@ -489,7 +489,7 @@ const store = createStore({
             age: "32",
             height: "174",
             weight: "57",
-            imgSrc: "/src/assets/findActor/18.jpg",
+            imgSrc: "/assets/findActor/18.jpg",
           },
           {
             name: "김기덕",
@@ -497,7 +497,7 @@ const store = createStore({
             age: "33",
             height: "181",
             weight: "67",
-            imgSrc: "/src/assets/findActor/19.jpg",
+            imgSrc: "/assets/findActor/19.jpg",
           },
           {
             name: "이보영",
@@ -505,7 +505,7 @@ const store = createStore({
             age: "34",
             height: "163",
             weight: "48",
-            imgSrc: "/src/assets/findActor/20.jpg",
+            imgSrc: "/assets/findActor/20.jpg",
           },
         ],
         applicantList: [],

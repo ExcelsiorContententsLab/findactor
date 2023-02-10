@@ -37,37 +37,37 @@ export default {
             },
             movieProfileList: [
                 {
-                    imgSrc: '/src/assets/thumb1.jpg',
+                    imgSrc: '/assets/thumb1.jpg',
                     title: '구르미 그린 달빛',
                     role: '단역 가나단역',
                     year: 2021,
                 },
                 {
-                    imgSrc: '/src/assets/thumb1.jpg',
+                    imgSrc: '/assets/thumb1.jpg',
                     title: '구르미 그린 달빛',
                     role: '단역 가나단역',
                     year: 2021,
                 },
                 {
-                    imgSrc: '/src/assets/thumb1.jpg',
+                    imgSrc: '/assets/thumb1.jpg',
                     title: '구르미 그린 달빛',
                     role: '단역 가나단역',
                     year: 2021,
                 },
                 {
-                    imgSrc: '/src/assets/thumb1.jpg',
+                    imgSrc: '/assets/thumb1.jpg',
                     title: '구르미 그린 달빛',
                     role: '단역 가나단역',
                     year: 2021,
                 },
                 {
-                    imgSrc: '/src/assets/thumb1.jpg',
+                    imgSrc: '/assets/thumb1.jpg',
                     title: '구르미 그린 달빛',
                     role: '단역 가나단역',
                     year: 2021,
                 },
                 {
-                    imgSrc: '/src/assets/thumb1.jpg',
+                    imgSrc: '/assets/thumb1.jpg',
                     title: '구르미 그린 달빛',
                     role: '단역 가나단역',
                     year: 2021,
@@ -75,27 +75,27 @@ export default {
             ],
             imageProfileList: [
                 {
-                    imgSrc: '/src/assets/image1.png',
+                    imgSrc: '/assets/image1.png',
                     kind: '상업드라마',
                     role: '단역 가나다역'
                 },
                 {
-                    imgSrc: '/src/assets/image2.png',
+                    imgSrc: '/assets/image2.png',
                     kind: '상업드라마',
                     role: '단역 가나다역'
                 },
                 {
-                    imgSrc: '/src/assets/image3.png',
+                    imgSrc: '/assets/image3.png',
                     kind: '상업드라마',
                     role: '단역 가나다역'
                 },
                 {
-                    imgSrc: '/src/assets/image4.png',
+                    imgSrc: '/assets/image4.png',
                     kind: '상업드라마',
                     role: '단역 가나다역'
                 },
                 {
-                    imgSrc: '/src/assets/image5.png',
+                    imgSrc: '/assets/image5.png',
                     role: '단역 가나다역'
                 },
             ],
@@ -159,7 +159,7 @@ export default {
             this.selectedAudition = audition;
             this.isAuditionVisible = true;
         },
-        handleAuditionModifyOk(){
+        handleAuditionModifyOk() {
             this.isAuditionVisible = false;
         }
 

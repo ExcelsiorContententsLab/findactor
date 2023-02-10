@@ -33,7 +33,7 @@ export default {
                 <div class="info">
                     <a-dropdown placement="bottomRight" :trigger="['click']">
                         <div class="profile">
-                            <img class="avatar" src="/src/assets/myProfile.jpg">
+                            <img class="avatar" src="/assets/myProfile.jpg">
                             <div class="notification"><span class="">New</span></div>
                         </div>
                         <template #overlay>
@@ -140,7 +140,7 @@ export default {
             margin-left: auto;
             cursor: pointer;
             position: relative;
-            
+
             .avatar {
                 flex: 0 0 64px;
                 border-radius: 50%;
@@ -163,7 +163,7 @@ export default {
                 border-radius: 20px;
                 font-weight: 700;
                 font-size: 12px;
-                right:-15px;
+                right: -15px;
             }
         }
     }
