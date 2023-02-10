@@ -1,0 +1,9 @@
+#app {
+  height: 100%;
+}
+
+body {
+  font-family: "Noto Sans KR", sans-serif !important;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
