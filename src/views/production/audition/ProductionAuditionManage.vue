@@ -4,56 +4,57 @@ import ActorDetail from '../../../components/actor/ActorDetail.vue';
 import ActorProfile from '../../../components/actor/ActorProfile.vue';
 import AuditionItem from '../../../components/autidtion/AuditionItem.vue';
 
-
 export default {
-    name: "production-audition-manage",
-    data() {
-        return {
-            openedProductionList: [],
-            subMenu: 'a',
-            isProfileDetailVisible: false,
-            selectedProfile: {}
-        };
+  name: 'production-audition-manage',
+  data() {
+    return {
+      openedProductionList: [],
+      subMenu: 'a',
+      isProfileDetailVisible: false,
+      selectedProfile: {},
+    };
+  },
+  computed: {
+    // activeKey: {
+    //     get() {
+    //         return this.$route.query.type;
+    //     }
+    // }
+    scrapList() {
+      return this.$store.state.auditionList.filter((v) => v.isScrap);
     },
-    computed: {
-        // activeKey: {
-        //     get() {
-        //         return this.$route.query.type;
-        //     }
-        // }
-        scrapList() {
-            return this.$store.state.auditionList.filter(v => v.isScrap);
-        },
-        myProductionList() {
-            return this.$store.state.productionList.filter(v => v.isLiked);
-        },
-        myOfferedProductionList() {
-            const productionList = this.$store.state.productionList.filter(v => v.auditionList.filter(e => e.isOffered));
-            return productionList;
-        }
+    myProductionList() {
+      return this.$store.state.productionList.filter((v) => v.isLiked);
     },
-    watch: {
-        "$route.query": {
-            immediate: true,
-            handler: function (route) {
-                this.activeKey = this.$route.query.type;
-            }
-        }
+    myOfferedProductionList() {
+      const productionList = this.$store.state.productionList.filter((v) => v.auditionList.filter((e) => e.isOffered));
+      return productionList;
     },
-    methods: {
-        handleTabClick(val) {
-            this.$router.replace("/production/audition/manage?type=" + val);
-        },
-        handleClickProfileDetail(profile) {
-            this.selectedProfile = profile;
-            this.isProfileDetailVisible = true;
-        }
+  },
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler(route) {
+        this.activeKey = this.$route.query.type;
+      },
     },
-    mounted() {
-        console.log("mounted");
+  },
+  methods: {
+    handleTabClick(val) {
+      this.$router.replace(`/production/audition/manage?type=${val}`);
     },
-    components: { AuditionItem, ActorItem, ActorProfile, ActorDetail }
-}
+    handleClickProfileDetail(profile) {
+      this.selectedProfile = profile;
+      this.isProfileDetailVisible = true;
+    },
+  },
+  mounted() {
+    console.log('mounted');
+  },
+  components: {
+    AuditionItem, ActorItem, ActorProfile, ActorDetail,
+  },
+};
 </script>
 <template>
     <div class="production-audition-manage container">

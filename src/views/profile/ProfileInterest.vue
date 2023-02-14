@@ -5,70 +5,72 @@ import ProductionItemOffer from '../../components/production/ProductionItemOffer
 import ProductionItemOpen from '../../components/production/ProductionItemOpen.vue';
 
 export default {
-    name: "ProfileInterest",
-    data() {
-        return {
-            openedProductionList: []
-        }
+  name: 'ProfileInterest',
+  data() {
+    return {
+      openedProductionList: [],
+    };
+  },
+  computed: {
+    // activeKey: {
+    //     get() {
+    //         return this.$route.query.type;
+    //     }
+    // }
+    scrapList() {
+      return this.$store.state.auditionList.filter((v) => v.isScrap);
     },
-    computed: {
-        // activeKey: {
-        //     get() {
-        //         return this.$route.query.type;
-        //     }
-        // }
-        scrapList() {
-            return this.$store.state.auditionList.filter(v => v.isScrap);
-        },
-        myProductionList() {
-            return this.$store.state.productionList.filter(v => v.isLiked);
-        },
-        myOfferedProductionList() {
-            let productionList = [{
-                name: "한겨레영화아카데미",
-                imgSrc: "/assets/production/han.png",
-                isLiked: true,
-                auditionList: [
-                    {
-                        title: "좋은 소식",
-                        role: "2",
-                        ageRange: [23, 29],
-                        productionName: "한겨레영화아카데미",
-                        prefer: "G1",
-                        isScrap: true,
-                        dueDate: "2023-02-17",
-                        isOffered: true,
-                        genre: "movie",
-                        gender: "1",
-                        applicantCnt: 0,
-                        yesCnt: 1,
-                        noCnt: 1,
-                    },
-                ],
-            }];
-            // 큐시트 참고
-            // const productionList = this.$store.state.productionList.filter(v => v.auditionList.filter(e => e.isOffered));
-            return productionList;
-        }
+    myProductionList() {
+      return this.$store.state.productionList.filter((v) => v.isLiked);
     },
-    watch: {
-        "$route.query": {
-            immediate: true,
-            handler: function (route) {
-                this.activeKey = this.$route.query.type;
-            }
-        }
+    myOfferedProductionList() {
+      const productionList = [{
+        name: '한겨레영화아카데미',
+        imgSrc: '/assets/production/han.png',
+        isLiked: true,
+        auditionList: [
+          {
+            title: '좋은 소식',
+            role: '2',
+            ageRange: [23, 29],
+            productionName: '한겨레영화아카데미',
+            prefer: 'G1',
+            isScrap: true,
+            dueDate: '2023-02-17',
+            isOffered: true,
+            genre: 'movie',
+            gender: '1',
+            applicantCnt: 0,
+            yesCnt: 1,
+            noCnt: 1,
+          },
+        ],
+      }];
+      // 큐시트 참고
+      // const productionList = this.$store.state.productionList.filter(v => v.auditionList.filter(e => e.isOffered));
+      return productionList;
     },
-    methods: {
-        handleTabClick(val) {
-            this.$router.replace("/profile/interest?type=" + val);
-        }
+  },
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler(route) {
+        this.activeKey = this.$route.query.type;
+      },
     },
-    mounted() {
-        console.log("mounted");
+  },
+  methods: {
+    handleTabClick(val) {
+      this.$router.replace(`/profile/interest?type=${val}`);
     },
-    components: { AuditionItem, ProductionItem, ProductionItemOpen, ProductionItemOffer }
-}
+  },
+  mounted() {
+    console.log('mounted');
+  },
+  components: {
+    AuditionItem, ProductionItem, ProductionItemOpen, ProductionItemOffer,
+  },
+};
 </script>
 <template>
     <div class="profile-interest container">

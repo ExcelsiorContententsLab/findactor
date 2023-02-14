@@ -2,20 +2,20 @@
 import { PlusCircleFilled } from '@ant-design/icons-vue';
 
 export default {
-    props: {
-        imgSrc: String,
-        update: Boolean
+  props: {
+    imgSrc: String,
+    update: Boolean,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    handleClickRemove() {
+      this.$emit('remove', this.index);
     },
-    data() {
-        return {};
-    },
-    methods: {
-        handleClickRemove() {
-            this.$emit("remove", this.index);
-        }
-    },
-    components: { PlusCircleFilled }
-}
+  },
+  components: { PlusCircleFilled },
+};
 </script>
 <template>
     <div class="thumb-image">

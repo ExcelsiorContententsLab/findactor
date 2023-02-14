@@ -3,196 +3,196 @@ import { Navigation, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import ThumbCard from '@/components/thumb/ThumbCard.vue';
 import { RouterLink } from 'vue-router';
 import { message } from 'ant-design-vue';
+import ThumbCard from '@/components/thumb/ThumbCard.vue';
+
 export default {
-    name: 'ActorDetail',
-    components: {
-        Swiper,
-        SwiperSlide,
-        RouterLink
+  name: 'ActorDetail',
+  components: {
+    Swiper,
+    SwiperSlide,
+    RouterLink,
+  },
+  props: {
+    status: {
+      type: String,
+      default: '',
     },
-    props: {
-        status: {
-            type: String,
-            default: ''
-        }
-    },
-    data() {
-        return {
-            isAddMovieProfileVisible: false,
-            movieProfileDetail: {
-                title: '',
-                url: '',
-                role: '',
-                year: '',
-                imgSrc: null,
-            },
-            movieProfileList: [
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                }
-            ],
-            imageProfileList: [
-                {
-                    imgSrc: '/assets/imageProfile/1.jpg',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/imageProfile/2.jpg',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/imageProfile/3.jpg',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/imageProfile/4.jpg',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/imageProfile/5.jpg',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/imageProfile/6.jpg',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/imageProfile/7.jpg',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/imageProfile/8.jpg',
-                    role: '단역 가나다역'
-                },
-            ],
-            filmoList: [
-                {
-                    title: '강철비2 정상회담',
-                    year: '2020',
-                    kind: '상업드라마',
-                    role: '백두호 - 조타사역'
-                },
-                {
-                    title: '가장 보통의 연애',
-                    year: '2019',
-                    kind: '상업드라마',
-                    role: '이자카야 매니저 - 단역'
-                },
-                {
-                    title: '마약왕',
-                    year: '2018',
-                    kind: '상업드라마',
-                    role: '단역 - 다방 앞 의원 의사역'
-                },
-                {
-                    title: '밤의 문이 열린다',
-                    year: '2019',
-                    kind: '상업드라마',
-                    role: '조연 - 이민성역'
-                },
-            ]
-
-        }
-    },
-    setup() {
-        const swiper = useSwiper();
-        const onSwiper = (swiper) => {
-            console.log(swiper);
-        };
-        const onSlideChange = () => {
-            console.log('slide change');
-        };
-        const success = () => {
-            message.success(
-                '임시저장 되었습니다.',
-                2,
-            );
-        };
-        return {
-            success,
-            onSwiper,
-            onSlideChange,
-            modules: [Navigation, Scrollbar, A11y],
-        };
-    },
-    computed: {
-        isUpdate() {
-            return this.status === 'update';
-        }
-    },
-    methods: {
-        handleRemoveThumbCard(index) {
-            this.$store.state.profile.movieList.splice(index, 1);
-            this.$store.commit('saveLocal');
-
+  },
+  data() {
+    return {
+      isAddMovieProfileVisible: false,
+      movieProfileDetail: {
+        title: '',
+        url: '',
+        role: '',
+        year: '',
+        imgSrc: null,
+      },
+      movieProfileList: [
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
         },
-        handleClickAddMovieProfile() {
-            this.isAddMovieProfileVisible = true;
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
         },
-        handleConfirmAddMovieProfile() {
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+      ],
+      imageProfileList: [
+        {
+          imgSrc: '/assets/imageProfile/1.jpg',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/imageProfile/2.jpg',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/imageProfile/3.jpg',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/imageProfile/4.jpg',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/imageProfile/5.jpg',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/imageProfile/6.jpg',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/imageProfile/7.jpg',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/imageProfile/8.jpg',
+          role: '단역 가나다역',
+        },
+      ],
+      filmoList: [
+        {
+          title: '강철비2 정상회담',
+          year: '2020',
+          kind: '상업드라마',
+          role: '백두호 - 조타사역',
+        },
+        {
+          title: '가장 보통의 연애',
+          year: '2019',
+          kind: '상업드라마',
+          role: '이자카야 매니저 - 단역',
+        },
+        {
+          title: '마약왕',
+          year: '2018',
+          kind: '상업드라마',
+          role: '단역 - 다방 앞 의원 의사역',
+        },
+        {
+          title: '밤의 문이 열린다',
+          year: '2019',
+          kind: '상업드라마',
+          role: '조연 - 이민성역',
+        },
+      ],
 
-        },
-        // 영상 디테일 
-        handleInputMovieProfileDetailURL(event) {
-            const value = event.target.value;
-            const regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
-            const match = regex.exec(value);
-            if (match) {
-                const youtubeId = match[3];
-                this.movieProfileDetail.imgSrc = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
-            } else {
-                this.movieProfileDetail.imgSrc = null;
-            }
-            // if(match)
-            // const youtubeId = regex.exec(value)[3];
-            // console.log(youtubeId);
-        }
+    };
+  },
+  setup() {
+    const swiper = useSwiper();
+    const onSwiper = (swiper) => {
+      console.log(swiper);
+    };
+    const onSlideChange = () => {
+      console.log('slide change');
+    };
+    const success = () => {
+      message.success(
+        '임시저장 되었습니다.',
+        2,
+      );
+    };
+    return {
+      success,
+      onSwiper,
+      onSlideChange,
+      modules: [Navigation, Scrollbar, A11y],
+    };
+  },
+  computed: {
+    isUpdate() {
+      return this.status === 'update';
+    },
+  },
+  methods: {
+    handleRemoveThumbCard(index) {
+      this.$store.state.profile.movieList.splice(index, 1);
+      this.$store.commit('saveLocal');
+    },
+    handleClickAddMovieProfile() {
+      this.isAddMovieProfileVisible = true;
+    },
+    handleConfirmAddMovieProfile() {
 
     },
-    mounted() {
-        console.log(this.status);
+    // 영상 디테일
+    handleInputMovieProfileDetailURL(event) {
+      const { value } = event.target;
+      const regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+      const match = regex.exec(value);
+      if (match) {
+        const youtubeId = match[3];
+        this.movieProfileDetail.imgSrc = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
+      } else {
+        this.movieProfileDetail.imgSrc = null;
+      }
+      // if(match)
+      // const youtubeId = regex.exec(value)[3];
+      // console.log(youtubeId);
     },
-}
+
+  },
+  mounted() {
+    console.log(this.status);
+  },
+};
 </script>
 <template>
     <div class="actor-portfolio">
@@ -496,8 +496,6 @@ export default {
 
                     }
                 }
-
-
 
                 &--right {
                     margin-left: auto;

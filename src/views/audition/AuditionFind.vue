@@ -1,138 +1,139 @@
 <script>
 import { DownOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
-import AuditionItem from '../../components/autidtion/AuditionItem.vue';
 import { ref } from 'vue';
 import { number } from 'vue-types';
+import AuditionItem from '../../components/autidtion/AuditionItem.vue';
 
 export default {
-    name: "audition-find",
-    setup() {
-        const ageRange = ref([15, 100]);
-        return {
-            ageRange,
-        }
-    },
-    data() {
-        return {
-            visible: [],
-            sort: '1',
-            kind: '1',
-            heightRange: [130, 200],
-            MAP: [
-                { id: 'A', value: '영어' },
-                { id: 'B', value: '중국어' },
-                { id: 'C', value: '일본어' },
-                { id: 'D', value: '프랑스어' },
-                { id: 'E', value: '독일어' },
-                { id: 'F', value: '경상도 사투리' },
-                { id: 'G', value: '전라도 사투리' },
-                { id: 'G1', value: '충청도 사투리' },
-                { id: 'H', value: '평양 사투리' },
-                { id: 'I', value: '강원도 사투리' },
-                { id: 'J', value: '제주도 사투리' },
-                { id: 'K', value: '스포츠댄스' },
-                { id: 'L', value: '발레' },
-                { id: 'M', value: '현대무용' },
-                { id: 'N', value: '한국무용' },
-                { id: 'O', value: '방송댄스' },
-                { id: 'P', value: '액션' },
-                { id: 'Q', value: '운전' },
-            ],
-            genreList: [
-                { text: '전체', id: 'all' },
-                { text: '영화', id: 'movie' },
-                { text: '드라마', id: 'drama' },
-                { text: 'OTT시리즈', id: 'ott' },
-                { text: '웹시리즈', id: 'web' },
-                { text: '광고', id: 'ad' }
+  name: 'audition-find',
+  setup() {
+    const ageRange = ref([15, 100]);
+    return {
+      ageRange,
+    };
+  },
+  data() {
+    return {
+      visible: [],
+      sort: '1',
+      kind: '1',
+      heightRange: [130, 200],
+      MAP: [
+        { id: 'A', value: '영어' },
+        { id: 'B', value: '중국어' },
+        { id: 'C', value: '일본어' },
+        { id: 'D', value: '프랑스어' },
+        { id: 'E', value: '독일어' },
+        { id: 'F', value: '경상도 사투리' },
+        { id: 'G', value: '전라도 사투리' },
+        { id: 'G1', value: '충청도 사투리' },
+        { id: 'H', value: '평양 사투리' },
+        { id: 'I', value: '강원도 사투리' },
+        { id: 'J', value: '제주도 사투리' },
+        { id: 'K', value: '스포츠댄스' },
+        { id: 'L', value: '발레' },
+        { id: 'M', value: '현대무용' },
+        { id: 'N', value: '한국무용' },
+        { id: 'O', value: '방송댄스' },
+        { id: 'P', value: '액션' },
+        { id: 'Q', value: '운전' },
+      ],
+      genreList: [
+        { text: '전체', id: 'all' },
+        { text: '영화', id: 'movie' },
+        { text: '드라마', id: 'drama' },
+        { text: 'OTT시리즈', id: 'ott' },
+        { text: '웹시리즈', id: 'web' },
+        { text: '광고', id: 'ad' },
 
-            ], // 장르별
-            curatedList: [
-                { text: '성별', id: 'gender' },
-                { text: '나이', id: 'age' },
-                { text: '신장', id: 'height' },
-                { text: '특기', id: 'specialty' }
-            ], // 내게 맞는 오디션
-            selectedGenreList: ['all'],
-            selectedCurationList: [],
-            selectedAgeRange: null,
-            selectedHeightRange: null,
-            selectedGender: null,
-            selectedPrefer: [],
+      ], // 장르별
+      curatedList: [
+        { text: '성별', id: 'gender' },
+        { text: '나이', id: 'age' },
+        { text: '신장', id: 'height' },
+        { text: '특기', id: 'specialty' },
+      ], // 내게 맞는 오디션
+      selectedGenreList: ['all'],
+      selectedCurationList: [],
+      selectedAgeRange: null,
+      selectedHeightRange: null,
+      selectedGender: null,
+      selectedPrefer: [],
 
-        }
+    };
+  },
+  methods: {
+    handleButtonClick() {
     },
-    methods: {
-        handleButtonClick: function () {
-        },
-        handleMenuClick: function () {
-        },
-        handleToggleFavorite: function (index) {
-            this.$store.state.auditionList[index].isScrap = !this.$store.state.auditionList[index].isScrap;
-        },
-        handleClickGenreGroup: function (genre) {
-            if (genre.id === 'all') {
-                this.selectedGenreList = ['all'];
-                return;
-            }
-            if (this.selectedGenreList.includes('all')) {
-                this.selectedGenreList = this.selectedGenreList.filter(v => v !== 'all');
-            }
-            if (this.selectedGenreList.includes(genre.id)) {
-                this.selectedGenreList = this.selectedGenreList.filter(v => v !== genre.id);
-            } else {
-                this.selectedGenreList.push(genre.id);
-            }
-        },
-        handleClickSearchClear() {
-            this.selectedGenreList = ['all'];
-            this.kind = '1';
-            this.selectedAgeRange = null;
-            this.selectedGender = null;
-            this.selectedHeightRange = null;
-            this.selectedPrefer = [];
-        },
-        handleClickOverlay(index) {
-        },
-        handleAgeRangeChange(value) {
-            this.selectedAgeRange = value;
-        },
-        handleHeightRangeChange(value) {
-            this.selectedHeightRange = value;
-        },
-        handleClickGenderChange(value) {
-            this.selectedGender = value;
-        }
+    handleMenuClick() {
     },
-    computed: {
-        computedCurationList() {
-            let list = [];
-            if (this.selectedAgeRange) list.push('age');
-            if (this.selectedGender) list.push('gender');
-            if (this.selectedHeightRange) list.push('height');
-            if (this.selectedPrefer.length > 0) list.push('specialty');
-            return list;
-        },
-        filteredAuditionList() {
-            let list =
-                JSON.parse(JSON.stringify(this.$store.state.auditionList));
-            if (this.selectedGender && this.selectedGender === 'male') {
-                list = list.filter(v => v.gender === '1');
-            } else if (this.selectedGender && this.selectedGender === 'female') {
-                list = list.filter(v => v.gender === '2');
-            }
-            if (this.selectedPrefer.length > 0) {
-                list = list.filter(v => this.selectedPrefer.includes(v.prefer));
-            }
+    handleToggleFavorite(index) {
+      this.$store.state.auditionList[index].isScrap = !this.$store.state.auditionList[index].isScrap;
+    },
+    handleClickGenreGroup(genre) {
+      if (genre.id === 'all') {
+        this.selectedGenreList = ['all'];
+        return;
+      }
+      if (this.selectedGenreList.includes('all')) {
+        this.selectedGenreList = this.selectedGenreList.filter((v) => v !== 'all');
+      }
+      if (this.selectedGenreList.includes(genre.id)) {
+        this.selectedGenreList = this.selectedGenreList.filter((v) => v !== genre.id);
+      } else {
+        this.selectedGenreList.push(genre.id);
+      }
+    },
+    handleClickSearchClear() {
+      this.selectedGenreList = ['all'];
+      this.kind = '1';
+      this.selectedAgeRange = null;
+      this.selectedGender = null;
+      this.selectedHeightRange = null;
+      this.selectedPrefer = [];
+    },
+    handleClickOverlay(index) {
+    },
+    handleAgeRangeChange(value) {
+      this.selectedAgeRange = value;
+    },
+    handleHeightRangeChange(value) {
+      this.selectedHeightRange = value;
+    },
+    handleClickGenderChange(value) {
+      this.selectedGender = value;
+    },
+  },
+  computed: {
+    computedCurationList() {
+      const list = [];
+      if (this.selectedAgeRange) list.push('age');
+      if (this.selectedGender) list.push('gender');
+      if (this.selectedHeightRange) list.push('height');
+      if (this.selectedPrefer.length > 0) list.push('specialty');
+      return list;
+    },
+    filteredAuditionList() {
+      let list = JSON.parse(JSON.stringify(this.$store.state.auditionList));
+      if (this.selectedGender && this.selectedGender === 'male') {
+        list = list.filter((v) => v.gender === '1');
+      } else if (this.selectedGender && this.selectedGender === 'female') {
+        list = list.filter((v) => v.gender === '2');
+      }
+      if (this.selectedPrefer.length > 0) {
+        list = list.filter((v) => this.selectedPrefer.includes(v.prefer));
+      }
 
-            if (this.selectedAgeRange && this.selectedAgeRange.length > 1) {
-                console.log('list', list);
-            }
-            return list;
-        }
+      if (this.selectedAgeRange && this.selectedAgeRange.length > 1) {
+        console.log('list', list);
+      }
+      return list;
     },
-    components: { DownOutlined, SearchOutlined, AuditionItem, ReloadOutlined }
-}
+  },
+  components: {
+    DownOutlined, SearchOutlined, AuditionItem, ReloadOutlined,
+  },
+};
 </script>
 
 <template>
@@ -280,7 +281,6 @@ export default {
                 }
             }
         }
-
 
     }
 

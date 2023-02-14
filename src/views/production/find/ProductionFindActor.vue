@@ -6,106 +6,108 @@ import AuditionItem from '../../../components/autidtion/AuditionItem.vue';
 import ActorItem from '../../../components/actor/ActorItem.vue';
 
 export default {
-    name: "production-find-actor",
-    setup() {
-        const ageRange = ref([15, 100]);
-        return {
-            ageRange,
-        }
+  name: 'production-find-actor',
+  setup() {
+    const ageRange = ref([15, 100]);
+    return {
+      ageRange,
+    };
+  },
+  data() {
+    return {
+      selectedProfile: {},
+      isProfileDetailVisible: false,
+      visible: [],
+      sort: '1',
+      selectedPrefer: [],
+      filterList: [
+        { text: '성별', id: 'gender' },
+        { text: '나이', id: 'age' },
+        { text: '신장', id: 'height' },
+        { text: '특기', id: 'specialty' },
+      ], // 내게 맞는 오디션
+      MAP: [
+        { id: 'A', value: '영어' },
+        { id: 'B', value: '중국어' },
+        { id: 'C', value: '일본어' },
+        { id: 'D', value: '프랑스어' },
+        { id: 'E', value: '독일어' },
+        { id: 'F', value: '경상도 사투리' },
+        { id: 'G', value: '전라도 사투리' },
+        { id: 'G1', value: '충청도 사투리' },
+        { id: 'H', value: '평양 사투리' },
+        { id: 'I', value: '강원도 사투리' },
+        { id: 'J', value: '제주도 사투리' },
+        { id: 'K', value: '스포츠댄스' },
+        { id: 'L', value: '발레' },
+        { id: 'M', value: '현대무용' },
+        { id: 'N', value: '한국무용' },
+        { id: 'O', value: '방송댄스' },
+        { id: 'P', value: '액션' },
+        { id: 'Q', value: '운전' },
+      ],
+      selectedCurationList: [],
+      selectedAgeRange: null,
+      selectedHeightRange: null,
+      selectedGender: null,
+    };
+  },
+  methods: {
+    handleClickProfileDetail(profile) {
+      console.log(profile);
+      this.selectedProfile = profile;
+      this.isProfileDetailVisible = true;
     },
-    data() {
-        return {
-            selectedProfile: {},
-            isProfileDetailVisible: false,
-            visible: [],
-            sort: '1',
-            selectedPrefer: [],
-            filterList: [
-                { text: '성별', id: 'gender' },
-                { text: '나이', id: 'age' },
-                { text: '신장', id: 'height' },
-                { text: '특기', id: 'specialty' }
-            ], // 내게 맞는 오디션
-            MAP: [
-                { id: 'A', value: '영어' },
-                { id: 'B', value: '중국어' },
-                { id: 'C', value: '일본어' },
-                { id: 'D', value: '프랑스어' },
-                { id: 'E', value: '독일어' },
-                { id: 'F', value: '경상도 사투리' },
-                { id: 'G', value: '전라도 사투리' },
-                { id: 'G1', value: '충청도 사투리' },
-                { id: 'H', value: '평양 사투리' },
-                { id: 'I', value: '강원도 사투리' },
-                { id: 'J', value: '제주도 사투리' },
-                { id: 'K', value: '스포츠댄스' },
-                { id: 'L', value: '발레' },
-                { id: 'M', value: '현대무용' },
-                { id: 'N', value: '한국무용' },
-                { id: 'O', value: '방송댄스' },
-                { id: 'P', value: '액션' },
-                { id: 'Q', value: '운전' },
-            ],
-            selectedCurationList: [],
-            selectedAgeRange: null,
-            selectedHeightRange: null,
-            selectedGender: null,
-        }
+    handleButtonClick() {
     },
-    methods: {
-        handleClickProfileDetail: function (profile) {
-            console.log(profile)
-            this.selectedProfile = profile;
-            this.isProfileDetailVisible = true;
-        },
-        handleButtonClick: function () {
-        },
-        handleMenuClick: function () {
-        },
-        handleToggleFavorite: function (index) {
-            this.$store.state.auditionList[index].isScrap = !this.$store.state.auditionList[index].isScrap;
-        },
+    handleMenuClick() {
+    },
+    handleToggleFavorite(index) {
+      this.$store.state.auditionList[index].isScrap = !this.$store.state.auditionList[index].isScrap;
+    },
 
-        handleClickSearchClear() {
-            this.selectedAgeRange = null;
-            this.selectedGender = null;
-            this.selectedHeightRange = null;
-            this.selectedPrefer = [];
-        },
-        handleClickOverlay(index) {
-        },
-        handleAgeRangeChange(value) {
-            this.selectedAgeRange = value;
-        },
-        handleHeightRangeChange(value) {
-            this.selectedHeightRange = value;
-        },
-        handleClickGenderChange(value) {
-            this.selectedGender = value;
-        }
+    handleClickSearchClear() {
+      this.selectedAgeRange = null;
+      this.selectedGender = null;
+      this.selectedHeightRange = null;
+      this.selectedPrefer = [];
     },
-    computed: {
-        computedCurationList() {
-            let list = [];
-            if (this.selectedAgeRange) list.push('age');
-            if (this.selectedGender) list.push('gender');
-            if (this.selectedHeightRange) list.push('height');
-            if (this.selectedPrefer.length > 0) list.push('specialty');
-            return list;
-        },
-        filteredActorList() {
-            let origin = this.$store.state.production.findActorList;
-            if (this.selectedGender) { origin = origin.filter(v => v.gender === this.selectedGender); }
-            if (this.selectedAgeRange) { origin = origin.filter(v => parseInt(v.age) >= this.selectedAgeRange[0] && parseInt(v.age) <= this.selectedAgeRange[1]); }
-            if (this.selectedHeightRange) { origin = origin.filter(v => parseInt(v.height) >= this.selectedHeightRange[0] && parseInt(v.height) <= this.selectedHeightRange[1]); }
-            // if (this.selectedPrefer.length > 0) {
-            //     origin = origin.filter(v => this.selectedPrefer.includes(v.prefer));
-            // }
-            return origin;
-        }
+    handleClickOverlay(index) {
     },
-    components: { DownOutlined, SearchOutlined, AuditionItem, ReloadOutlined, AuditionItem, ActorItem }
-}
+    handleAgeRangeChange(value) {
+      this.selectedAgeRange = value;
+    },
+    handleHeightRangeChange(value) {
+      this.selectedHeightRange = value;
+    },
+    handleClickGenderChange(value) {
+      this.selectedGender = value;
+    },
+  },
+  computed: {
+    computedCurationList() {
+      const list = [];
+      if (this.selectedAgeRange) list.push('age');
+      if (this.selectedGender) list.push('gender');
+      if (this.selectedHeightRange) list.push('height');
+      if (this.selectedPrefer.length > 0) list.push('specialty');
+      return list;
+    },
+    filteredActorList() {
+      let origin = this.$store.state.production.findActorList;
+      if (this.selectedGender) { origin = origin.filter((v) => v.gender === this.selectedGender); }
+      if (this.selectedAgeRange) { origin = origin.filter((v) => parseInt(v.age) >= this.selectedAgeRange[0] && parseInt(v.age) <= this.selectedAgeRange[1]); }
+      if (this.selectedHeightRange) { origin = origin.filter((v) => parseInt(v.height) >= this.selectedHeightRange[0] && parseInt(v.height) <= this.selectedHeightRange[1]); }
+      // if (this.selectedPrefer.length > 0) {
+      //     origin = origin.filter(v => this.selectedPrefer.includes(v.prefer));
+      // }
+      return origin;
+    },
+  },
+  components: {
+    DownOutlined, SearchOutlined, AuditionItem, ReloadOutlined, AuditionItem, ActorItem,
+  },
+};
 </script>
 
 <template>
@@ -179,7 +181,6 @@ export default {
         </div>
         <div class="production-find-actor__sub-header">
 
-
         </div>
         <div class="production-find-actor__content container">
             <div class="header">
@@ -244,9 +245,6 @@ export default {
 
     &__sub-header {
         margin-bottom: 20px;
-
-
-
 
     }
 

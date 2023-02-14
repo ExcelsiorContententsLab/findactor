@@ -1,8 +1,8 @@
 <script>
 export default {
-    name: 'ProductionItem',
-    props: ['index', 'name', 'imgSrc', 'auditionList', 'type']
-}
+  name: 'ProductionItem',
+  props: ['index', 'name', 'imgSrc', 'auditionList', 'type'],
+};
 </script>
 
 <template>
@@ -25,7 +25,6 @@ export default {
     border: 1px solid #dadada;
     width: 100%;
     padding: 40px 40px;
-
 
     &__thumb {
         width: 100px;

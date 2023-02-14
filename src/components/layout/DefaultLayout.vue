@@ -1,12 +1,12 @@
 <script>
 export default {
-    name: 'DefaultLayout',
-    computed: {
-        title() {
-            return 'title' in this.$root.$route.meta ? this.$root.$route.meta.title : '';
-        }
-    }
-}
+  name: 'DefaultLayout',
+  computed: {
+    title() {
+      return 'title' in this.$root.$route.meta ? this.$root.$route.meta.title : '';
+    },
+  },
+};
 </script>
 
 <template>

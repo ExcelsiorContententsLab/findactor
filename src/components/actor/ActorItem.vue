@@ -1,16 +1,16 @@
 <script>
 export default {
-    name: 'actor-item',
-    props: ['index', 'name', 'gender', 'age', 'height', 'weight', 'imgSrc'],
-    data() {
-        return {
-            GENDER_MAP: {
-                male: '남자',
-                female: '여자'
-            }
-        }
-    }
-}
+  name: 'actor-item',
+  props: ['index', 'name', 'gender', 'age', 'height', 'weight', 'imgSrc'],
+  data() {
+    return {
+      GENDER_MAP: {
+        male: '남자',
+        female: '여자',
+      },
+    };
+  },
+};
 </script>
 <template>
     <div class="actor-item">

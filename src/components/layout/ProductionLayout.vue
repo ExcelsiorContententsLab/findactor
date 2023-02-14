@@ -2,14 +2,14 @@
 import ProductionHeader from '../base/ProductionHeader.vue';
 
 export default {
-    name: "ProductionLayout",
-    computed: {
-        title() {
-            return "title" in this.$root.$route.meta ? this.$root.$route.meta.title : "";
-        }
+  name: 'ProductionLayout',
+  computed: {
+    title() {
+      return 'title' in this.$root.$route.meta ? this.$root.$route.meta.title : '';
     },
-    components: { ProductionHeader }
-}
+  },
+  components: { ProductionHeader },
+};
 </script>
 
 <template>

@@ -1,31 +1,31 @@
 <script>
 export default {
-    data() {
-        return {
-            applyList: [
-                {
-                    title: '전체',
-                    count: 20
-                }, {
-                    title: '지원 현황',
-                    count: 4
-                }, {
-                    title: '지원 현황',
-                    count: 4
-                }, {
-                    title: '지원 현황',
-                    count: 4
-                }, {
-                    title: '지원 현황',
-                    count: 4
-                }, {
-                    title: '지원 현황',
-                    count: 4
-                }
-            ]
-        }
-    }
-}
+  data() {
+    return {
+      applyList: [
+        {
+          title: '전체',
+          count: 20,
+        }, {
+          title: '지원 현황',
+          count: 4,
+        }, {
+          title: '지원 현황',
+          count: 4,
+        }, {
+          title: '지원 현황',
+          count: 4,
+        }, {
+          title: '지원 현황',
+          count: 4,
+        }, {
+          title: '지원 현황',
+          count: 4,
+        },
+      ],
+    };
+  },
+};
 </script>
 <template>
     <div class="apply-dashboard container">

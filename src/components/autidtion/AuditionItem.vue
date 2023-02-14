@@ -1,56 +1,57 @@
 <script>
 import moment from 'moment';
-export default {
-    name: 'AuditionItem',
-    props: ['title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dueDate', 'gender', 'onlyView', 'noBorder'],
-    data() {
-        return {
-            ROLE_MAP: {
-                '1': '주연',
-                '2': '조연',
-                '3': '단역'
-            },
-            PREFER_MAP: [
-                { id: 'A', value: '영어' },
-                { id: 'B', value: '중국어' },
-                { id: 'C', value: '일본어' },
-                { id: 'D', value: '프랑스어' },
-                { id: 'E', value: '독일어' },
-                { id: 'F', value: '경상도 사투리' },
-                { id: 'G', value: '전라도 사투리' },
-                { id: 'G1', value: '충청도 사투리' },
-                { id: 'H', value: '평양 사투리' },
-                { id: 'I', value: '강원도 사투리' },
-                { id: 'J', value: '제주도 사투리' },
-                { id: 'K', value: '스포츠댄스' },
-                { id: 'L', value: '발레' },
-                { id: 'M', value: '현대무용' },
-                { id: 'N', value: '한국무용' },
-                { id: 'O', value: '방송댄스' },
-                { id: 'P', value: '액션' },
-                { id: 'Q', value: '운전' },
-            ],
-            GENRE_MAP: [{ text: '전체', id: 'all' },
-            { text: '영화', id: 'movie' },
-            { text: '드라마', id: 'drama' },
-            { text: 'OTT시리즈', id: 'ott' },
-            { text: '웹시리즈', id: 'web' },
-            { text: '광고', id: 'ad' }]
-        }
-    },
-    methods: {
-        handleClickAddFavorite: function () {
-            this.$emit('favorite', this.index);
-        }
-    },
-    computed: {
-        getDDay() {
-            const now = moment();
-            return moment.duration(moment(this.dueDate, 'YYYY-MM-DD').diff(now, 'days'), 'days').asDays();
-        }
-    }
 
-}
+export default {
+  name: 'AuditionItem',
+  props: ['title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dueDate', 'gender', 'onlyView', 'noBorder'],
+  data() {
+    return {
+      ROLE_MAP: {
+        1: '주연',
+        2: '조연',
+        3: '단역',
+      },
+      PREFER_MAP: [
+        { id: 'A', value: '영어' },
+        { id: 'B', value: '중국어' },
+        { id: 'C', value: '일본어' },
+        { id: 'D', value: '프랑스어' },
+        { id: 'E', value: '독일어' },
+        { id: 'F', value: '경상도 사투리' },
+        { id: 'G', value: '전라도 사투리' },
+        { id: 'G1', value: '충청도 사투리' },
+        { id: 'H', value: '평양 사투리' },
+        { id: 'I', value: '강원도 사투리' },
+        { id: 'J', value: '제주도 사투리' },
+        { id: 'K', value: '스포츠댄스' },
+        { id: 'L', value: '발레' },
+        { id: 'M', value: '현대무용' },
+        { id: 'N', value: '한국무용' },
+        { id: 'O', value: '방송댄스' },
+        { id: 'P', value: '액션' },
+        { id: 'Q', value: '운전' },
+      ],
+      GENRE_MAP: [{ text: '전체', id: 'all' },
+        { text: '영화', id: 'movie' },
+        { text: '드라마', id: 'drama' },
+        { text: 'OTT시리즈', id: 'ott' },
+        { text: '웹시리즈', id: 'web' },
+        { text: '광고', id: 'ad' }],
+    };
+  },
+  methods: {
+    handleClickAddFavorite() {
+      this.$emit('favorite', this.index);
+    },
+  },
+  computed: {
+    getDDay() {
+      const now = moment();
+      return moment.duration(moment(this.dueDate, 'YYYY-MM-DD').diff(now, 'days'), 'days').asDays();
+    },
+  },
+
+};
 </script>
 <template>
     <div class="audition-item" :class="{ 'audition-item--no-border': noBorder }">

@@ -1,5 +1,7 @@
 <script>
-import { DownCircleOutlined, DownOutlined, HeartFilled, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import {
+  DownCircleOutlined, DownOutlined, HeartFilled, ReloadOutlined, SearchOutlined,
+} from '@ant-design/icons-vue';
 import { ref } from 'vue';
 import { number } from 'vue-types';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
@@ -7,53 +9,55 @@ import { A11y, Navigation, Scrollbar } from 'swiper';
 import AuditionItem from '../../components/autidtion/AuditionItem.vue';
 
 export default {
-    name: "tour-detail",
-    setup() {
-        const swiper = useSwiper();
-        const onSwiper = (swiper) => {
-            console.log(swiper);
-        };
-        const onSlideChange = () => {
-            console.log('slide change');
-        };
-        const success = () => {
-            message.success(
-                '임시저장 되었습니다.',
-                2,
-            );
-        };
-        return {
-            success,
-            onSwiper,
-            onSlideChange,
-            modules: [Navigation, Scrollbar, A11y],
-        };
-    },
-    data() {
-        return {
-            visible: [],
-            sort: '1',
-            kind: '3',
-            likeCnt: 4,
+  name: 'tour-detail',
+  setup() {
+    const swiper = useSwiper();
+    const onSwiper = (swiper) => {
+      console.log(swiper);
+    };
+    const onSlideChange = () => {
+      console.log('slide change');
+    };
+    const success = () => {
+      message.success(
+        '임시저장 되었습니다.',
+        2,
+      );
+    };
+    return {
+      success,
+      onSwiper,
+      onSlideChange,
+      modules: [Navigation, Scrollbar, A11y],
+    };
+  },
+  data() {
+    return {
+      visible: [],
+      sort: '1',
+      kind: '3',
+      likeCnt: 4,
 
-        }
+    };
+  },
+  methods: {
+    handleButtonClick() {
     },
-    methods: {
-        handleButtonClick: function () {
-        },
-        handleMenuClick: function () {
-        },
+    handleMenuClick() {
+    },
 
-        handleClickSearchClear() {
+    handleClickSearchClear() {
 
-        },
-        handleClickOverlay(index) {
-        },
     },
-    computed: {
+    handleClickOverlay(index) {
     },
-    components: { DownOutlined, SearchOutlined, AuditionItem, ReloadOutlined, DownCircleOutlined, HeartFilled, Swiper, SwiperSlide, AuditionItem }
-}
+  },
+  computed: {
+  },
+  components: {
+    DownOutlined, SearchOutlined, AuditionItem, ReloadOutlined, DownCircleOutlined, HeartFilled, Swiper, SwiperSlide, AuditionItem,
+  },
+};
 </script>
 
 <template>
@@ -269,7 +273,6 @@ export default {
             }
         }
 
-
     }
 
     &__content {
@@ -319,7 +322,6 @@ export default {
             &__control {
                 margin-left: auto;
             }
-
 
         }
 

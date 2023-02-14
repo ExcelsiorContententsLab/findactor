@@ -2,32 +2,32 @@
 import { PlusCircleFilled } from '@ant-design/icons-vue';
 
 export default {
-    props: {
-        index: Number,
-        imgSrc: String,
-        title: String,
-        role: String,
-        year: Number,
-        update: Boolean,
-        cardType: {
-            default: '',
-            type: String,
-        }
+  props: {
+    index: Number,
+    imgSrc: String,
+    title: String,
+    role: String,
+    year: Number,
+    update: Boolean,
+    cardType: {
+      default: '',
+      type: String,
     },
-    components: { PlusCircleFilled },
-    methods: {
-        handleClickRemove() {
-            this.$emit('remove', this.index)
-        }
+  },
+  components: { PlusCircleFilled },
+  methods: {
+    handleClickRemove() {
+      this.$emit('remove', this.index);
     },
+  },
 
-    data() {
-        return {};
-    },
-    mounted() {
-        console.log(this.update);
-    },
-}
+  data() {
+    return {};
+  },
+  mounted() {
+    console.log(this.update);
+  },
+};
 </script>
 <template>
     <a-card class="thumb-card" hoverable style="width:240px; display:inline-block;">

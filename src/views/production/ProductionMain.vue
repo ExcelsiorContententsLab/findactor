@@ -3,15 +3,15 @@ import ProductionProfile from '../../components/production/ProductionProfile.vue
 import ProductionInfo from '../../components/production/ProductionInfo.vue';
 
 export default {
-    name: "production-main",
-    data() {
-        return {};
-    },
-    methods: {},
-    mounted() {
-    },
-    components: { ProductionProfile }
-}
+  name: 'production-main',
+  data() {
+    return {};
+  },
+  methods: {},
+  mounted() {
+  },
+  components: { ProductionProfile },
+};
 </script>
 <template>
     <div class="layout-content__main">

@@ -3,171 +3,171 @@ import { Navigation, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import ThumbCard from '@/components/thumb/ThumbCard.vue';
 import { RouterLink } from 'vue-router';
 import { message } from 'ant-design-vue';
+import ThumbCard from '@/components/thumb/ThumbCard.vue';
+
 export default {
-    name: "production-info",
-    components: {
-        Swiper,
-        SwiperSlide,
-        RouterLink
+  name: 'production-info',
+  components: {
+    Swiper,
+    SwiperSlide,
+    RouterLink,
+  },
+  props: {
+    status: {
+      type: String,
+      default: '',
     },
-    props: {
-        status: {
-            type: String,
-            default: ''
-        }
-    },
-    data() {
-        return {
-            selectedAudition: null,
-            ROLE_MAP: {
-                '1': '주연',
-                '2': '조연',
-                '3': '단역'
-            },
-            isAuditionVisible: false,
-            movieProfileDetail: {
-                title: '',
-                url: '',
-                role: '',
-                year: '',
-                imgSrc: null,
-            },
-            movieProfileList: [
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                },
-                {
-                    imgSrc: '/assets/thumb1.jpg',
-                    title: '구르미 그린 달빛',
-                    role: '단역 가나단역',
-                    year: 2021,
-                }
-            ],
-            imageProfileList: [
-                {
-                    imgSrc: '/assets/image1.png',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/image2.png',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/image3.png',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/image4.png',
-                    kind: '상업드라마',
-                    role: '단역 가나다역'
-                },
-                {
-                    imgSrc: '/assets/image5.png',
-                    role: '단역 가나다역'
-                },
-            ],
+  },
+  data() {
+    return {
+      selectedAudition: null,
+      ROLE_MAP: {
+        1: '주연',
+        2: '조연',
+        3: '단역',
+      },
+      isAuditionVisible: false,
+      movieProfileDetail: {
+        title: '',
+        url: '',
+        role: '',
+        year: '',
+        imgSrc: null,
+      },
+      movieProfileList: [
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+        {
+          imgSrc: '/assets/thumb1.jpg',
+          title: '구르미 그린 달빛',
+          role: '단역 가나단역',
+          year: 2021,
+        },
+      ],
+      imageProfileList: [
+        {
+          imgSrc: '/assets/image1.png',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/image2.png',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/image3.png',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/image4.png',
+          kind: '상업드라마',
+          role: '단역 가나다역',
+        },
+        {
+          imgSrc: '/assets/image5.png',
+          role: '단역 가나다역',
+        },
+      ],
 
-
-        }
+    };
+  },
+  setup() {
+    const swiper = useSwiper();
+    const onSwiper = (swiper) => {
+      console.log(swiper);
+    };
+    const onSlideChange = () => {
+      console.log('slide change');
+    };
+    const success = () => {
+      message.success(
+        '임시저장 되었습니다.',
+        2,
+      );
+    };
+    return {
+      success,
+      onSwiper,
+      onSlideChange,
+      modules: [Navigation, Scrollbar, A11y],
+    };
+  },
+  computed: {
+    isUpdate() {
+      return this.status === 'update';
     },
-    setup() {
-        const swiper = useSwiper();
-        const onSwiper = (swiper) => {
-            console.log(swiper);
-        };
-        const onSlideChange = () => {
-            console.log('slide change');
-        };
-        const success = () => {
-            message.success(
-                '임시저장 되었습니다.',
-                2,
-            );
-        };
-        return {
-            success,
-            onSwiper,
-            onSlideChange,
-            modules: [Navigation, Scrollbar, A11y],
-        };
+  },
+  methods: {
+    handleClickAddMovieProfile() {
+      this.isAddMovieProfileVisible = true;
     },
-    computed: {
-        isUpdate() {
-            return this.status === 'update';
-        }
-    },
-    methods: {
-        handleClickAddMovieProfile() {
-            this.isAddMovieProfileVisible = true;
-        },
-        handleConfirmAddMovieProfile() {
-
-        },
-        handleRemoveThumbCard(index) {
-            this.$store.state.profile.movieList.splice(index, 1);
-            this.$store.commit('saveLocal');
-        },
-        // 영상 디테일 
-        handleInputMovieProfileDetailURL(event) {
-            const value = event.target.value;
-            const regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
-            const match = regex.exec(value);
-            if (match) {
-                const youtubeId = match[3];
-                this.movieProfileDetail.imgSrc = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
-            } else {
-                this.movieProfileDetail.imgSrc = null;
-            }
-            // if(match)
-            // const youtubeId = regex.exec(value)[3];
-            // console.log(youtubeId);
-        },
-        handleClickModifyAudition(audition) {
-            this.selectedAudition = audition;
-            this.isAuditionVisible = true;
-        },
-        handleAuditionModifyOk() {
-            this.isAuditionVisible = false;
-        }
+    handleConfirmAddMovieProfile() {
 
     },
-    mounted() {
-        console.log(this.status);
+    handleRemoveThumbCard(index) {
+      this.$store.state.profile.movieList.splice(index, 1);
+      this.$store.commit('saveLocal');
     },
-}
+    // 영상 디테일
+    handleInputMovieProfileDetailURL(event) {
+      const { value } = event.target;
+      const regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+      const match = regex.exec(value);
+      if (match) {
+        const youtubeId = match[3];
+        this.movieProfileDetail.imgSrc = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
+      } else {
+        this.movieProfileDetail.imgSrc = null;
+      }
+      // if(match)
+      // const youtubeId = regex.exec(value)[3];
+      // console.log(youtubeId);
+    },
+    handleClickModifyAudition(audition) {
+      this.selectedAudition = audition;
+      this.isAuditionVisible = true;
+    },
+    handleAuditionModifyOk() {
+      this.isAuditionVisible = false;
+    },
+
+  },
+  mounted() {
+    console.log(this.status);
+  },
+};
 </script>
 <template>
     <div class="production-info container">
@@ -471,8 +471,6 @@ export default {
 
                     }
                 }
-
-
 
                 &--right {
                     margin-left: auto;

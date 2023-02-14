@@ -1,8 +1,8 @@
 <script>
 export default {
-    name: 'profile-tour',
+  name: 'profile-tour',
 
-}
+};
 </script>
 
 <template>

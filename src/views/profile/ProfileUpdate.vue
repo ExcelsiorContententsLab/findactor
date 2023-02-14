@@ -1,65 +1,63 @@
 <script>
 export default {
-    name: 'ProfileUpdate',
-    data() {
-        return {
-            inputVisible: true,
-            tags: [],
-            inputValue: '',
-            MAP: [
-                { id: 'A', value: '영어' },
-                { id: 'B', value: '중국어' },
-                { id: 'C', value: '일본어' },
-                { id: 'D', value: '프랑스어' },
-                { id: 'E', value: '독일어' },
-                { id: 'F', value: '경상도 사투리' },
-                { id: 'G', value: '전라도 사투리' },
-                { id: 'H', value: '평양 사투리' },
-                { id: 'I', value: '강원도 사투리' },
-                { id: 'J', value: '제주도 사투리' },
-                { id: 'K', value: '스포츠댄스' },
-                { id: 'L', value: '발레' },
-                { id: 'M', value: '현대무용' },
-                { id: 'N', value: '한국무용' },
-                { id: 'O', value: '방송댄스' },
-                { id: 'P', value: '액션' },
-                { id: 'Q', value: '운전' },
-            ],
-            fileList: [
-                {
-                    uid: '-1',
-                    name: 'image.png',
-                    status: 'done',
-                    url: 'https://i.ibb.co/ZWjFgc7/02.jpg',
-                },
-                {
-                    uid: '-2',
-                    name: 'image.png',
-                    status: 'done',
-                    url: 'https://i.ibb.co/m8Y25xz/03.jpg',
-                },
-                {
-                    uid: '-3',
-                    name: 'image.png',
-                    status: 'done',
-                    url: 'https://i.ibb.co/p4y5Mp0/04.jpg',
-                },
-
-            ]
-        }
-    },
-    methods: {
-        handleClose(tag) {
-            this.tags = this.tags.filter(v => {
-                return (v !== tag)
-            });
-            console.log(this.tags);
+  name: 'ProfileUpdate',
+  data() {
+    return {
+      inputVisible: true,
+      tags: [],
+      inputValue: '',
+      MAP: [
+        { id: 'A', value: '영어' },
+        { id: 'B', value: '중국어' },
+        { id: 'C', value: '일본어' },
+        { id: 'D', value: '프랑스어' },
+        { id: 'E', value: '독일어' },
+        { id: 'F', value: '경상도 사투리' },
+        { id: 'G', value: '전라도 사투리' },
+        { id: 'H', value: '평양 사투리' },
+        { id: 'I', value: '강원도 사투리' },
+        { id: 'J', value: '제주도 사투리' },
+        { id: 'K', value: '스포츠댄스' },
+        { id: 'L', value: '발레' },
+        { id: 'M', value: '현대무용' },
+        { id: 'N', value: '한국무용' },
+        { id: 'O', value: '방송댄스' },
+        { id: 'P', value: '액션' },
+        { id: 'Q', value: '운전' },
+      ],
+      fileList: [
+        {
+          uid: '-1',
+          name: 'image.png',
+          status: 'done',
+          url: 'https://i.ibb.co/ZWjFgc7/02.jpg',
         },
-        handleCheckboxChange(selected) {
-            this.tags = selected;
-        }
-    }
-}
+        {
+          uid: '-2',
+          name: 'image.png',
+          status: 'done',
+          url: 'https://i.ibb.co/m8Y25xz/03.jpg',
+        },
+        {
+          uid: '-3',
+          name: 'image.png',
+          status: 'done',
+          url: 'https://i.ibb.co/p4y5Mp0/04.jpg',
+        },
+
+      ],
+    };
+  },
+  methods: {
+    handleClose(tag) {
+      this.tags = this.tags.filter((v) => (v !== tag));
+      console.log(this.tags);
+    },
+    handleCheckboxChange(selected) {
+      this.tags = selected;
+    },
+  },
+};
 
 </script>
 
@@ -158,7 +156,6 @@ export default {
 
         }
     }
-
 
 }
 </style>

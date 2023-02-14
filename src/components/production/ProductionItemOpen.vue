@@ -2,10 +2,10 @@
 import { RightOutlined } from '@ant-design/icons-vue';
 
 export default {
-    name: "ProductionItem",
-    props: ["index", "name", "imgSrc", "auditionList", "type"],
-    components: { RightOutlined }
-}
+  name: 'ProductionItem',
+  props: ['index', 'name', 'imgSrc', 'auditionList', 'type'],
+  components: { RightOutlined },
+};
 </script>
 
 <template>
@@ -50,7 +50,6 @@ export default {
         .label {
             text-align: right;
 
-
             &__text {
                 font-weight: 400;
                 font-size: 20px;
@@ -73,7 +72,6 @@ export default {
         }
     }
 
-
     &__thumb {
         width: 100px;
         height: 100px;
@@ -92,7 +90,6 @@ export default {
     &__content {
         padding: 0 50px;
         flex: 0 0 600px;
-
 
         .name {
             font-weight: 700;

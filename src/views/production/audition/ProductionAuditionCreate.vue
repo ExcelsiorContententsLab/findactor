@@ -4,74 +4,74 @@ import dayjs from 'dayjs';
 import moment from 'moment';
 
 export default {
-    name: 'production-audition-create',
-    data() {
-        return {
-            locale: koKr,
-            title: '',
-            genre: '',
-            productionName: '',
-            director: '',
-            role: '',
-            gender: '',
-            dateRange: [],
-            ageRange: [10, 50],
-            heightRange: [140, 180],
-            weightRange: [30, 200],
-            inCharge: { name: '' },
-            genreList: [
-                { text: '영화', id: 'movie' },
-                { text: '드라마', id: 'drama' },
-                { text: 'OTT시리즈', id: 'ott' },
-                { text: '웹시리즈', id: 'web' },
-                { text: '광고', id: 'ad' }
-            ],
-            genderList: [{ text: '남성', id: 'male' }, { text: '여성', id: 'female' }],
-            roleList: [{ text: '주연', id: '1' }, { text: '조연', id: '2' }, { text: '단역', id: '3' }],
-            MAP: [
-                { id: 'A', value: '영어' },
-                { id: 'B', value: '중국어' },
-                { id: 'C', value: '일본어' },
-                { id: 'D', value: '프랑스어' },
-                { id: 'E', value: '독일어' },
-                { id: 'F', value: '경상도 사투리' },
-                { id: 'G', value: '전라도 사투리' },
-                { id: 'H', value: '평양 사투리' },
-                { id: 'I', value: '강원도 사투리' },
-                { id: 'J', value: '제주도 사투리' },
-                { id: 'K', value: '스포츠댄스' },
-                { id: 'L', value: '발레' },
-                { id: 'M', value: '현대무용' },
-                { id: 'N', value: '한국무용' },
-                { id: 'O', value: '방송댄스' },
-                { id: 'P', value: '액션' },
-                { id: 'Q', value: '운전' },
-            ],
-        }
+  name: 'production-audition-create',
+  data() {
+    return {
+      locale: koKr,
+      title: '',
+      genre: '',
+      productionName: '',
+      director: '',
+      role: '',
+      gender: '',
+      dateRange: [],
+      ageRange: [10, 50],
+      heightRange: [140, 180],
+      weightRange: [30, 200],
+      inCharge: { name: '' },
+      genreList: [
+        { text: '영화', id: 'movie' },
+        { text: '드라마', id: 'drama' },
+        { text: 'OTT시리즈', id: 'ott' },
+        { text: '웹시리즈', id: 'web' },
+        { text: '광고', id: 'ad' },
+      ],
+      genderList: [{ text: '남성', id: 'male' }, { text: '여성', id: 'female' }],
+      roleList: [{ text: '주연', id: '1' }, { text: '조연', id: '2' }, { text: '단역', id: '3' }],
+      MAP: [
+        { id: 'A', value: '영어' },
+        { id: 'B', value: '중국어' },
+        { id: 'C', value: '일본어' },
+        { id: 'D', value: '프랑스어' },
+        { id: 'E', value: '독일어' },
+        { id: 'F', value: '경상도 사투리' },
+        { id: 'G', value: '전라도 사투리' },
+        { id: 'H', value: '평양 사투리' },
+        { id: 'I', value: '강원도 사투리' },
+        { id: 'J', value: '제주도 사투리' },
+        { id: 'K', value: '스포츠댄스' },
+        { id: 'L', value: '발레' },
+        { id: 'M', value: '현대무용' },
+        { id: 'N', value: '한국무용' },
+        { id: 'O', value: '방송댄스' },
+        { id: 'P', value: '액션' },
+        { id: 'Q', value: '운전' },
+      ],
+    };
+  },
+  methods: {
+    handleClickCreateAudition() {
+      const detail = {};
+      detail.title = this.title;
+      detail.genre = this.gender;
+      detail.productionName = this.productionName;
+      detail.director = this.director;
+      detail.role = this.role;
+      detail.gender = this.gender;
+      detail.ageRange = this.ageRange;
+      detail.heightRange = this.heightRange;
+      detail.weightRange = this.weightRange;
+      detail.inCharge = this.inCharge;
+      detail.startDate = dayjs(this.dateRange[0]).format('YYYY.MM.DD (ddd)');
+      detail.endDate = dayjs(this.dateRange[1]).format('YYYY.MM.DD (ddd)');
+      detail.applicantCnt = 0;
+      detail.yesCnt = 0;
+      detail.noCnt = 1;
+      this.$store.state.production.detail.auditionList.push(detail);
+      this.$router.push('/production');
     },
-    methods: {
-        handleClickCreateAudition: function () {
-            const detail = {};
-            detail.title = this.title;
-            detail.genre = this.gender;
-            detail.productionName = this.productionName;
-            detail.director = this.director;
-            detail.role = this.role;
-            detail.gender = this.gender;
-            detail.ageRange = this.ageRange;
-            detail.heightRange = this.heightRange;
-            detail.weightRange = this.weightRange;
-            detail.inCharge = this.inCharge;
-            detail.startDate = dayjs(this.dateRange[0]).format('YYYY.MM.DD (ddd)');
-            detail.endDate = dayjs(this.dateRange[1]).format('YYYY.MM.DD (ddd)');
-            detail.applicantCnt = 0;
-            detail.yesCnt = 0;
-            detail.noCnt = 1;
-            this.$store.state.production.detail.auditionList.push(detail);
-            this.$router.push('/production');
-        }
-    }
-}
+  },
+};
 </script>
 <template>
     <div class="audition-create container">
