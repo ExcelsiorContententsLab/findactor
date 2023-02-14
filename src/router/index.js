@@ -1,11 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
+import LoginView from '../views/LoginView.vue';
 import HomeView from '../views/HomeView.vue';
+
+import useLocalStorage from '../utils/useLocalStorage';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // 로그인
     {
       path: '/',
+      name: 'login',
+      component: LoginView,
+    },
+
+    // 배우용
+    {
+      path: '/actor',
       name: 'home',
       meta: {
         layout: 'ActorLayout',
@@ -106,6 +118,19 @@ const router = createRouter({
       component: () => import('../views/production/audition/ProductionAuditionManage.vue'),
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const { value: accessToken } = useLocalStorage('accessToken');
+  const isAuthenticated = accessToken;
+
+  if (to.path !== '/' && !isAuthenticated) {
+    alert('로그인 해주세요');
+    next({ path: '/' });
+    return;
+  }
+
+  next();
 });
 
 export default router;
