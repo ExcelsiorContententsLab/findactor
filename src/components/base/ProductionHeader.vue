@@ -1,16 +1,29 @@
 <script>
-import { BellOutlined, HeartOutlined, LogoutOutlined, SearchOutlined, SettingOutlined, EditOutlined } from '@ant-design/icons-vue';
-export default {
-    components: {
-        SearchOutlined,
-        SettingOutlined,
-        BellOutlined,
-        HeartOutlined,
-        LogoutOutlined,
-        EditOutlined,
+import {
+  BellOutlined, HeartOutlined, LogoutOutlined, SearchOutlined, SettingOutlined, EditOutlined,
+} from '@ant-design/icons-vue';
 
-    }
-}
+import useLocalStorage from '../../utils/useLocalStorage';
+
+const accessToken = useLocalStorage('accessToken');
+
+export default {
+  components: {
+    SearchOutlined,
+    SettingOutlined,
+    BellOutlined,
+    HeartOutlined,
+    LogoutOutlined,
+    EditOutlined,
+  },
+  methods: {
+    logout() {
+      alert('로그아웃 되었습니다');
+      accessToken.value = '';
+      this.$router.push({ path: '/login' });
+    },
+  },
+};
 </script>
 <template>
     <div class="header">
@@ -59,7 +72,7 @@ export default {
                                     설정
                                 </a-menu-item>
                                 <a-divider type="vertical" />
-                                <a-menu-item key="5"
+                                <a-menu-item key="5" @click="logout"
                                     style="font-size:18px; padding:8px 4px 14px 14px; width:140px; margin-bottom:4px; margin-left:4px;">
                                     <LogoutOutlined></LogoutOutlined>
                                     로그아웃
@@ -73,7 +86,6 @@ export default {
     </div>
 </template>
 
-
 <style scoped lang="scss">
 .header {
     display: flex;
@@ -81,7 +93,6 @@ export default {
     width: 100%;
     box-shadow: 0px 10px 10px rgb(0 0 0 / 20%);
     background-color: #fff;
-
 
     &__wrapper {
         width: 1500px;

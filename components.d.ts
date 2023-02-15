@@ -60,6 +60,8 @@ declare module '@vue/runtime-core' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    LoginFooter: typeof import('./src/components/login/LoginFooter.vue')['default']
+    LoginForm: typeof import('./src/components/login/LoginForm.vue')['default']
     ProductionHeader: typeof import('./src/components/base/ProductionHeader.vue')['default']
     ProductionInfo: typeof import('./src/components/production/ProductionInfo.vue')['default']
     ProductionItem: typeof import('./src/components/production/ProductionItem.vue')['default']
