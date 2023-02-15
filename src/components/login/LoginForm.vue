@@ -13,14 +13,14 @@ export default {
   methods: {
     login() {
       // TODO: Actor 정보로 대체
-      if (this.username === 'actor@example.com' && this.password === '1234') {
+      if (this.username === 'testactor120@gmail.com' && this.password === '1234') {
         this.$router.push('/actor');
         accessToken.value = 'ACTOR-1234';
         return;
       }
 
       // TODO: Production 정보로 대체
-      if (this.username === 'production@example.com' && this.password === '1234') {
+      if (this.username === 'testproduction120@gmail.com' && this.password === '5678') {
         this.$router.push('/production');
         accessToken.value = 'PRODUCTION-1234';
         return;
