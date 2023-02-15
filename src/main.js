@@ -16,6 +16,7 @@ import './assets/styles/style.css';
 import './assets/styles/reset.css';
 
 import 'moment/locale/ko';
+import seed from './persistence/seed';
 
 moment.locale('ko');
 
@@ -516,6 +517,8 @@ const store = createStore({
     };
   },
 });
+
+seed();
 
 app.use(router);
 app.use(store);
