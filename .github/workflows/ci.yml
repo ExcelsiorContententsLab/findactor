@@ -7,7 +7,7 @@ on:
   pull_request:
       types: [opened, synchronize, reopened]
 
-permissions: read-all|write-all
+permissions: write-all
 
 jobs:
   build:
