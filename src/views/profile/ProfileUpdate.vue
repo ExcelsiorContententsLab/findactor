@@ -1,4 +1,6 @@
 <script>
+const { log: print } = console;
+
 export default {
   name: 'ProfileUpdate',
   data() {
@@ -56,6 +58,16 @@ export default {
     handleCheckboxChange(selected) {
       this.tags = selected;
     },
+    handleChangeFile(event) {
+      const { file } = event;
+      const { status } = file;
+      if (status === 'done') {
+        this.handleUploadComplete(file);
+      }
+    },
+    handleUploadComplete(file) {
+      print({ file });
+    },
   },
 };
 
@@ -66,8 +78,13 @@ export default {
         <a-descriptions bordered size="middle" :column="4" :labelStyle="{ width: '200px' }">
             <a-descriptions-item label="프로필 이미지" style="font-size:20px;" span="4">
                 <div class="clearfix">
-                    <a-upload v-model:file-list="fileList" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                        list-type="picture-card" @preview="handlePreview">
+                    <a-upload
+                        v-model:file-list="fileList"
+                        action="https://9shbrlwx14.execute-api.ap-northeast-1.amazonaws.com/default/uploadImage"
+                        list-type="picture-card"
+                        @preview="handlePreview"
+                        @change="handleChangeFile"
+                    >
                         <div v-if="fileList.length < 8">
                             <plus-outlined />
                             <div style="margin-top: 8px">이미지 업로드</div>
