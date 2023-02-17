@@ -4,22 +4,19 @@ import ProductionItem from '../../components/production/ProductionItem.vue';
 import ProductionItemOffer from '../../components/production/ProductionItemOffer.vue';
 import ProductionItemOpen from '../../components/production/ProductionItemOpen.vue';
 
+import {
+  loadActorScrappedAutions,
+} from '../../service/actors';
+
 export default {
   name: 'ProfileInterest',
   data() {
     return {
       openedProductionList: [],
+      scraps: [],
     };
   },
   computed: {
-    // activeKey: {
-    //     get() {
-    //         return this.$route.query.type;
-    //     }
-    // }
-    scrapList() {
-      return this.$store.state.auditionList.filter((v) => v.isScrap);
-    },
     myProductionList() {
       return this.$store.state.productionList.filter((v) => v.isLiked);
     },
@@ -63,9 +60,12 @@ export default {
     handleTabClick(val) {
       this.$router.replace(`/profile/interest?type=${val}`);
     },
+    handleScrapToggled() {
+      this.scraps = loadActorScrappedAutions();
+    },
   },
   mounted() {
-    console.log('mounted');
+    this.scraps = loadActorScrappedAutions();
   },
   components: {
     AuditionItem, ProductionItem, ProductionItemOpen, ProductionItemOffer,
@@ -89,12 +89,16 @@ export default {
                     </ul>
                 </div>
                 <div class="container__title">
-                    스크랩한 공고({{ scrapList.length }})
+                    스크랩한 공고({{ scraps.length }})
                 </div>
                 <div class="tab-panel tab-panel--scrap">
                     <ul class="audition-list">
-                        <li class="audition-list__item" v-for="(scrap, index) in scrapList" :key="index">
-                            <AuditionItem v-bind="scrap" :index="index"></AuditionItem>
+                        <li class="audition-list__item" v-for="(scrap, index) in scraps" :key="index">
+                            <AuditionItem
+                              v-bind="scrap"
+                              :index="index"
+                              @scrapToggled="handleScrapToggled"
+                              ></AuditionItem>
                         </li>
                     </ul>
 
@@ -103,7 +107,7 @@ export default {
             </a-tab-pane>
             <a-tab-pane key="open" tab="열람" force-render>
                 <div class="container__title">
-                    열람한 제작사 리스트({{ scrapList.length }})
+                    열람한 제작사 리스트({{ scraps.length }})
                 </div>
                 <div class="tab-panel tab-panel--open">
                     <ul class="open-list">
