@@ -1,7 +1,12 @@
 <script>
-import { DownOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { ref } from 'vue';
-import { number } from 'vue-types';
+
+import {
+  DownOutlined,
+  ReloadOutlined,
+  SearchOutlined,
+} from '@ant-design/icons-vue';
+
 import AuditionItem from '../../components/autidtion/AuditionItem.vue';
 import { isScrappedAudition } from '../../service/actors';
 
@@ -69,7 +74,9 @@ export default {
     handleMenuClick() {
     },
     handleToggleFavorite(index) {
-      toggleScrap({ auditionId: index });
+      const { auditionList } = this.$store.state;
+      const audition = auditionList[index];
+      audition.isScrap = !audition.isScrap;
     },
     handleClickGenreGroup(genre) {
       if (genre.id === 'all') {
@@ -93,7 +100,7 @@ export default {
       this.selectedHeightRange = null;
       this.selectedPrefer = [];
     },
-    handleClickOverlay(index) {
+    handleClickOverlay() {
     },
     handleAgeRangeChange(value) {
       this.selectedAgeRange = value;
@@ -158,7 +165,11 @@ export default {
                 </a-button>
             </div>
 
-            <a-input class="item" size="large" style="width:240px; margin-left:auto;" placeholder="검색">
+            <a-input
+              class="item"
+              size="large"
+              style="width:240px; margin-left:auto;" placeholder="검색"
+            >
                 <template #addonBefore>
                     <SearchOutlined />
                 </template>
@@ -169,20 +180,29 @@ export default {
             <template v-if="kind === '2'">
                 <ul class="search-group">
                     <li class="search-group__item" v-for="genre in genreList" :key="genre.id">
-                        <a-button shape="round" :type="selectedGenreList.includes(genre.id) ? 'primary' : 'default'"
-                            size="large" @click="handleClickGenreGroup(genre)">{{ genre.text }}</a-button>
+                        <a-button
+                          shape="round"
+                          :type="selectedGenreList.includes(genre.id) ? 'primary' : 'default'"
+                          size="large"
+                          @click="handleClickGenreGroup(genre)">{{ genre.text }}
+                        </a-button>
                     </li>
                 </ul>
             </template>
             <template v-else-if="kind === '3'">
                 <ul class="search-group">
-                    <li class="search-group__item" v-for="(curation, index) in curatedList" :key="curation.id">
-                        <a-dropdown-button shape="round" v-model:visible="visible[index]"
-                            :type="computedCurationList.includes(curation.id) ? 'primary' : 'default'" size="large"
-                            :open="true" placement="bottom" :trigger="['click']" arrow
-                            @click="handleClickGenreGroup(curation)">{{
-                                curation.text
-                            }}
+                    <li
+                      class="search-group__item"
+                      v-for="(curation, index) in curatedList"
+                      :key="curation.id"
+                    >
+                        <a-dropdown-button
+                          shape="round" v-model:visible="visible[index]"
+                          :type="computedCurationList.includes(curation.id) ? 'primary' : 'default'"
+                          size="large"
+                          :open="true" placement="bottom" :trigger="['click']" arrow
+                          @click="handleClickGenreGroup(curation)"
+                        >{{curation.text}}
                             <template #icon>
                                 <DownOutlined></DownOutlined>
                             </template>
@@ -193,28 +213,50 @@ export default {
                                     </p>
                                     <div class="overlay__content">
                                         <template v-if="curation.id === 'gender'">
-                                            <a-button size="large" class="btn"
-                                                :type="selectedGender === 'male' ? 'primary' : 'default'"
-                                                @click="handleClickGenderChange('male')">남자</a-button>
-                                            <a-button size="large" class="btn"
-                                                :type="selectedGender === 'female' ? 'primary' : 'default'"
-                                                @click="handleClickGenderChange('female')">여자</a-button>
+                                            <a-button
+                                                size="large"
+                                                class="btn"
+                                                :type="selectedGender === 'male'
+                                                  ? 'primary' : 'default'"
+                                                @click="handleClickGenderChange('male')"
+                                              >
+                                                남자
+                                            </a-button>
+                                            <a-button
+                                              size="large" class="btn"
+                                              :type="selectedGender === 'female'
+                                                ? 'primary' : 'default'"
+                                              @click="handleClickGenderChange('female')"
+                                            >
+                                              여자
+                                            </a-button>
                                         </template>
                                         <template v-else-if="curation.id === 'age'">
-                                            <a-slider v-model:value="ageRange" range :min="15" :max="100"
-                                                @change="handleAgeRangeChange" />
+                                            <a-slider
+                                              v-model:value="ageRange"
+                                              range :min="15"
+                                              :max="100"
+                                              @change="handleAgeRangeChange" />
                                         </template>
                                         <template v-else-if="curation.id === 'height'">
-                                            <a-slider v-model:value="heightRange" range :min="130" :max="200"
-                                                @change="handleHeightRangeChange" />
+                                            <a-slider
+                                              v-model:value="heightRange"
+                                              range :min="130" :max="200"
+                                              @change="handleHeightRangeChange"
+                                            />
                                         </template>
                                         <template v-else>
-                                            <a-checkbox-group v-model:value="selectedPrefer" style="width: 100%"
-                                                @change="handleCheckboxChange">
+                                            <a-checkbox-group
+                                              v-model:value="selectedPrefer"
+                                              style="width: 100%"
+                                              @change="handleCheckboxChange"
+                                            >
                                                 <a-row :gutter="[0, 20]">
                                                     <template v-for="box in MAP" :key="box.id">
                                                         <a-col :span="10">
-                                                            <a-checkbox :value="box.id">{{ box.value }}</a-checkbox>
+                                                            <a-checkbox :value="box.id">
+                                                              {{ box.value }}
+                                                            </a-checkbox>
                                                         </a-col>
                                                     </template>
                                                 </a-row>
@@ -231,18 +273,27 @@ export default {
         </div>
         <div class="audition-find__content container">
             <div class="header">
-                <a-select v-model:value="sort" class="sort" style="width: 140px;" @focus="focus" size="large"
-                    @change="handleChange">
+                <a-select
+                  v-model:value="sort"
+                  class="sort"
+                  style="width: 140px;"
+                  @focus="focus"
+                  size="large"
+                  @change="handleChange"
+                >
                     <a-select-option value="1">마감일 순</a-select-option>
                     <a-select-option value="2">최신등록일 순</a-select-option>
                 </a-select>
             </div>
             <ul class="audition-list">
-                <li class="audition-list__item" v-for="(audition, index) in filteredAuditionList" :key="index">
+                <li
+                  class="audition-list__item"
+                  v-for="(audition, index) in filteredAuditionList" :key="index"
+                >
                     <AuditionItem
-                        :index="index"
-                        v-bind="audition"
-                        @favorite="handleToggleFavorite"
+                      :index="index"
+                      v-bind="audition"
+                      @favorite="handleToggleFavorite"
                     ></AuditionItem>
                 </li>
             </ul>
