@@ -33,7 +33,12 @@ export default {
 </script>
 <template>
   <div class="login-container">
-    <h1>findactor</h1>
+    <h1>
+      <img
+        src="https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-18T05%3A27%3A45.842Z-login-logo-cropped.png"
+        alt="로그인 이미지 로고"
+      >
+    </h1>
     <h2>로그인</h2>
     <form>
       <input
@@ -83,9 +88,11 @@ export default {
 }
 
 h1 {
-  font-size: 1.7em;
-  margin-bottom: 1em;
-  font-weight: bold;
+  margin-bottom: 1.5em;
+}
+
+h1 img {
+  height: 1.8em;
 }
 
 h2 {
