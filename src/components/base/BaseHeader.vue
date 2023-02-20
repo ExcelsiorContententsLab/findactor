@@ -40,9 +40,7 @@ export default {
                     </RouterLink>
                 </a>
                 <a class="nav__item">
-                    <RouterLink class="navmenu" tag="div" to="/profile/tour">
-                        프로필 투어
-                    </RouterLink>
+                    프로필 투어
                 </a>
                 <div class="info">
                     <a-dropdown placement="bottomRight" :trigger="['click']">

@@ -1,11 +1,18 @@
 <script>
 import moment from 'moment';
 
+import { isScrappedAudition, toggleScrapAudition } from '../../service/actors';
+
+const ACTIVE_ICON = '/assets/icon/diamond-true.svg';
+const INACTIVE_ICON = '/assets/icon/diamond-false.svg';
+
 export default {
   name: 'AuditionItem',
-  props: ['title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dueDate', 'gender', 'onlyView', 'noBorder'],
+  props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dueDate', 'gender', 'onlyView', 'noBorder'],
   data() {
     return {
+      ACTIVE_ICON,
+      INACTIVE_ICON,
       ROLE_MAP: {
         1: '주연',
         2: '조연',
@@ -37,11 +44,14 @@ export default {
         { text: 'OTT시리즈', id: 'ott' },
         { text: '웹시리즈', id: 'web' },
         { text: '광고', id: 'ad' }],
+      isScrapped: true,
     };
   },
   methods: {
     handleClickAddFavorite() {
-      this.$emit('favorite', this.index);
+      toggleScrapAudition(this.id);
+      this.isScrapped = isScrappedAudition(this.id);
+      this.$emit('scrapToggled');
     },
   },
   computed: {
@@ -50,7 +60,14 @@ export default {
       return moment.duration(moment(this.dueDate, 'YYYY-MM-DD').diff(now, 'days'), 'days').asDays();
     },
   },
-
+  watch: {
+    id() {
+      this.isScrapped = isScrappedAudition(this.id);
+    },
+  },
+  mounted() {
+    this.isScrapped = isScrappedAudition(this.id);
+  },
 };
 </script>
 <template>
@@ -64,21 +81,30 @@ export default {
             </span>
 
         </div>
+
         <div class="audition-item__info">
             <span class="info">{{ title }}</span>
             <span class="info">{{ ROLE_MAP[role] }}</span>
             <span class="info">{{ `${ageRange[0]}-${ageRange[1]}` }}</span>
         </div>
+
         <div class="audition-item__sub-info">
             <span class="info">{{ productionName }}</span>
-            <span class="info" v-if="prefer">{{ PREFER_MAP.find(v => v.id === prefer)?.value }}</span>
+            <span class="info" v-if="prefer">
+                {{ PREFER_MAP.find(v => v.id === prefer)?.value }}
+            </span>
         </div>
+
         <span class="flag" :class="{ 'flag--urge': getDDay <= 10 }">
             마감 D-{{ getDDay }}
         </span>
-        <img v-if="!onlyView" class="icon"
-            :src="isScrap ? '/assets/icon/diamond-true.svg' : '/assets/icon/diamond-false.svg'"
-            @click="handleClickAddFavorite" />
+
+        <img
+            v-if="!onlyView"
+            class="icon"
+            :src="isScrapped ? this.ACTIVE_ICON : this.INACTIVE_ICON"
+            @click="handleClickAddFavorite"
+        />
     </div>
 </template>
 <style lang="scss" scoped>

@@ -29,9 +29,6 @@ const store = createStore({
     },
   },
   state() {
-    // if (localStorage.getItem("state")) {
-    //   return JSON.parse(localStorage.getItem("state"));
-    // }
     return {
       openedProductionList: [],
       productionList: [
@@ -95,6 +92,7 @@ const store = createStore({
       audition: {},
       auditionList: [
         {
+          id: 101,
           title: '치명적인 매력남입니다.',
           role: '1',
           ageRange: [27, 29],
@@ -110,6 +108,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 102,
           title: '마른하늘에 날벼락!',
           role: '1',
           ageRange: [25, 29],
@@ -125,6 +124,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 103,
           title: '필름 36분의 1',
           role: '1',
           ageRange: [30, 30],
@@ -140,6 +140,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 104,
           title: '좋은 소식',
           role: '1',
           ageRange: [23, 29],
@@ -155,6 +156,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 105,
           title: '기업 사내 웹드라마',
           role: '1',
           ageRange: [23, 29],
@@ -170,6 +172,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 106,
           title: '외국인 CF 모델 구인',
           role: '1',
           ageRange: [40, 49],
@@ -185,6 +188,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 107,
           title: '바이럴 영상',
           role: '1',
           ageRange: [26, 39],
@@ -200,6 +204,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 108,
           title: 'KBS 드라마 주연급 아역',
           role: '1',
           ageRange: [15, 16],
@@ -216,6 +221,7 @@ const store = createStore({
         },
 
         {
+          id: 109,
           title: '<그리우며>',
           role: '1',
           ageRange: [30, 44],
@@ -231,6 +237,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 110,
           title: '<그라데이션>',
           role: '2',
           ageRange: [20, 39],
@@ -246,6 +253,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 111,
           title: '사랑법',
           role: '1',
           ageRange: [30, 44],
@@ -261,6 +269,7 @@ const store = createStore({
           noCnt: 1,
         },
         {
+          id: 112,
           title: '<(가제) 눈사람>',
           role: '2',
           ageRange: [20, 60],

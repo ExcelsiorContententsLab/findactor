@@ -3,6 +3,7 @@ import { DownOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-
 import { ref } from 'vue';
 import { number } from 'vue-types';
 import AuditionItem from '../../components/autidtion/AuditionItem.vue';
+import { isScrappedAudition } from '../../service/actors';
 
 export default {
   name: 'audition-find',
@@ -68,7 +69,7 @@ export default {
     handleMenuClick() {
     },
     handleToggleFavorite(index) {
-      this.$store.state.auditionList[index].isScrap = !this.$store.state.auditionList[index].isScrap;
+      toggleScrap({ auditionId: index });
     },
     handleClickGenreGroup(genre) {
       if (genre.id === 'all') {
@@ -103,6 +104,8 @@ export default {
     handleClickGenderChange(value) {
       this.selectedGender = value;
     },
+  },
+  mounted() {
   },
   computed: {
     computedCurationList() {
@@ -161,6 +164,7 @@ export default {
                 </template>
             </a-input>
         </div>
+
         <div class="audition-find__sub-header">
             <template v-if="kind === '2'">
                 <ul class="search-group">
@@ -235,7 +239,11 @@ export default {
             </div>
             <ul class="audition-list">
                 <li class="audition-list__item" v-for="(audition, index) in filteredAuditionList" :key="index">
-                    <AuditionItem :index="index" v-bind="audition" @favorite="handleToggleFavorite"></AuditionItem>
+                    <AuditionItem
+                        :index="index"
+                        v-bind="audition"
+                        @favorite="handleToggleFavorite"
+                    ></AuditionItem>
                 </li>
             </ul>
         </div>
