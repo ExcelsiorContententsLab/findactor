@@ -1,5 +1,10 @@
 <script>
-const { log: print } = console;
+import {
+  loadActorProfile,
+  loadActorAvatars,
+  saveActorProfile,
+  saveActorAvatars,
+} from '../../service/actors';
 
 export default {
   name: 'ProfileUpdate',
@@ -7,8 +12,7 @@ export default {
     return {
       inputVisible: true,
       tags: [],
-      inputValue: '',
-      MAP: [
+      SKILLS: [
         { id: 'A', value: '영어' },
         { id: 'B', value: '중국어' },
         { id: 'C', value: '일본어' },
@@ -27,7 +31,7 @@ export default {
         { id: 'P', value: '액션' },
         { id: 'Q', value: '운전' },
       ],
-      fileList: [
+      avatarImages: [
         {
           uid: '-1',
           name: 'image.png',
@@ -46,14 +50,24 @@ export default {
           status: 'done',
           url: 'https://i.ibb.co/p4y5Mp0/04.jpg',
         },
-
       ],
+      profile: {
+        name: '',
+        email: '',
+        age: '',
+        height: '',
+        weight: '',
+        genre: '',
+        gender: '',
+        tags: [],
+      },
+      email: 'testactor120@gmail.com',
+      avatars: [],
     };
   },
   methods: {
     handleClose(tag) {
       this.tags = this.tags.filter((v) => (v !== tag));
-      console.log(this.tags);
     },
     handleCheckboxChange(selected) {
       this.tags = selected;
@@ -66,8 +80,27 @@ export default {
       }
     },
     handleUploadComplete(file) {
-      print({ file });
+      const { response } = file;
+      const { message: imageUrl } = response;
+
+      this.avatars = [
+        ...this.avatars,
+        { imgSrc: imageUrl },
+      ];
     },
+    handleSubmit() {
+      saveActorProfile(this.profile);
+      saveActorAvatars(this.avatars);
+    },
+  },
+  mounted() {
+    this.profile = loadActorProfile();
+    this.avatars = loadActorAvatars();
+    this.avatarImages = this.avatars.map(({ imgSrc }, index) => ({
+      id: index,
+      url: imgSrc,
+      status: 'done',
+    }));
   },
 };
 
@@ -79,42 +112,57 @@ export default {
             <a-descriptions-item label="프로필 이미지" style="font-size:20px;" span="4">
                 <div class="clearfix">
                     <a-upload
-                        v-model:file-list="fileList"
+                        v-model:file-list="avatarImages"
                         action="https://9shbrlwx14.execute-api.ap-northeast-1.amazonaws.com/default/uploadImage"
                         list-type="picture-card"
                         @preview="handlePreview"
                         @change="handleChangeFile"
                     >
-                        <div v-if="fileList.length < 8">
+                        <div v-if="avatarImages.length < 8">
                             <plus-outlined />
                             <div style="margin-top: 8px">이미지 업로드</div>
                         </div>
                     </a-upload>
-                    <!-- <a-modal :visible="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
-                        <img alt="example" style="width: 100%" :src="previewImage" />
-                    </a-modal> -->
                 </div>
             </a-descriptions-item>
             <a-descriptions-item label="신장" style="font-size:20px;" span="4">
-                <a-input v-model:value="$store.state.profile.height" placeholder="신장" style="font-size:20px;" />
+                <a-input
+                  v-model:value="profile.height"
+                  placeholder="신장" style="font-size:20px;"
+                />
             </a-descriptions-item>
             <a-descriptions-item label="몸무게" style="font-size:20px;" span="4">
-                <a-input v-model:value="$store.state.profile.weight" placeholder="몸무게" style="font-size:20px;" />
+                <a-input
+                  v-model:value="profile.weight"
+                  placeholder="몸무게"
+                  style="font-size:20px;"
+                />
+            </a-descriptions-item>
+            <a-descriptions-item label="e-mail" style="font-size:20px;" span="4">
+                <a-input
+                  v-model:value="profile.email"
+                  placeholder="e-mail"
+                  style="font-size:20px;"
+                />
             </a-descriptions-item>
             <a-descriptions-item label="특기" style="font-size:20px;" span="4">
-                <template v-for="(tag, index) in $store.state.profile.tags" :key="index">
-                    <a-tooltip :title="MAP.find(v => v.id === tag).value">
-                        <a-tag color="#6044F8" style="font-size:20px;" closable @close="handleClose(tag)">
-                            {{ MAP.find(v => v.id === tag).value }}
+                <template v-for="(tag, index) in profile.tags" :key="index">
+                    <a-tooltip :title="SKILLS.find(v => v.id === tag).value">
+                        <a-tag
+                          color="#6044F8"
+                          style="font-size:20px;"
+                          closable @close="handleClose(tag)"
+                        >
+                            {{ SKILLS.find(v => v.id === tag).value }}
                         </a-tag>
                     </a-tooltip>
                 </template>
             </a-descriptions-item>
             <a-descriptions-item label=" " style="font-size:20px;" span="4">
-                <a-checkbox-group v-model:value="$store.state.profile.tags" style="width: 100%"
+                <a-checkbox-group v-model:value="profile.tags" style="width: 100%"
                     @change="handleCheckboxChange">
                     <a-row :gutter="[0, 40]">
-                        <template v-for="box in MAP" :key="box.id">
+                        <template v-for="box in SKILLS" :key="box.id">
                             <a-col :span="5">
                                 <a-checkbox :value="box.id">{{ box.value }}</a-checkbox>
                             </a-col>
@@ -131,14 +179,13 @@ export default {
                             취소
                         </a-button>
                     </RouterLink>
-                    <RouterLink to="/">
-                        <a-button size="large" style="margin-left:12px;">
-                            임시저장
-                        </a-button>
-                    </RouterLink>
-
-                    <RouterLink to="/">
-                        <a-button type="primary" size="large" style="margin-left:12px;">
+                    <RouterLink to="/actor">
+                        <a-button
+                          type="primary"
+                          size="large"
+                          style="margin-left:12px;"
+                          @click="handleSubmit"
+                        >
                             등록하기
                         </a-button>
                     </RouterLink>

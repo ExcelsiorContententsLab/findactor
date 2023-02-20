@@ -8,7 +8,6 @@ import {
 } from '@ant-design/icons-vue';
 
 import AuditionItem from '../../components/autidtion/AuditionItem.vue';
-import { isScrappedAudition } from '../../service/actors';
 
 function isOverlapped(range1, range2) {
   return Math.min(range1[1], range2[1]) >= Math.max(range1[0], range2[0]);

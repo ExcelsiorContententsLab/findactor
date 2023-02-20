@@ -1,4 +1,6 @@
 <script>
+import { loadActorProfile } from '../../service/actors';
+
 export default {
   data() {
     return {
@@ -22,12 +24,22 @@ export default {
         { id: 'P', value: '액션' },
         { id: 'Q', value: '운전' },
       ],
+      profile: {
+        name: '',
+        email: '',
+        age: '',
+        height: '',
+        weight: '',
+        genre: '',
+        gender: '',
+        tags: [],
+      },
+      scrapCount: 0,
     };
   },
-  computed: {
-    scrapCount() {
-      return this.$store.state.auditionList.filter((v) => v.isScrap).length;
-    },
+  mounted() {
+    this.profile = loadActorProfile();
+    // TODO: 스크랩 카운트 읽어오기
   },
 };
 </script>
@@ -39,18 +51,18 @@ export default {
                     <img class="avatar" src="@/assets/myProfile.jpg">
                 </div>
                 <div class="name">
-                    {{ $store.state.profile.name }}
+                    {{ profile.name }}
                 </div>
                 <div class="info">
                     <p class="info__item">
                         <a class="item" href="mailto:find@naver.com">
-                            {{ $store.state.profile.email }}
+                            {{ profile.email }}
                         </a>
                     </p>
                     <p class="info__item">
-                        <span class="item">{{ $store.state.profile.age }}세</span>
-                        <span class="item">{{ $store.state.profile.height }}cm</span>
-                        <span class="item">{{ $store.state.profile.weight }}kg</span>
+                        <span class="item">{{ profile.age }}세</span>
+                        <span class="item">{{ profile.height }}cm</span>
+                        <span class="item">{{ profile.weight }}kg</span>
                     </p>
                 </div>
                 <router-link to="/profile/update">
@@ -65,7 +77,7 @@ export default {
                         특기
                     </p>
                 </div>
-                <template v-for="tag in $store.state.profile.tags">
+                <template v-for="tag in profile.tags">
                     <a-button class="tag" shape="round" size="large">{{ PREFER_MAP.find(v => v.id === tag).value }}</a-button>
                 </template>
             </div>

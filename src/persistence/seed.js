@@ -2,6 +2,7 @@ import {
   saveActorAvatars,
   saveActorAudtionScraps,
   saveActorPhilmography,
+  saveActorProfile,
 } from '../service/actors';
 
 import { saveAuditions } from '../service/common';
@@ -261,6 +262,17 @@ const auditions = [
   },
 ];
 
+const actorProfile = {
+  name: '이승찬',
+  email: 'zoonyfil@nate.com',
+  age: 29,
+  height: 176,
+  weight: 72,
+  genre: 'ott',
+  gender: '1',
+  tags: ['P', 'F', 'Q'],
+};
+
 export default function seed() {
   const isSeeded = JSON.parse(localStorage.getItem('isSeeded'));
   if (isSeeded) {
@@ -271,5 +283,7 @@ export default function seed() {
   saveActorPhilmography(actorPhilmography);
   saveActorAvatars(actorAvatars);
   saveActorAudtionScraps([101]);
+  saveActorProfile(actorProfile);
   localStorage.setItem('isSeeded', 'true');
+  print('데이터 시드가 완료 되었습니다.');
 }

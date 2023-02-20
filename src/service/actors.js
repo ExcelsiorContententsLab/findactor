@@ -5,6 +5,7 @@ import { loadAuditions } from './common';
 export const ACTOR_PHILMOGRAPHY = 'actor-philmography';
 export const ACTOR_AVATARS = 'actor-avatars';
 export const ACTOR_AUDITION_SCRAPS = 'actor-audition-scraps';
+export const ACTOR_PROFILE = 'actor-profile';
 
 export function loadActorPhilmography() {
   return load(ACTOR_PHILMOGRAPHY);
@@ -47,4 +48,12 @@ export function loadActorScrappedAutions() {
 
 export function saveActorAudtionScraps(scraps) {
   save(ACTOR_AUDITION_SCRAPS, scraps);
+}
+
+export function saveActorProfile(profile) {
+  save(ACTOR_PROFILE, profile);
+}
+
+export function loadActorProfile() {
+  return load(ACTOR_PROFILE);
 }
