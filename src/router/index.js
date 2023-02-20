@@ -124,14 +124,14 @@ router.beforeEach((to, from, next) => {
   const { value: accessToken } = useLocalStorage('accessToken');
   const isAuthenticated = accessToken;
 
-  const isActor = accessToken.startsWith('ACTOR');
-  const isProduction = accessToken.startsWith('PRODUCTION');
-
   if (to.path !== '/' && !isAuthenticated) {
     alert('로그인 해주세요');
     next({ path: '/' });
     return;
   }
+
+  const isActor = accessToken?.startsWith('ACTOR');
+  const isProduction = accessToken?.startsWith('PRODUCTION');
 
   if (to.path === '/' && isAuthenticated && isActor) {
     next({ path: '/actor' });
