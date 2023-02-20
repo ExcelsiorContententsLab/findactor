@@ -1,9 +1,18 @@
 <script>
-import { DownOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { ref } from 'vue';
-import { number } from 'vue-types';
+
+import {
+  DownOutlined,
+  ReloadOutlined,
+  SearchOutlined,
+} from '@ant-design/icons-vue';
+
 import AuditionItem from '../../components/autidtion/AuditionItem.vue';
 import { isScrappedAudition } from '../../service/actors';
+
+function isOverlapped(range1, range2) {
+  return Math.min(range1[1], range2[1]) >= Math.max(range1[0], range2[0]);
+}
 
 export default {
   name: 'audition-find',
@@ -19,7 +28,7 @@ export default {
       sort: '1',
       kind: '1',
       heightRange: [130, 200],
-      MAP: [
+      SKILLS: [
         { id: 'A', value: '영어' },
         { id: 'B', value: '중국어' },
         { id: 'C', value: '일본어' },
@@ -46,7 +55,6 @@ export default {
         { text: 'OTT시리즈', id: 'ott' },
         { text: '웹시리즈', id: 'web' },
         { text: '광고', id: 'ad' },
-
       ], // 장르별
       curatedList: [
         { text: '성별', id: 'gender' },
@@ -60,7 +68,7 @@ export default {
       selectedHeightRange: null,
       selectedGender: null,
       selectedPrefer: [],
-
+      searchKeyword: '',
     };
   },
   methods: {
@@ -69,40 +77,78 @@ export default {
     handleMenuClick() {
     },
     handleToggleFavorite(index) {
-      toggleScrap({ auditionId: index });
+      const { auditionList } = this.$store.state;
+      const audition = auditionList[index];
+      audition.isScrap = !audition.isScrap;
     },
     handleClickGenreGroup(genre) {
-      if (genre.id === 'all') {
+      const { id: genreId } = genre;
+
+      if (genreId === 'all') {
         this.selectedGenreList = ['all'];
         return;
       }
+
       if (this.selectedGenreList.includes('all')) {
-        this.selectedGenreList = this.selectedGenreList.filter((v) => v !== 'all');
+        this.selectedGenreList = this.selectedGenreList
+          .filter((v) => v !== 'all');
       }
-      if (this.selectedGenreList.includes(genre.id)) {
-        this.selectedGenreList = this.selectedGenreList.filter((v) => v !== genre.id);
-      } else {
-        this.selectedGenreList.push(genre.id);
-      }
+
+      this.selectedGenreList = this.selectedGenreList.includes(genreId)
+        ? this.selectedGenreList.filter((v) => v !== genreId)
+        : [...this.selectedGenreList, genreId];
+    },
+    handleClickShowAll() {
+      this.searchClear();
     },
     handleClickSearchClear() {
+      this.searchClear();
+    },
+    searchClear() {
       this.selectedGenreList = ['all'];
       this.kind = '1';
       this.selectedAgeRange = null;
       this.selectedGender = null;
       this.selectedHeightRange = null;
       this.selectedPrefer = [];
+      this.searchKeyword = '';
     },
-    handleClickOverlay(index) {
+    handleClickOverlay() {
     },
-    handleAgeRangeChange(value) {
-      this.selectedAgeRange = value;
+    handleAgeRangeChange(range) {
+      this.selectedAgeRange = range;
     },
     handleHeightRangeChange(value) {
       this.selectedHeightRange = value;
     },
     handleClickGenderChange(value) {
       this.selectedGender = value;
+    },
+    handleSearchText() {
+      const auditions = JSON.parse(
+        JSON.stringify(this.$store.state.auditionList),
+      );
+
+      this.filteredAuditionList = this.applyFilters({
+        target: auditions,
+        filters: [
+        ],
+      });
+    },
+    applyFilters({ target, filters }) {
+      if (filters.length === 0) {
+        return target;
+      }
+
+      const { condition, filter } = filters[0];
+      if (!condition) {
+        return this.applyFilters({ target, filters: filters.slice(1) });
+      }
+
+      return this.applyFilters({
+        target: target.filter(filter),
+        filters: filters.slice(1),
+      });
     },
   },
   mounted() {
@@ -117,20 +163,46 @@ export default {
       return list;
     },
     filteredAuditionList() {
-      let list = JSON.parse(JSON.stringify(this.$store.state.auditionList));
-      if (this.selectedGender && this.selectedGender === 'male') {
-        list = list.filter((v) => v.gender === '1');
-      } else if (this.selectedGender && this.selectedGender === 'female') {
-        list = list.filter((v) => v.gender === '2');
-      }
-      if (this.selectedPrefer.length > 0) {
-        list = list.filter((v) => this.selectedPrefer.includes(v.prefer));
-      }
+      const auditions = JSON.parse(
+        JSON.stringify(this.$store.state.auditionList),
+      );
 
-      if (this.selectedAgeRange && this.selectedAgeRange.length > 1) {
-        console.log('list', list);
-      }
-      return list;
+      const filterSkill = (audition) => this.selectedPrefer.includes(audition.prefer);
+
+      const filterAge = (audition) => {
+        const selectedRange = Object.values(this.selectedAgeRange);
+        return isOverlapped(audition.ageRange, selectedRange);
+      };
+
+      const filterHeight = (audition) => {
+        const selectedHeightRange = Object.values(this.selectedHeightRange);
+        return isOverlapped(audition.heightRange, selectedHeightRange);
+      };
+
+      const filterGender = (audition) => {
+        const selectedGender = { male: '1', female: '2' }[this.selectedGender];
+        return audition.gender === selectedGender;
+      };
+
+      const filterGenres = (audition) => (
+        this.selectedGenreList.includes('all') || this.selectedGenreList.includes(audition.genre)
+      );
+
+      const filterKeyword = ({ title, productionName }) => (
+        title.includes(this.searchKeyword) || productionName.includes(this.searchKeyword)
+      );
+
+      return this.applyFilters({
+        target: auditions,
+        filters: [
+          { condition: this.selectedPrefer.length > 0, filter: filterSkill },
+          { condition: this.selectedGender, filter: filterGender },
+          { condition: this.selectedAgeRange, filter: filterAge },
+          { condition: this.selectedHeightRange, filter: filterHeight },
+          { condition: this.selectedGenreList.length > 0, filter: filterGenres },
+          { condition: this.searchKeyword, filter: filterKeyword },
+        ],
+      });
     },
   },
   components: {
@@ -143,7 +215,9 @@ export default {
     <div class="audition-find">
         <div class="audition-find__header">
             <a-radio-group v-model:value="kind" size="large">
-                <a-radio-button size="large" value="1">전체 오디션</a-radio-button>
+                <a-radio-button size="large" value="1" @click="handleClickShowAll">
+                  전체 오디션
+                </a-radio-button>
                 <a-radio-button value="2">장르별 보기
                     <DownOutlined />
                 </a-radio-button>
@@ -158,7 +232,13 @@ export default {
                 </a-button>
             </div>
 
-            <a-input class="item" size="large" style="width:240px; margin-left:auto;" placeholder="검색">
+            <a-input
+              class="item"
+              size="large"
+              v-model:value="searchKeyword"
+              v-on:keyup.enter="handleSearchText"
+              style="width:240px; margin-left:auto;" placeholder="검색"
+            >
                 <template #addonBefore>
                     <SearchOutlined />
                 </template>
@@ -169,20 +249,29 @@ export default {
             <template v-if="kind === '2'">
                 <ul class="search-group">
                     <li class="search-group__item" v-for="genre in genreList" :key="genre.id">
-                        <a-button shape="round" :type="selectedGenreList.includes(genre.id) ? 'primary' : 'default'"
-                            size="large" @click="handleClickGenreGroup(genre)">{{ genre.text }}</a-button>
+                        <a-button
+                          shape="round"
+                          :type="selectedGenreList.includes(genre.id) ? 'primary' : 'default'"
+                          size="large"
+                          @click="handleClickGenreGroup(genre)">{{ genre.text }}
+                        </a-button>
                     </li>
                 </ul>
             </template>
             <template v-else-if="kind === '3'">
                 <ul class="search-group">
-                    <li class="search-group__item" v-for="(curation, index) in curatedList" :key="curation.id">
-                        <a-dropdown-button shape="round" v-model:visible="visible[index]"
-                            :type="computedCurationList.includes(curation.id) ? 'primary' : 'default'" size="large"
-                            :open="true" placement="bottom" :trigger="['click']" arrow
-                            @click="handleClickGenreGroup(curation)">{{
-                                curation.text
-                            }}
+                    <li
+                      class="search-group__item"
+                      v-for="(curation, index) in curatedList"
+                      :key="curation.id"
+                    >
+                        <a-dropdown-button
+                          shape="round" v-model:visible="visible[index]"
+                          :type="computedCurationList.includes(curation.id) ? 'primary' : 'default'"
+                          size="large"
+                          :open="true" placement="bottom" :trigger="['click']" arrow
+                          @click="handleClickGenreGroup(curation)"
+                        >{{curation.text}}
                             <template #icon>
                                 <DownOutlined></DownOutlined>
                             </template>
@@ -193,28 +282,50 @@ export default {
                                     </p>
                                     <div class="overlay__content">
                                         <template v-if="curation.id === 'gender'">
-                                            <a-button size="large" class="btn"
-                                                :type="selectedGender === 'male' ? 'primary' : 'default'"
-                                                @click="handleClickGenderChange('male')">남자</a-button>
-                                            <a-button size="large" class="btn"
-                                                :type="selectedGender === 'female' ? 'primary' : 'default'"
-                                                @click="handleClickGenderChange('female')">여자</a-button>
+                                            <a-button
+                                                size="large"
+                                                class="btn"
+                                                :type="selectedGender === 'male'
+                                                  ? 'primary' : 'default'"
+                                                @click="handleClickGenderChange('male')"
+                                              >
+                                                남자
+                                            </a-button>
+                                            <a-button
+                                              size="large" class="btn"
+                                              :type="selectedGender === 'female'
+                                                ? 'primary' : 'default'"
+                                              @click="handleClickGenderChange('female')"
+                                            >
+                                              여자
+                                            </a-button>
                                         </template>
                                         <template v-else-if="curation.id === 'age'">
-                                            <a-slider v-model:value="ageRange" range :min="15" :max="100"
-                                                @change="handleAgeRangeChange" />
+                                            <a-slider
+                                              v-model:value="ageRange"
+                                              range :min="15"
+                                              :max="100"
+                                              @change="handleAgeRangeChange" />
                                         </template>
                                         <template v-else-if="curation.id === 'height'">
-                                            <a-slider v-model:value="heightRange" range :min="130" :max="200"
-                                                @change="handleHeightRangeChange" />
+                                            <a-slider
+                                              v-model:value="heightRange"
+                                              range :min="130" :max="200"
+                                              @change="handleHeightRangeChange"
+                                            />
                                         </template>
                                         <template v-else>
-                                            <a-checkbox-group v-model:value="selectedPrefer" style="width: 100%"
-                                                @change="handleCheckboxChange">
+                                            <a-checkbox-group
+                                              v-model:value="selectedPrefer"
+                                              style="width: 100%"
+                                              @change="handleCheckboxChange"
+                                            >
                                                 <a-row :gutter="[0, 20]">
-                                                    <template v-for="box in MAP" :key="box.id">
+                                                    <template v-for="box in SKILLS" :key="box.id">
                                                         <a-col :span="10">
-                                                            <a-checkbox :value="box.id">{{ box.value }}</a-checkbox>
+                                                            <a-checkbox :value="box.id">
+                                                              {{ box.value }}
+                                                            </a-checkbox>
                                                         </a-col>
                                                     </template>
                                                 </a-row>
@@ -231,18 +342,27 @@ export default {
         </div>
         <div class="audition-find__content container">
             <div class="header">
-                <a-select v-model:value="sort" class="sort" style="width: 140px;" @focus="focus" size="large"
-                    @change="handleChange">
+                <a-select
+                  v-model:value="sort"
+                  class="sort"
+                  style="width: 140px;"
+                  @focus="focus"
+                  size="large"
+                  @change="handleChange"
+                >
                     <a-select-option value="1">마감일 순</a-select-option>
                     <a-select-option value="2">최신등록일 순</a-select-option>
                 </a-select>
             </div>
             <ul class="audition-list">
-                <li class="audition-list__item" v-for="(audition, index) in filteredAuditionList" :key="index">
+                <li
+                  class="audition-list__item"
+                  v-for="(audition, index) in filteredAuditionList" :key="index"
+                >
                     <AuditionItem
-                        :index="index"
-                        v-bind="audition"
-                        @favorite="handleToggleFavorite"
+                      :index="index"
+                      v-bind="audition"
+                      @favorite="handleToggleFavorite"
                     ></AuditionItem>
                 </li>
             </ul>
