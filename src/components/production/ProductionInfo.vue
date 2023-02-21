@@ -6,6 +6,7 @@ import 'swiper/css/navigation';
 import { RouterLink } from 'vue-router';
 import { message } from 'ant-design-vue';
 import ThumbCard from '@/components/thumb/ThumbCard.vue';
+import { loadProductionAuditions } from '../../service/productions';
 
 export default {
   name: 'production-info',
@@ -128,6 +129,9 @@ export default {
     isUpdate() {
       return this.status === 'update';
     },
+    productAuditions() {
+      return loadProductionAuditions();
+    },
   },
   methods: {
     handleClickAddMovieProfile() {
@@ -231,7 +235,7 @@ export default {
 
             <div class="panel__content">
                 <ul class="audition-list">
-                    <template v-for="(audition, index) in $store.state.production.detail.auditionList" :key="index">
+                    <template v-for="(audition, index) in productAuditions" :key="index">
                         <li class="audition-list__elem">
                             <div class="header">
                                 <p class="date date--start">

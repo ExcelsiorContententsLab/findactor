@@ -1,24 +1,29 @@
 <script>
 import koKr from 'ant-design-vue/es/locale/ko_KR';
+
 import dayjs from 'dayjs';
-import moment from 'moment';
+
+import { registerAudition } from '../../../service/productions';
 
 export default {
   name: 'production-audition-create',
   data() {
     return {
       locale: koKr,
-      title: '',
-      genre: '',
-      productionName: '',
-      director: '',
-      role: '',
-      gender: '',
-      dateRange: [],
-      ageRange: [10, 50],
-      heightRange: [140, 180],
-      weightRange: [30, 200],
-      inCharge: { name: '' },
+      auditionDetail: {
+        title: '',
+        genre: '',
+        productionName: '',
+        director: '',
+        role: '',
+        gender: '',
+        detailInfo: '',
+        dateRange: [],
+        ageRange: [10, 50],
+        heightRange: [140, 180],
+        weightRange: [30, 200],
+        inCharge: { name: '' },
+      },
       genreList: [
         { text: '영화', id: 'movie' },
         { text: '드라마', id: 'drama' },
@@ -51,23 +56,16 @@ export default {
   },
   methods: {
     handleClickCreateAudition() {
-      const detail = {};
-      detail.title = this.title;
-      detail.genre = this.gender;
-      detail.productionName = this.productionName;
-      detail.director = this.director;
-      detail.role = this.role;
-      detail.gender = this.gender;
-      detail.ageRange = this.ageRange;
-      detail.heightRange = this.heightRange;
-      detail.weightRange = this.weightRange;
-      detail.inCharge = this.inCharge;
-      detail.startDate = dayjs(this.dateRange[0]).format('YYYY.MM.DD (ddd)');
-      detail.endDate = dayjs(this.dateRange[1]).format('YYYY.MM.DD (ddd)');
-      detail.applicantCnt = 0;
-      detail.yesCnt = 0;
-      detail.noCnt = 1;
-      this.$store.state.production.detail.auditionList.push(detail);
+      const audition = {
+        ...this.auditionDetail,
+        startDate: dayjs(this.auditionDetail.dateRange[0]).format('YYYY.MM.DD (ddd)'),
+        endDate: dayjs(this.auditionDetail.dateRange[1]).format('YYYY.MM.DD (ddd)'),
+        applicantCnt: 0,
+        yesCnt: 0,
+        noCnt: 1,
+      };
+
+      registerAudition(audition);
       this.$router.push('/production');
     },
   },
@@ -80,7 +78,7 @@ export default {
                 작품명
             </div>
             <div class="content">
-                <a-input v-model:value="title" placeholder="작품명" size="large" />
+                <a-input v-model:value="auditionDetail.title" placeholder="작품명" size="large" />
             </div>
         </div>
         <div class="audition-create__item">
@@ -88,7 +86,7 @@ export default {
                 장르
             </div>
             <div class="content content--border">
-                <a-radio-group v-model:value="genre" name="radioGroup">
+                <a-radio-group v-model:value="auditionDetail.genre" name="radioGroup">
                     <template v-for="elem in genreList" :key="elem.id">
                         <a-radio :value="elem.id" class="radio">{{ elem.text }}</a-radio>
                     </template>
@@ -100,7 +98,10 @@ export default {
                 제작사명
             </div>
             <div class="content">
-                <a-input v-model:value="productionName" placeholder="제작사명을 입력해주세요" size="large" />
+                <a-input
+                  v-model:value="auditionDetail.productionName"
+                  placeholder="제작사명을 입력해주세요" size="large"
+                />
             </div>
         </div>
         <div class="audition-create__item">
@@ -108,7 +109,10 @@ export default {
                 감독명
             </div>
             <div class="content">
-                <a-input v-model:value="director" placeholder="감독명을 입력해주세요" size="large" />
+                <a-input
+                  v-model:value="auditionDetail.director"
+                  placeholder="감독명을 입력해주세요" size="large"
+                />
             </div>
         </div>
         <div class="audition-create__item">
@@ -116,7 +120,7 @@ export default {
                 성별
             </div>
             <div class="content content--border">
-                <a-radio-group v-model:value="gender" name="radioGroup">
+                <a-radio-group v-model:value="auditionDetail.gender" name="radioGroup">
                     <template v-for="elem in genderList" :key="elem.id">
                         <a-radio :value="elem.id" class="radio">{{ elem.text }}</a-radio>
                     </template>
@@ -128,7 +132,7 @@ export default {
                 역할
             </div>
             <div class="content content--border">
-                <a-radio-group v-model:value="role" name="radioGroup">
+                <a-radio-group v-model:value="auditionDetail.role" name="radioGroup">
                     <template v-for="elem in roleList" :key="elem.id">
                         <a-radio :value="elem.id" class="radio">{{ elem.text }}</a-radio>
                     </template>
@@ -141,7 +145,7 @@ export default {
                     나이
                 </div>
                 <div class="content content--border" style="width:400px;">
-                    <a-slider v-model:value="ageRange" range :min="15" :max="100" />
+                    <a-slider v-model:value="auditionDetail.ageRange" range :min="15" :max="100" />
                 </div>
             </div>
             <div class="wrapper">
@@ -149,7 +153,11 @@ export default {
                     신장
                 </div>
                 <div class="content content--border" style="width:400px;">
-                    <a-slider v-model:value="heightRange" range :min="140" :max="200" />
+                    <a-slider
+                      v-model:value="auditionDetail.heightRange"
+                      range :min="140"
+                      :max="200"
+                    />
                 </div>
             </div>
             <div class="wrapper">
@@ -157,7 +165,11 @@ export default {
                     체중
                 </div>
                 <div class="content content--border" style="width:400px;">
-                    <a-slider v-model:value="weightRange" range :min="30" :max="200" />
+                    <a-slider
+                      v-model:value="auditionDetail.weightRange"
+                      range :min="30"
+                      :max="200"
+                    />
                 </div>
             </div>
         </div>
@@ -168,7 +180,11 @@ export default {
             <div class="content content--border content--bottom">
                 <template v-for="(tag, index) in $store.state.profile.tags" :key="index">
                     <a-tooltip :title="MAP.find(v => v.id === tag).value">
-                        <a-tag color="#6044F8" style="font-size:20px;" closable @close="handleClose(tag)">
+                        <a-tag
+                          color="#6044F8"
+                          style="font-size:20px;"
+                          closable @close="handleClose(tag)"
+                        >
                             {{ MAP.find(v => v.id === tag).value }}
                         </a-tag>
                     </a-tooltip>
@@ -193,8 +209,12 @@ export default {
             </div>
             <div class="content">
                 <a-space direction="vertical" :size="12">
-                    <a-range-picker v-model:value="dateRange" style="width: 400px" format="YYYY/MM/DD (ddd)"
-                        :locale="locale" size="large" />
+                    <a-range-picker
+                      v-model:value="auditionDetail.dateRange"
+                      style="width: 400px"
+                      format="YYYY/MM/DD (ddd)"
+                      :locale="locale" size="large"
+                    />
                 </a-space>
             </div>
         </div>
@@ -207,48 +227,58 @@ export default {
                     <span class="label">
                         이름
                     </span>
-                    <a-input v-model:value="inCharge.name" placeholder="담당자 명" style="width: 280px;margin-left:20px;" />
+                    <a-input
+                      v-model:value="auditionDetail.inCharge.name"
+                      placeholder="담당자 명" style="width: 280px;margin-left:20px;"
+                    />
                 </div>
                 <div class="content__item">
                     <span class="label">
                         연락처
                     </span>
-                    <a-input v-model:value="inCharge.contact" placeholder="연락처"
+                    <a-input v-model:value="auditionDetail.inCharge.contact" placeholder="연락처"
                         style="width: 280px;margin-left:20px;" />
                 </div>
                 <div class="content__item">
                     <span class="label">
                         이메일
                     </span>
-                    <a-input v-model:value="inCharge.email" placeholder="이메일" style="width: 280px;margin-left:20px;" />
+                    <a-input
+                      v-model:value="auditionDetail.inCharge.email"
+                      placeholder="이메일"
+                      style="width: 280px;margin-left:20px;"
+                    />
                 </div>
             </div>
         </div>
         <div class="audition-create__item">
             <div class="title">
-                세부정부
+                세부정보
             </div>
             <div class="content">
-                <a-textarea v-model="detailInfo" :rows="4" placeholder="세부정보를 입력해주세요" :maxlength="6" />
+                <a-textarea
+                  v-model:value="auditionDetail.detailInfo"
+                  :rows="4"
+                  placeholder="세부정보를 입력해주세요"
+                  :maxlength="6"
+                />
             </div>
         </div>
         <div class="footer">
             <div class="footer__wrapper">
                 <div class="right">
-                    <RouterLink to="/production/audition/manage">
+                    <RouterLink to="/production">
                         <a-button size="large">
                             취소
                         </a-button>
                     </RouterLink>
-                    <RouterLink to="/production/audition/manage">
-                        <a-button size="large" style="margin-left:12px;">
-                            임시저장
-                        </a-button>
-                    </RouterLink>
-
                     <a>
-                        <a-button type="primary" size="large" style="margin-left:12px;"
-                            @click="handleClickCreateAudition">
+                        <a-button
+                          type="primary"
+                          size="large"
+                          style="margin-left:12px;"
+                          @click="handleClickCreateAudition"
+                        >
                             등록하기
                         </a-button>
                     </a>
