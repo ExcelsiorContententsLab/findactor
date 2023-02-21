@@ -6,6 +6,7 @@ import {
 } from '../service/actors';
 
 import { saveAuditions } from '../service/common';
+import { saveProductionAuditions } from '../service/productions';
 
 import print from '../utils/print';
 
@@ -279,11 +280,15 @@ export default function seed() {
     return;
   }
   print('데이터 시드가 완료 되었습니다.');
+
   saveAuditions(auditions);
   saveActorPhilmography(actorPhilmography);
   saveActorAvatars(actorAvatars);
   saveActorAudtionScraps([101]);
   saveActorProfile(actorProfile);
+
+  saveProductionAuditions([]);
+
   localStorage.setItem('isSeeded', 'true');
   print('데이터 시드가 완료 되었습니다.');
 }
