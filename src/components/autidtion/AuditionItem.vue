@@ -1,6 +1,8 @@
 <script>
 import moment from 'moment';
 
+import AuditionDetail from './AuditionDetail.vue';
+
 import { isScrappedAudition, toggleScrapAudition } from '../../service/actors';
 
 const ACTIVE_ICON = '/assets/icon/diamond-true.svg';
@@ -9,6 +11,7 @@ const INACTIVE_ICON = '/assets/icon/diamond-false.svg';
 export default {
   name: 'AuditionItem',
   props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dueDate', 'gender', 'onlyView', 'noBorder'],
+  components: { AuditionDetail },
   data() {
     return {
       ACTIVE_ICON,
@@ -45,6 +48,7 @@ export default {
         { text: '웹시리즈', id: 'web' },
         { text: '광고', id: 'ad' }],
       isScrapped: true,
+      isPopup: false,
     };
   },
   methods: {
@@ -52,6 +56,9 @@ export default {
       toggleScrapAudition(this.id);
       this.isScrapped = isScrappedAudition(this.id);
       this.$emit('scrapToggled');
+    },
+    handleClickTitle() {
+      this.isPopup = true;
     },
   },
   computed: {
@@ -83,7 +90,7 @@ export default {
         </div>
 
         <div class="audition-item__info">
-            <span class="info">{{ title }}</span>
+            <span class="info" id="audition-title" @click="handleClickTitle">{{ title }}</span>
             <span class="info">{{ ROLE_MAP[role] }}</span>
             <span class="info">{{ `${ageRange[0]}-${ageRange[1]}` }}</span>
         </div>
@@ -105,6 +112,16 @@ export default {
             :src="isScrapped ? this.ACTIVE_ICON : this.INACTIVE_ICON"
             @click="handleClickAddFavorite"
         />
+
+        <a-modal
+          v-model:visible="isPopup"
+          title="오디션 정보"
+          width="1200px"
+          cancelText="취소"
+          okText="확인"
+        >
+          <AuditionDetail></AuditionDetail>
+        </a-modal>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -116,6 +133,10 @@ export default {
 
     &--no-border {
         border: 0;
+    }
+
+    #audition-title {
+      cursor: pointer;
     }
 
     .tag {

@@ -15,11 +15,6 @@ export default {
     };
   },
   computed: {
-    // activeKey: {
-    //     get() {
-    //         return this.$route.query.type;
-    //     }
-    // }
     scrapList() {
       return this.$store.state.auditionList.filter((v) => v.isScrap);
     },
@@ -27,7 +22,8 @@ export default {
       return this.$store.state.productionList.filter((v) => v.isLiked);
     },
     myOfferedProductionList() {
-      const productionList = this.$store.state.productionList.filter((v) => v.auditionList.filter((e) => e.isOffered));
+      const productionList = this.$store.state.productionList
+        .filter((v) => v.auditionList.filter((e) => e.isOffered));
       return productionList;
     },
   },
@@ -49,7 +45,6 @@ export default {
     },
   },
   mounted() {
-    console.log('mounted');
   },
   components: {
     AuditionItem, ActorItem, ActorProfile, ActorDetail,
@@ -66,8 +61,11 @@ export default {
                     진행중인 오디션({{ $store.state.production.detail.auditionList.length }})
                 </div>
                 <div class="tab-panel">
-                    <AuditionItem v-bind="$store.state.production.detail.auditionList[0]" :only-view="true"
-                        :no-border="true"></AuditionItem>
+                    <AuditionItem
+                      v-bind="$store.state.production.detail.auditionList[0]"
+                      :only-view="true"
+                      :no-border="true"
+                    ></AuditionItem>
                 </div>
                 <div style="margin-bottom:20px;">
                     <a-radio-group v-model:value="subMenu" button-style="solid" size="large">
@@ -83,8 +81,11 @@ export default {
                 </div>
                 <div class="tab-panel">
                     <ul class="applicant">
-                        <li class="applicant__item" v-for="(actor, index) in $store.state.production.findActorList"
-                            :key="index" @click="handleClickProfileDetail(actor)">
+                        <li
+                          class="applicant__item"
+                          v-for="(actor, index) in $store.state.production.findActorList"
+                          :key="index" @click="handleClickProfileDetail(actor)"
+                        >
                             <ActorItem v-bind="actor" :index="index"></ActorItem>
                         </li>
                     </ul>
@@ -95,7 +96,13 @@ export default {
             </a-tab-pane>
         </a-tabs>
 
-        <a-modal v-model:visible="isProfileDetailVisible" title="프로필 상세" width="1200px" cancelText="취소" okText="확인">
+        <a-modal
+          v-model:visible="isProfileDetailVisible"
+          title="프로필 상세"
+          width="1200px"
+          cancelText="취소"
+          okText="확인"
+        >
             <div>
                 <ActorDetail></ActorDetail>
             </div>

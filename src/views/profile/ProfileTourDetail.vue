@@ -365,7 +365,6 @@ export default {
             }
         }
     }
-
 }
 
 .overlay {
