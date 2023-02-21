@@ -49,6 +49,7 @@ declare module '@vue/runtime-core' {
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
+    AuditionDetail: typeof import('./src/components/autidtion/AuditionDetail.vue')['default']
     AuditionItem: typeof import('./src/components/autidtion/AuditionItem.vue')['default']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     BaseFooter: typeof import('./src/components/base/BaseFooter.vue')['default']
