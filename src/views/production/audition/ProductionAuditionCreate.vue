@@ -1,4 +1,6 @@
 <script>
+import axios from 'axios';
+
 import koKr from 'ant-design-vue/es/locale/ko_KR';
 
 import dayjs from 'dayjs';
@@ -60,10 +62,9 @@ export default {
         ...this.auditionDetail,
         startDate: dayjs(this.auditionDetail.dateRange[0]).format('YYYY.MM.DD (ddd)'),
         endDate: dayjs(this.auditionDetail.dateRange[1]).format('YYYY.MM.DD (ddd)'),
-        applicantCnt: 0,
-        yesCnt: 0,
-        noCnt: 1,
       };
+
+      axios.post('https://findactor.shop/auditions', audition);
 
       registerAudition(audition);
       this.$router.push('/production');
