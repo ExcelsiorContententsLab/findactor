@@ -260,7 +260,6 @@ export default {
                   v-model:value="auditionDetail.detailInfo"
                   :rows="4"
                   placeholder="세부정보를 입력해주세요"
-                  :maxlength="6"
                 />
             </div>
         </div>

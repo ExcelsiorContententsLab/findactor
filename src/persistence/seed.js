@@ -5,8 +5,12 @@ import {
   saveActorProfile,
 } from '../service/actors';
 
+import {
+  saveProductionAuditions,
+  saveProductionProfile,
+} from '../service/productions';
+
 import { saveAuditions } from '../service/common';
-import { saveProductionAuditions } from '../service/productions';
 
 import print from '../utils/print';
 
@@ -288,6 +292,16 @@ export default function seed() {
   saveActorProfile(actorProfile);
 
   saveProductionAuditions([]);
+  saveProductionProfile({
+    introduction: '남들과는 다르게, 누구보다 높이, 한국형 판타지 전문 제작사 (주)엑셀시오르콘텐츠랩입니다.\n현재 OTT시리즈 <반드시 너와 함께 내일 아침 떠오르는 찬란한 태양을 보고 싶다> 프리프로덕션 진행 중입니다.\n이외에 영화 <Cross Fire>를 기획개발 중 입니다.',
+    philmography: [
+      {
+        title: '좋아서만든영화',
+        imgSrc: '/assets/production/detail/movie1.jpg',
+        year: '2009',
+      },
+    ],
+  });
 
   localStorage.setItem('isSeeded', 'true');
   print('데이터 시드가 완료 되었습니다.');

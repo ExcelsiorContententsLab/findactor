@@ -6,7 +6,11 @@ import 'swiper/css/navigation';
 import { RouterLink } from 'vue-router';
 import { message } from 'ant-design-vue';
 import ThumbCard from '@/components/thumb/ThumbCard.vue';
-import { loadProductionAuditions } from '../../service/productions';
+
+import {
+  loadProductionAuditions,
+  loadProfile,
+} from '../../service/productions';
 
 export default {
   name: 'production-info',
@@ -101,7 +105,10 @@ export default {
           role: '단역 가나다역',
         },
       ],
-
+      profile: {
+        introduction: '',
+        philmography: [],
+      },
     };
   },
   setup() {
@@ -144,7 +151,6 @@ export default {
       this.$store.state.profile.movieList.splice(index, 1);
       this.$store.commit('saveLocal');
     },
-    // 영상 디테일
     handleInputMovieProfileDetailURL(event) {
       const { value } = event.target;
       const regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
@@ -155,9 +161,6 @@ export default {
       } else {
         this.movieProfileDetail.imgSrc = null;
       }
-      // if(match)
-      // const youtubeId = regex.exec(value)[3];
-      // console.log(youtubeId);
     },
     handleClickModifyAudition(audition) {
       this.selectedAudition = audition;
@@ -170,6 +173,7 @@ export default {
   },
   mounted() {
     console.log(this.status);
+    this.profile = loadProfile();
   },
 };
 </script>
@@ -181,7 +185,7 @@ export default {
                     제작사 소개
                 </span>
                 <span v-if="!isUpdate" class="btn btn--right">
-                    <RouterLink to="/portfolio/update">
+                    <RouterLink to="/production/profile/update">
                         <span class="text">
                             제작사 정보 수정
                         </span>
@@ -194,14 +198,17 @@ export default {
                 </span>
             </div>
             <div class="panel__content">
-                <div class="container"
-                    style="background-color:#F6F4FF;color:#878787; box-shadow:none; font-weight: 400; font-size: 20px;">
-                    남들과는 다르게, 누구보다 높이, 한국형 판타지 전문 제작사 (주)엑셀시오르콘텐츠랩입니다.<br />
+                <div
+                  class="container"
+                  style="background-color:#F6F4FF;color:#878787; box-shadow:none; font-weight: 400; font-size: 20px;"
+                >
+                    <!-- 남들과는 다르게, 누구보다 높이, 한국형 판타지 전문 제작사 (주)엑셀시오르콘텐츠랩입니다.<br />
                     <br />
                     현재 OTT시리즈 &lt;반드시 너와 함께 내일 아침 떠오르는 찬란한 태양을 보고 싶다&gt; 프리프로덕션 진행 중입니다.<br />
                     <br />
                     이외에 영화 &lt;Cross Fire&gt;를 기획개발 중 입니다.
-
+ -->
+                    {{ profile.introduction }}
                 </div>
 
             </div>
@@ -216,11 +223,22 @@ export default {
                 </span>
             </div>
             <div class="panel__content">
-                <swiper :modules="modules" :slides-per-view="isUpdate ? 5 : 4" :space-between="20" navigation>
-                    <swiper-slide v-for="(movieProfile, index) in $store.state.production.detail.movieList"
-                        :key="index">
-                        <ThumbCard v-bind="movieProfile" :index="index" :update="status === 'update'" cardType="filmo"
-                            @remove="handleRemoveThumbCard"></ThumbCard>
+                <swiper
+                  :modules="modules"
+                  :slides-per-view="isUpdate ? 5 : 4"
+                  :space-between="20" navigation
+                >
+                    <swiper-slide
+                      v-for="(movieProfile, index) in profile.philmography"
+                      :key="index"
+                    >
+                        <ThumbCard
+                          v-bind="movieProfile"
+                          :index="index"
+                          :update="status === 'update'"
+                          cardType="filmo"
+                          @remove="handleRemoveThumbCard">
+                        </ThumbCard>
                     </swiper-slide>
                 </swiper>
             </div>
@@ -248,8 +266,12 @@ export default {
                                 </p>
                             </div>
                             <div class="btn">
-                                <a-button size="large" shape="round" @click="handleClickModifyAudition(audition)">오디션
-                                    수정</a-button>
+                                <a-button
+                                  size="large"
+                                  shape="round"
+                                  @click="handleClickModifyAudition(audition)">
+                                    오디션 수정
+                                </a-button>
                             </div>
                             <div class="content">
                                 <span class="title">{{ audition.title }}</span>
@@ -274,8 +296,13 @@ export default {
                 </ul>
             </div>
         </div>
-        <a-modal v-model:visible="isAuditionVisible" title="오디션 정보 수정" @ok="handleAuditionModifyOk" width="1000px"
-            cancelText="취소" okText="확인">
+        <a-modal
+          v-model:visible="isAuditionVisible"
+          title="오디션 정보 수정"
+          @ok="handleAuditionModifyOk"
+          width="1000px"
+          cancelText="취소" okText="확인"
+        >
             <div style="display:flex; gap: 30px;">
                 <div>
                     <span>오디션 등록일</span>
@@ -284,35 +311,17 @@ export default {
                 </div>
                 <div>
                     <span>오디션 마감일</span>
-                    <a-calendar v-model:value="selectedAudition.endDate" :fullscreen="false" valueFormat="YYYY-MM-DD" />
+                    <a-calendar
+                      v-model:value="selectedAudition.endDate"
+                      :fullscreen="false"
+                      valueFormat="YYYY-MM-DD"
+                    />
                 </div>
             </div>
             <div style="text-align:right">
                 <a-button size="large" type="primary">오디션 조기마감 하기</a-button>
             </div>
         </a-modal>
-
-        <div v-if="isUpdate" class="footer">
-            <div class="footer__wrapper">
-                <div class="right">
-                    <RouterLink to="/">
-                        <a-button size="large">
-                            취소
-                        </a-button>
-                    </RouterLink>
-                    <a-button size="large" style="margin-left:12px;" @click="success">
-                        임시저장
-                    </a-button>
-
-                    <RouterLink to="/">
-                        <a-button type="primary" size="large" style="margin-left:12px;">
-                            등록하기
-                        </a-button>
-                    </RouterLink>
-                </div>
-            </div>
-        </div>
-
     </div>
 </template>
 
@@ -484,6 +493,8 @@ export default {
 
         &__content {
             padding: 10px 0 20px 0;
+            line-height: 2.0;
+            white-space: pre-wrap;
 
             &:deep(.swiper) {
                 padding: 10px;

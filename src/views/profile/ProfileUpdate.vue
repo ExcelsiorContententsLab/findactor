@@ -195,23 +195,124 @@ export default {
     </div>
 </template>
 <style lang="scss" scoped>
-.profile-update {
-    position: relative;
-    height: auto;
+.movie-profile-edit {
+    &__thumb {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    &:deep(.ant-descriptions-item-label) {
-        text-align: center;
+        .image {
+
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+        }
+    }
+}
+
+.actor-portfolio {
+    .panel {
+        &__title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+
+            .title {
+                font-weight: 900;
+                font-size: 22px;
+                color: #000000;
+            }
+
+            .btn {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+
+                .text {
+                    color: #6044F8;
+                    margin-right: 4px;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                &--fill {
+                    background-color: #eeeeee;
+                    border-radius: 4px;
+                    padding: 4px 8px;
+
+                    &:hover {
+                        background-color: #dadada;
+                    }
+
+                    .text {
+                        color: #000000;
+                        margin: 0;
+
+                        &:hover {
+                            text-decoration: none;
+                        }
+
+                    }
+                }
+
+                &--right {
+                    margin-left: auto;
+                }
+            }
+        }
+
+        &__content {
+            padding: 10px 0 20px 0;
+
+            &:deep(.swiper) {
+                padding: 10px;
+            }
+
+            .image-profile {
+                &:deep(.swiper-wrapper) {
+                    .swiper-slide {
+                        width: auto !important;
+
+                    }
+                }
+            }
+
+            .profile-filemo {
+                .title {
+                    font-weight: 700;
+                }
+
+                .year {
+                    font-weight: 500;
+                }
+
+                .kind {
+                    color: #878787;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    .btn-add {
+      font-size: 1em;
+      padding: .9em 1.3em;
+      font-weight: bold;
+      letter-spacing: 2px;
     }
 
     .footer {
-        margin-top: 20px;
+        position: relative;
+        margin-top: 8em;
         width: 100%;
         height: 60px;
 
         &__wrapper {
             position: absolute;
             bottom: 40px;
-            right: 40px;
+            right: 0;
             display: flex;
 
             .right {
@@ -220,6 +321,5 @@ export default {
 
         }
     }
-
 }
 </style>

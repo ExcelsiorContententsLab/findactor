@@ -91,6 +91,16 @@ const router = createRouter({
       component: () => import('../views/production/ProductionMain.vue'),
     },
     {
+      path: '/production/profile/update',
+      name: 'production-profile-update',
+      meta: {
+        layout: 'ProductionLayout',
+        title: '프로필 수정',
+      },
+      component: () => import('../views/production/ProfileUpdate.vue'),
+    },
+
+    {
       path: '/production/find/actor',
       name: 'production-find-actor',
       meta: {
