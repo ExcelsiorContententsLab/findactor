@@ -68,11 +68,11 @@ export default {
         prefer: this.tags,
       };
 
-      // TODO: 프로덕션으로 변경
-      axios.post('https://findactor.shop/auditions', audition);
-
-      registerAudition(audition);
-      this.$router.push('/production');
+      axios.post('https://findactor.shop/auditions', audition)
+        .then(() => {
+          registerAudition(audition);
+          this.$router.push('/production');
+        });
     },
   },
 };
