@@ -50,12 +50,9 @@ export default {
       </a-button>
     </div>
       <div class="header">
-          <div class="header__thumb">
-              <img class="thumb" src="@/assets/tour/profile.jpeg" />
-          </div>
           <div class="header__title">
               <span class="production-name item">{{ audition.productionName }}</span>
-              <span class="title-name item">{{ audition.title }}</span>
+              <span class="title-name item">&lt;{{ audition.title }}&gt;</span>
           </div>
       </div>
       <div class="audition-create__item">
