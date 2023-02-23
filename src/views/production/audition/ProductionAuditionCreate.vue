@@ -25,6 +25,7 @@ export default {
         heightRange: [140, 180],
         weightRange: [30, 200],
         inCharge: { name: '' },
+        prefer: [],
       },
       genreList: [
         { text: '영화', id: 'movie' },
@@ -54,6 +55,7 @@ export default {
         { id: 'P', value: '액션' },
         { id: 'Q', value: '운전' },
       ],
+      tags: [],
     };
   },
   methods: {
