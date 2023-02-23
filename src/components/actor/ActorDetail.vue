@@ -138,10 +138,8 @@ export default {
   setup() {
     const swiper = useSwiper();
     const onSwiper = (swiper) => {
-      console.log(swiper);
     };
     const onSlideChange = () => {
-      console.log('slide change');
     };
     const success = () => {
       message.success(

@@ -61,11 +61,15 @@ export default {
       this.$router.replace(`/profile/interest?type=${val}`);
     },
     handleScrapToggled() {
-      this.scraps = loadActorScrappedAutions();
+      loadActorScrappedAutions().then((data) => {
+        this.scraps = data;
+      });
     },
   },
   mounted() {
-    this.scraps = loadActorScrappedAutions();
+    loadActorScrappedAutions().then((data) => {
+      this.scraps = data;
+    });
   },
   components: {
     AuditionItem, ProductionItem, ProductionItemOpen, ProductionItemOffer,

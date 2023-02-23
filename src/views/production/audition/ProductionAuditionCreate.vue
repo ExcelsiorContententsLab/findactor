@@ -57,13 +57,18 @@ export default {
     };
   },
   methods: {
+    handleCheckboxChange(tags) {
+      this.tags = tags;
+    },
     handleClickCreateAudition() {
       const audition = {
         ...this.auditionDetail,
         startDate: dayjs(this.auditionDetail.dateRange[0]).format('YYYY.MM.DD (ddd)'),
         endDate: dayjs(this.auditionDetail.dateRange[1]).format('YYYY.MM.DD (ddd)'),
+        prefer: this.tags,
       };
 
+      // TODO: 프로덕션으로 변경
       axios.post('https://findactor.shop/auditions', audition);
 
       registerAudition(audition);
@@ -179,7 +184,7 @@ export default {
                 특기
             </div>
             <div class="content content--border content--bottom">
-                <template v-for="(tag, index) in $store.state.profile.tags" :key="index">
+                <template v-for="(tag, index) in this.tags" :key="index">
                     <a-tooltip :title="MAP.find(v => v.id === tag).value">
                         <a-tag
                           color="#6044F8"
@@ -192,7 +197,7 @@ export default {
                 </template>
             </div>
             <div class="content">
-                <a-checkbox-group v-model:value="$store.state.profile.tags" style="width: 100%"
+                <a-checkbox-group v-model:value="this.tags" style="width: 100%"
                     @change="handleCheckboxChange">
                     <a-row :gutter="[0, 40]">
                         <template v-for="box in MAP" :key="box.id">

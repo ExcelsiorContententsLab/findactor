@@ -10,7 +10,7 @@ const INACTIVE_ICON = '/assets/icon/diamond-false.svg';
 
 export default {
   name: 'AuditionItem',
-  props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dueDate', 'gender', 'onlyView', 'noBorder'],
+  props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dateRange', 'gender', 'onlyView', 'noBorder'],
   components: { AuditionDetail },
   data() {
     return {
@@ -64,7 +64,7 @@ export default {
   computed: {
     getDDay() {
       const now = moment();
-      return moment.duration(moment(this.dueDate, 'YYYY-MM-DD').diff(now, 'days'), 'days').asDays();
+      return moment.duration(moment(this.dateRange[1], 'YYYY-MM-DD').diff(now, 'days'), 'days').asDays();
     },
   },
   watch: {
@@ -84,7 +84,7 @@ export default {
                 {{ GENRE_MAP.find(v => v.id === genre).text }}
             </span>
             <span class="tag">
-                {{ gender=== '1' ? '남자' : '여자' }}
+                {{ gender=== 'male' ? '남자' : '여자' }}
             </span>
 
         </div>
@@ -98,7 +98,8 @@ export default {
         <div class="audition-item__sub-info">
             <span class="info">{{ productionName }}</span>
             <span class="info" v-if="prefer">
-                {{ PREFER_MAP.find(v => v.id === prefer)?.value }}
+                {{ PREFER_MAP.filter(({ id }) => prefer.includes(id))
+                    .map((i) => i.value).slice(0, 3).join(", ") }}
             </span>
         </div>
 

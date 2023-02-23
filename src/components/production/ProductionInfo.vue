@@ -11,6 +11,7 @@ import {
   loadProductionAuditions,
   loadProfile,
 } from '../../service/productions';
+import { loadAuditions } from '../../service/auditions';
 
 export default {
   name: 'production-info',
@@ -109,6 +110,7 @@ export default {
         introduction: '',
         philmography: [],
       },
+      productAuditions: [],
     };
   },
   setup() {
@@ -136,9 +138,12 @@ export default {
     isUpdate() {
       return this.status === 'update';
     },
-    productAuditions() {
-      return loadProductionAuditions();
-    },
+  },
+  created() {
+    loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
+      .then((data) => {
+        this.productAuditions = data;
+      });
   },
   methods: {
     handleClickAddMovieProfile() {
@@ -280,15 +285,9 @@ export default {
                             <div class="info">
                                 <p class="info__elem">
                                     <span class="label">지원자</span>
-                                    <span class="count">({{ audition.applicantCnt }})</span>
-                                </p>
-                                <p class="info__elem">
-                                    <span class="label">응답완료</span>
-                                    <span class="count">({{ audition.yesCnt }})</span>
-                                </p>
-                                <p class="info__elem">
-                                    <span class="label">미응답</span>
-                                    <span class="count">({{ audition.noCnt }})</span>
+                                    <span class="count">(
+                                      {{ audition.appliedAuditionees.length }}
+                                    )</span>
                                 </p>
                             </div>
                         </li>

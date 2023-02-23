@@ -288,7 +288,7 @@ export default function seed() {
   saveAuditions(auditions);
   saveActorPhilmography(actorPhilmography);
   saveActorAvatars(actorAvatars);
-  saveActorAudtionScraps([101]);
+  saveActorAudtionScraps([]);
   saveActorProfile(actorProfile);
 
   saveProductionAuditions([]);
