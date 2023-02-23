@@ -1,8 +1,8 @@
 <script>
 import ActorItem from '../../../components/actor/ActorItem.vue';
 import ActorDetail from '../../../components/actor/ActorDetail.vue';
-import ActorProfile from '../../../components/actor/ActorProfile.vue';
-import AuditionItem from '../../../components/autidtion/AuditionItem.vue';
+
+import { loadAuditions } from '../../../service/auditions';
 
 export default {
   name: 'production-audition-manage',
@@ -12,6 +12,8 @@ export default {
       subMenu: 'a',
       isProfileDetailVisible: false,
       selectedProfile: {},
+      auditions: [],
+      currentAudition: null,
     };
   },
   computed: {
@@ -44,10 +46,14 @@ export default {
       this.isProfileDetailVisible = true;
     },
   },
-  mounted() {
+  created() {
+    loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
+      .then((data) => {
+        this.auditions = data;
+      });
   },
   components: {
-    AuditionItem, ActorItem, ActorProfile, ActorDetail,
+    ActorItem, ActorDetail,
   },
 };
 </script>
@@ -58,37 +64,48 @@ export default {
             @tabClick="handleTabClick">
             <a-tab-pane key="ongoing" :tab="`진행중인 오디션`">
                 <div class="container__title">
-                    진행중인 오디션({{ $store.state.production.detail.auditionList.length }})
-                </div>
-                <div class="tab-panel">
-                    <!-- <AuditionItem
-                      v-bind="$store.state.production.detail.auditionList[0]"
-                      :only-view="true"
-                      :no-border="true"
-                    ></AuditionItem> -->
+                  진행중인 오디션
                 </div>
                 <div style="margin-bottom:20px;">
-                    <a-radio-group v-model:value="subMenu" button-style="solid" size="large">
-                        <a-radio-button value="a">지원자 16</a-radio-button>
-                        <a-radio-button value="b">프로필합격 6</a-radio-button>
-                        <a-radio-button value="c">불합격 5</a-radio-button>
-                        <a-radio-button value="d">보류 0</a-radio-button>
-                        <a-radio-button value="e">미확인 5</a-radio-button>
+                    <a-radio-group
+                      v-model:value="currentAudition"
+                      button-style="solid"
+                      size="large"
+                    >
+                        <a-radio-button
+                          v-for="audition in auditions"
+                          :value="audition"
+                          :key="audition.title"
+                        >
+                          {{ audition.title }}
+                        </a-radio-button>
                     </a-radio-group>
                 </div>
-                <div class="container__title" style="margin-bottom:20px;">
-                    지원자
-                </div>
-                <div class="tab-panel">
-                    <ul class="applicant">
-                        <li
-                          class="applicant__item"
-                          v-for="(actor, index) in $store.state.production.findActorList"
-                          :key="index" @click="handleClickProfileDetail(actor)"
-                        >
-                            <ActorItem v-bind="actor" :index="index"></ActorItem>
-                        </li>
-                    </ul>
+                <div v-if="currentAudition">
+                  <div class="container__title" style="margin-bottom:20px;">
+                      지원자 관리
+                  </div>
+                  <div style="margin-bottom:20px;">
+                      <a-radio-group v-model:value="subMenu" button-style="solid" size="large">
+                          <a-radio-button value="a">
+                            지원자 ({{ currentAudition.appliedAuditionees.length }})
+                          </a-radio-button>
+                          <a-radio-button value="b">프로필합격</a-radio-button>
+                          <a-radio-button value="c">불합격</a-radio-button>
+                          <a-radio-button value="d">보류</a-radio-button>
+                      </a-radio-group>
+                  </div>
+                  <div class="tab-panel">
+                      <ul class="applicant">
+                          <li
+                            class="applicant__item"
+                            v-for="(actor, index) in currentAudition.appliedAuditionees"
+                            :key="index" @click="handleClickProfileDetail(actor)"
+                          >
+                              <ActorItem v-bind="actor" :index="index"></ActorItem>
+                          </li>
+                      </ul>
+                  </div>
                 </div>
             </a-tab-pane>
             <a-tab-pane key="closed" tab="마감된 오디션" force-render>
