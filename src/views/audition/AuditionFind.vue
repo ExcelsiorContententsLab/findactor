@@ -365,6 +365,7 @@ export default {
                     <AuditionItem
                       :index="index"
                       v-bind="audition"
+                      v-bind:audition="audition"
                       @favorite="handleToggleFavorite"
                     ></AuditionItem>
                 </li>

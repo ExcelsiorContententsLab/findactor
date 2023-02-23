@@ -10,7 +10,7 @@ const INACTIVE_ICON = '/assets/icon/diamond-false.svg';
 
 export default {
   name: 'AuditionItem',
-  props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dateRange', 'gender', 'onlyView', 'noBorder'],
+  props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dateRange', 'gender', 'onlyView', 'noBorder', 'audition'],
   components: { AuditionDetail },
   data() {
     return {
@@ -92,7 +92,7 @@ export default {
         <div class="audition-item__info">
             <span class="info" id="audition-title" @click="handleClickTitle">{{ title }}</span>
             <span class="info">{{ ROLE_MAP[role] }}</span>
-            <span class="info">{{ `${ageRange[0]}-${ageRange[1]}` }}</span>
+            <span class="info">{{ `${ageRange[0]}-${ageRange[1]}` }} 세</span>
         </div>
 
         <div class="audition-item__sub-info">
@@ -118,10 +118,8 @@ export default {
           v-model:visible="isPopup"
           title="오디션 정보"
           width="1200px"
-          cancelText="취소"
-          okText="확인"
         >
-          <AuditionDetail></AuditionDetail>
+          <AuditionDetail v-bind:audition="audition"></AuditionDetail>
         </a-modal>
     </div>
 </template>
