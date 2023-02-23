@@ -7,6 +7,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons-vue';
 
+import dayjs from 'dayjs';
 import AuditionItem from '../../components/autidtion/AuditionItem.vue';
 
 import { loadAuditions } from '../../service/auditions';
@@ -170,6 +171,12 @@ export default {
     },
     filteredAuditionList() {
       const { auditions } = this;
+
+      auditions.sort((a, b) => {
+        const endDate1 = dayjs(a.dateRange[1]);
+        const endDate2 = dayjs(b.dateRange[1]);
+        return endDate1.isAfter(endDate2) ? -1 : 1;
+      });
 
       const filterSkill = (audition) => (
         audition.prefer.some((skill) => this.selectedPrefer.includes(skill))

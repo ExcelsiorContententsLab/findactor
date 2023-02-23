@@ -103,8 +103,11 @@ export default {
             </span>
         </div>
 
-        <span class="flag" :class="{ 'flag--urge': getDDay <= 10 }">
+        <span v-if="getDDay >= 0" class="flag" :class="{ 'flag--urge': getDDay <= 10 }">
             마감 D-{{ getDDay }}
+        </span>
+        <span v-else class="flag" :class="{ 'flag--urge': getDDay <= 10 }">
+            마감됨
         </span>
 
         <img
