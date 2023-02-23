@@ -61,11 +61,11 @@ export default {
                     진행중인 오디션({{ $store.state.production.detail.auditionList.length }})
                 </div>
                 <div class="tab-panel">
-                    <AuditionItem
+                    <!-- <AuditionItem
                       v-bind="$store.state.production.detail.auditionList[0]"
                       :only-view="true"
                       :no-border="true"
-                    ></AuditionItem>
+                    ></AuditionItem> -->
                 </div>
                 <div style="margin-bottom:20px;">
                     <a-radio-group v-model:value="subMenu" button-style="solid" size="large">

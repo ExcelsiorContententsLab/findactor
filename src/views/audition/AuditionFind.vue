@@ -358,10 +358,8 @@ export default {
                   style="width: 140px;"
                   @focus="focus"
                   size="large"
-                  @change="handleChange"
                 >
                     <a-select-option value="1">마감일 순</a-select-option>
-                    <a-select-option value="2">최신등록일 순</a-select-option>
                 </a-select>
             </div>
             <ul class="audition-list">

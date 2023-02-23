@@ -1,6 +1,7 @@
 <script>
 import moment from 'moment';
 
+import { Button } from 'ant-design-vue';
 import AuditionDetail from './AuditionDetail.vue';
 
 import { isScrappedAudition, toggleScrapAudition } from '../../service/actors';
@@ -121,6 +122,8 @@ export default {
           v-model:visible="isPopup"
           title="오디션 정보"
           width="1200px"
+          :okButtonProps="{ style: { display: 'none' } }"
+          cancelText="확인"
         >
           <AuditionDetail v-bind:audition="audition"></AuditionDetail>
         </a-modal>
