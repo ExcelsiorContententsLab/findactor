@@ -1,9 +1,38 @@
 <script>
 export default {
   name: 'AuditionDetail',
-  props: [],
+  props: ['audition'],
   data() {
-    return {};
+    return {
+      genreList: [
+        { text: '영화', id: 'movie' },
+        { text: '드라마', id: 'drama' },
+        { text: 'OTT시리즈', id: 'ott' },
+        { text: '웹시리즈', id: 'web' },
+        { text: '광고', id: 'ad' },
+      ],
+      genderList: [{ text: '남성', id: 'male' }, { text: '여성', id: 'female' }],
+      roleList: [{ text: '주연', id: '1' }, { text: '조연', id: '2' }, { text: '단역', id: '3' }],
+      SKILLS: [
+        { id: 'A', value: '영어' },
+        { id: 'B', value: '중국어' },
+        { id: 'C', value: '일본어' },
+        { id: 'D', value: '프랑스어' },
+        { id: 'E', value: '독일어' },
+        { id: 'F', value: '경상도 사투리' },
+        { id: 'G', value: '전라도 사투리' },
+        { id: 'H', value: '평양 사투리' },
+        { id: 'I', value: '강원도 사투리' },
+        { id: 'J', value: '제주도 사투리' },
+        { id: 'K', value: '스포츠댄스' },
+        { id: 'L', value: '발레' },
+        { id: 'M', value: '현대무용' },
+        { id: 'N', value: '한국무용' },
+        { id: 'O', value: '방송댄스' },
+        { id: 'P', value: '액션' },
+        { id: 'Q', value: '운전' },
+      ],
+    };
   },
   methods: {
   },
@@ -25,91 +54,136 @@ export default {
               <img class="thumb" src="@/assets/tour/profile.jpeg" />
           </div>
           <div class="header__title">
-              <span class="production-name item">엑셀시오르콘텐츠랩</span>
-              <span class="title-name item">반드시 너와 함께 </span>
+              <span class="production-name item">{{ audition.productionName }}</span>
+              <span class="title-name item">{{ audition.title }}</span>
           </div>
       </div>
-      <div class="content">
-          <div class="sub-title">
-              작품 소개
-          </div>
-          <div class="article">
-              어릴적 불의의 사고로 아버지를 잃은 여름은 무럭무럭 자라 어느덧 고등학생이 된다.<br /><br />
-              매년 같이 여행을 다녀왔던 친구들과 이번에도 여행을 가기로 한다.
-          </div>
-          <div class="sub-title">
-              제작사 소개
-          </div>
-          <div class="article">
-              숭실대학교 대학언론인 인터넷 방송국 씨즌넷에서 제작하는 단편영화에 출연하실 배우 1명을 모집합니다. <br /><br />
-              해당 단편영화는 3월에 있을 숭실대학교 영상제에 상영되고, 인터넷 방송국 유튜브에 업로드될 예정입니다.<br /><br />
-              <p style="margin-bottom:20px;">
-                  &lt;모집 배역 캐릭터&gt;
-              </p>
-              <p style="margin-bottom:10px;">
-                  이름: 권민수 (미정
-              </p>
-              <p style="margin-bottom:10px;">
-                  나이: 저승사자 역 (젊은 아버지 느낌)
-              </p>
-              <p style="margin-bottom:10px;">
-                  성별: 남성
-              </p>
-              <p style="margin-bottom:10px;">
-                  역할: 주인공의 아버지로 주인공의 행복한 기억을 찾아주는 저승사자 역할
-              </p>
-              <p style="margin-bottom:20px;">
-                  착장: 정장
-              </p>
-              <p style="margin-bottom:20px;">
-                  {{ `<촬영 정보>` }}
-              </p>
-              <p style="margin-bottom:10px;">
-                  장소: 인천 월미도, 숭실대학교
-              </p>
-              <p style="margin-bottom:10px;">
-                  촬영 날짜: 1/12, 1/15 (추가촬영 있을 수 있음)
-              </p>
-              <p style="margin-bottom:20px;">
-                  페이: 12만원 (제작 여건 상 많은 페이를 드릴 수 없는 점 양해 바랍니다)
-              </p>
-              <p style="margin-bottom:20px;">
-                  {{`<지원양식>`}}
-              </p>
-              <p style="margin-bottom:10px;">
-                  메일 주소: songsy9573@naver.com
-              </p>
-              <p style="margin-bottom:10px;">
-                  -이메일에 프로필과 포트폴리오(연기영상) 첨부 부탁드립니다.
-              </p>
-              <p style="margin-bottom:10px;">
-                  -연기영상(독백이나 출연영상)이 없는 경우 첨부된 대본을 이용해 자유롭게 연기하신 영상 부탁드립니다.
-              </p>
-              <p style="margin-bottom:10px;">
-                  문의 사항은 이메일로 보내주시면 답변드리겠습니다.
-              </p>
-          </div>
-          <div class="sub-title">
-              제작사 필모그라피
-          </div>
-          <div class="article">
-              <div class="filmo-list">
-                  <Swiper :modules="modules" :slides-per-view="5" :space-between="20" navigation>
-                      <SwiperSlide
-                        v-for="(movieProfile, index) in $store.state.profile.movieList"
-                        :key="index"
-                      >
-                          <ThumbCard
-                            v-bind="movieProfile"
-                            cardType="filmo"
-                            :index="index"
-                            :update="status === 'update'" @remove="handleRemoveThumbCard">
-                          </ThumbCard>
-                      </SwiperSlide>
-                  </Swiper>
-              </div>
-          </div>
+      <div class="audition-create__item">
+        <div class="title">
+          장르
+        </div>
+        <div class="content content--border">
+          <a-radio-group :value="audition.genre" name="radioGroup">
+            <template v-for="elem in genreList" :key="elem.id">
+              <a-radio :value="elem.id" class="radio">{{ elem.text }}</a-radio>
+            </template>
+          </a-radio-group>
+        </div>
       </div>
+      <div class="audition-create__item">
+        <div class="title">
+          감독명
+        </div>
+        <div class="content">
+          {{ audition.director }}
+        </div>
+    </div>
+    <div class="audition-create__item">
+      <div class="title">
+          성별
+      </div>
+      <div class="content content--border">
+          <a-radio-group :value="audition.gender" name="radioGroup">
+              <template v-for="elem in genderList" :key="elem.id">
+                  <a-radio :value="elem.id" class="radio">{{ elem.text }}</a-radio>
+              </template>
+          </a-radio-group>
+      </div>
+    </div>
+    <div class="audition-create__item">
+      <div class="title">
+        역할
+      </div>
+      <div class="content content--border">
+        <a-radio-group :value="audition.role" name="radioGroup">
+          <template v-for="elem in roleList" :key="elem.id">
+            <a-radio :value="elem.id" class="radio">{{ elem.text }}</a-radio>
+          </template>
+        </a-radio-group>
+      </div>
+    </div>
+    <div class="audition-create__item">
+            <div class="title">
+                특기
+            </div>
+            <div class="content content--border content--bottom">
+                <template v-for="(tag, index) in audition.prefer" :key="index">
+                    <a-tooltip :title="SKILLS.find(v => v.id === tag).value">
+                        <a-tag
+                          color="#6044F8"
+                          style="font-size:20px;"
+                        >
+                            {{ SKILLS.find(v => v.id === tag).value }}
+                        </a-tag>
+                    </a-tooltip>
+                </template>
+            </div>
+        </div>
+        <div class="audition-create__item">
+            <div class="title">
+              나이
+            </div>
+            <div class="content">
+              {{ audition.ageRange[0] }} ~ {{ audition.ageRange[1] }} 세
+            </div>
+        </div>
+        <div class="audition-create__item">
+            <div class="title">
+              신장
+            </div>
+            <div class="content">
+              {{ audition.heightRange[0] }} ~ {{ audition.heightRange[1] }} cm
+            </div>
+        </div>
+        <div class="audition-create__item">
+            <div class="title">
+              체중
+            </div>
+            <div class="content">
+              {{ audition.weightRange[0] }} ~ {{ audition.weightRange[1] }} kg
+            </div>
+        </div>
+        <div class="audition-create__item">
+            <div class="title">
+                오디션 일정
+            </div>
+            <div class="content">
+              {{ audition.startDate  }} ~ {{ audition.endDate }}
+            </div>
+        </div>
+        <div class="audition-create__item">
+            <div class="title">
+                담당자
+            </div>
+            <div class="content content--flex">
+                <div class="content__item">
+                    <span class="label">
+                        이름:
+                    </span>
+                    {{ audition.inCharge.name }}
+                </div>
+                <div class="content__item">
+                    <span class="label">
+                        연락처:
+                    </span>
+                    {{ audition.inCharge.contact }}
+                </div>
+                <div class="content__item">
+                    <span class="label">
+                        이메일:
+                    </span>
+                    {{ audition.inCharge.email }}
+                </div>
+            </div>
+        </div>
+        <div class="audition-create__item">
+            <div class="title">
+                세부정보
+            </div>
+            <div class="content information">
+              {{ audition.detailInfo }}
+            </div>
+        </div>
 </template>
 <style lang="scss" scoped>
 .apply-container {
@@ -140,6 +214,80 @@ export default {
   font-size: 2em;
   margin-block: 1.2em;
   font-weight: bold;
+}
+
+.audition-create {
+    &__item {
+        margin-top: 2.5em;
+
+        &--flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            font-size: 1.2em;
+            padding-inline: 1em;
+            &--flex {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            &--bottom {
+                margin-bottom: 20px;
+            }
+
+            &--border {
+                border: 1px solid #d9d9d9;
+                border-radius: 2px;
+                padding: 14px 18px;
+            }
+
+            &:deep(.ant-input) {
+                padding: 14px 18px;
+
+            }
+
+            .radio {
+                &:not(:first-child) {
+                    margin-left: 120px;
+                }
+            }
+        }
+    }
+
+    .footer {
+        position: relative;
+        margin-top: 20px;
+        width: 100%;
+        height: 60px;
+
+        &__wrapper {
+            position: absolute;
+            bottom: 40px;
+            right: 0;
+            display: flex;
+
+            .right {
+                margin-left: auto;
+            }
+
+        }
+    }
+}
+
+.information {
+  font-size: 1.2em;
+  min-height: 10em;
+  border: 1px solid black;
+  border-radius: 0.5em;
+  padding: 1em;
 }
 
 </style>
