@@ -1,6 +1,6 @@
 import { save, load } from '../persistence/storage';
 
-import { loadAuditions } from './common';
+import { loadAuditions } from './auditions';
 
 export const ACTOR_PHILMOGRAPHY = 'actor-philmography';
 export const ACTOR_AVATARS = 'actor-avatars';
@@ -39,10 +39,12 @@ export function toggleScrapAudition(id) {
   save(ACTOR_AUDITION_SCRAPS, toggled);
 }
 
-export function loadActorScrappedAutions() {
+export async function loadActorScrappedAutions() {
   const actorAudtionScrapIds = load(ACTOR_AUDITION_SCRAPS);
 
-  return loadAuditions()
+  const auditions = await loadAuditions();
+
+  return auditions
     .filter(({ id }) => actorAudtionScrapIds.includes(id));
 }
 

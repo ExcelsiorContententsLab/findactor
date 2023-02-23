@@ -9,6 +9,8 @@ import {
 
 import AuditionItem from '../../components/autidtion/AuditionItem.vue';
 
+import { loadAuditions } from '../../service/auditions';
+
 function isOverlapped(range1, range2) {
   return Math.min(range1[1], range2[1]) >= Math.max(range1[0], range2[0]);
 }
@@ -68,6 +70,7 @@ export default {
       selectedGender: null,
       selectedPrefer: [],
       searchKeyword: '',
+      auditions: [],
     };
   },
   methods: {
@@ -124,9 +127,7 @@ export default {
       this.selectedGender = value;
     },
     handleSearchText() {
-      const auditions = JSON.parse(
-        JSON.stringify(this.$store.state.auditionList),
-      );
+      const { auditions } = this;
 
       this.filteredAuditionList = this.applyFilters({
         target: auditions,
@@ -150,6 +151,12 @@ export default {
       });
     },
   },
+  created() {
+    loadAuditions()
+      .then((data) => {
+        this.auditions = data;
+      });
+  },
   mounted() {
   },
   computed: {
@@ -162,11 +169,11 @@ export default {
       return list;
     },
     filteredAuditionList() {
-      const auditions = JSON.parse(
-        JSON.stringify(this.$store.state.auditionList),
-      );
+      const { auditions } = this;
 
-      const filterSkill = (audition) => this.selectedPrefer.includes(audition.prefer);
+      const filterSkill = (audition) => (
+        audition.prefer.some((skill) => this.selectedPrefer.includes(skill))
+      );
 
       const filterAge = (audition) => {
         const selectedRange = Object.values(this.selectedAgeRange);
@@ -178,10 +185,7 @@ export default {
         return isOverlapped(audition.heightRange, selectedHeightRange);
       };
 
-      const filterGender = (audition) => {
-        const selectedGender = { male: '1', female: '2' }[this.selectedGender];
-        return audition.gender === selectedGender;
-      };
+      const filterGender = (audition) => audition.gender === this.selectedGender;
 
       const filterGenres = (audition) => (
         this.selectedGenreList.includes('all') || this.selectedGenreList.includes(audition.genre)
