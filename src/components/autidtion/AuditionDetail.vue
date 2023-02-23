@@ -1,4 +1,6 @@
 <script>
+import { applyAudition, checkApplied } from '../../service/auditions';
+
 export default {
   name: 'AuditionDetail',
   props: ['audition'],
@@ -32,21 +34,40 @@ export default {
         { id: 'P', value: '액션' },
         { id: 'Q', value: '운전' },
       ],
+      isApplied: false,
     };
   },
   methods: {
+    handleApply() {
+      applyAudition({ auditionTitle: this.audition.title });
+      this.isApplied = true;
+    },
   },
   mounted() {
+    checkApplied({ auditionTitle: this.audition.title }).then(({ data }) => {
+      console.log({ 지원됨: data });
+      this.isApplied = data;
+    });
   },
 };
 </script>
 <template>
     <div class="apply-container">
       <a-button
+        v-if="!isApplied"
         type="primary"
         size="large"
+        @click="handleApply"
       >
         지원하기
+      </a-button>
+      <a-button
+        v-else
+        type="primary"
+        size="large"
+        disabled
+      >
+        지원됨
       </a-button>
     </div>
       <div class="header">

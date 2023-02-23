@@ -9,4 +9,14 @@ export async function loadAuditions({ productionName } = {
   return data;
 }
 
-export const xx = '';
+export async function applyAudition({ auditionTitle } = {
+  auditionTitle: '',
+}) {
+  await axios.patch(`${API_URL}/auditions?auditionTitle=${auditionTitle}`);
+}
+
+export async function checkApplied({ auditionTitle } = {
+  auditionTitle: '',
+}) {
+  return axios.get(`${API_URL}/auditions/applied?auditionTitle=${auditionTitle}`);
+}
