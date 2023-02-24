@@ -1,5 +1,7 @@
 <script>
-import { applyAudition, checkApplied } from '../../service/auditions';
+import {
+  applyAudition, checkApplied, rejectRequest, checkRejected,
+} from '../../service/auditions';
 
 export default {
   name: 'AuditionDetail',
@@ -35,6 +37,7 @@ export default {
         { id: 'Q', value: '운전' },
       ],
       isApplied: false,
+      isRejected: false,
     };
   },
   methods: {
@@ -42,29 +45,60 @@ export default {
       applyAudition({ auditionTitle: this.audition.title });
       this.isApplied = true;
     },
+    handleReject() {
+      rejectRequest({ auditionTitle: this.audition.title, actorEmail: 'zoonyfil@nate.com' });
+      this.isRejected = true;
+    },
   },
   mounted() {
     checkApplied({ auditionTitle: this.audition.title }).then(({ data }) => {
       console.log({ 지원됨: data });
       this.isApplied = data;
     });
+
+    checkRejected({ auditionTitle: this.audition.title, actorEmail: 'zoonyfil@nate.com' })
+      .then(({ data }) => {
+        this.isRejected = data;
+      });
   },
 };
 </script>
 <template>
-    <div v-if="operationType === 'request'" class="apply-container">
-      <a-button
-        type="primary"
-        size="large"
-      >
-        지원하기
-      </a-button>
-      <a-button
-        type="primary"
-        size="large"
-      >
-        거절하기
-      </a-button>
+    <div v-if="operationType === 'request'">
+      <div v-if="!isApplied && !isRejected" class="apply-container">
+        <a-button
+          type="primary"
+          size="large"
+          @click="handleApply"
+        >
+          지원하기
+        </a-button>
+        <a-button
+          type="primary"
+          size="large"
+          @click="handleReject"
+        >
+          거절하기
+        </a-button>
+      </div>
+      <div v-if="isRejected" class="apply-container">
+        <a-button
+          type="primary"
+          size="large"
+          disabled
+        >
+          거절함
+        </a-button>
+      </div>
+      <div v-if="isApplied" class="apply-container">
+        <a-button
+          type="primary"
+          size="large"
+          disabled
+        >
+          지원됨
+        </a-button>
+      </div>
     </div>
     <div v-else class="apply-container">
       <a-button

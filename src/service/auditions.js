@@ -18,6 +18,7 @@ export async function applyAudition({ auditionTitle } = {
 export async function checkApplied({ auditionTitle } = {
   auditionTitle: '',
 }) {
+  console.log({ auditionTitle });
   return axios.get(`${API_URL}/auditions/applied?auditionTitle=${auditionTitle}`);
 }
 
@@ -63,5 +64,17 @@ export async function isRequested({
 export async function loadRequestedAuditions({ actorEmail }) {
   return axios.get(
     `${API_URL}/requests?actorEmail=${actorEmail}`,
+  );
+}
+
+export async function rejectRequest({ auditionTitle, actorEmail }) {
+  return axios.patch(
+    `${API_URL}/requests/reject?actorEmail=${actorEmail}&auditionTitle=${auditionTitle}`,
+  );
+}
+
+export async function checkRejected({ auditionTitle, actorEmail }) {
+  return axios.get(
+    `${API_URL}/requests/reject?actorEmail=${actorEmail}&auditionTitle=${auditionTitle}`,
   );
 }
