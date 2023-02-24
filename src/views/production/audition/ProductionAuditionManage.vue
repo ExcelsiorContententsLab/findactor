@@ -4,14 +4,12 @@ import ActorDetail from '../../../components/actor/ActorDetail.vue';
 
 import { loadAuditions } from '../../../service/auditions';
 
-import AuditionItem from '../../../components/autidtion/AuditionItem.vue';
-
 export default {
   name: 'production-audition-manage',
   data() {
     return {
       openedProductionList: [],
-      subMenu: 'a',
+      subMenu: 'applicant',
       isProfileDetailVisible: false,
       selectedProfile: {},
       auditions: [],
@@ -48,12 +46,24 @@ export default {
       this.selectedProfile = profile;
       this.isProfileDetailVisible = true;
     },
+    handleManageApplicant() {
+      loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
+        .then((data) => {
+          this.auditions = data.filter(({ isClosed }) => !isClosed);
+          this.closedAuditions = data.filter(({ isClosed }) => isClosed);
+          this.isProfileDetailVisible = false;
+          this.currentAudition = this.auditions
+            .find(({ title }) => title === this.currentAudition.title);
+        });
+    },
   },
-  created() {
+  mounted() {
     loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
       .then((data) => {
+        // TODO: delete this
         this.auditions = data.filter(({ isClosed }) => !isClosed);
         this.closedAuditions = data.filter(({ isClosed }) => isClosed);
+        this.isProfileDetailVisible = false;
       });
   },
   components: {
@@ -91,22 +101,55 @@ export default {
                   </div>
                   <div style="margin-bottom:20px;">
                       <a-radio-group v-model:value="subMenu" button-style="solid" size="large">
-                          <a-radio-button value="a">
+                          <a-radio-button value="applicant">
                             지원자 ({{ currentAudition.appliedAuditionees.length }})
                           </a-radio-button>
-                          <a-radio-button value="b">프로필합격</a-radio-button>
-                          <a-radio-button value="c">불합격</a-radio-button>
-                          <a-radio-button value="d">보류</a-radio-button>
+                          <a-radio-button value="passed">
+                            프로필합격 ({{ currentAudition.passedAuditionees.length }})
+                          </a-radio-button>
+                          <a-radio-button value="rejected">
+                            불합격 ({{ currentAudition.rejectedAuditionees.length }})
+                          </a-radio-button>
+                          <a-radio-button value="pending">
+                            보류 ({{ currentAudition.pendingAuditionees.length }})
+                          </a-radio-button>
                       </a-radio-group>
                   </div>
                   <div class="tab-panel">
-                      <ul class="applicant">
+                      <ul v-if="subMenu === 'applicant'" class="applicant">
                           <li
                             class="applicant__item"
                             v-for="(actor, index) in currentAudition.appliedAuditionees"
                             :key="index" @click="handleClickProfileDetail(actor)"
                           >
-                              <ActorItem v-bind="actor" :index="index"></ActorItem>
+                            <ActorItem v-bind="actor" :index="index"></ActorItem>
+                          </li>
+                      </ul>
+                      <ul v-if="subMenu === 'passed'" class="applicant">
+                          <li
+                            class="applicant__item"
+                            v-for="(actor, index) in currentAudition.passedAuditionees"
+                            :key="index" @click="handleClickProfileDetail(actor)"
+                          >
+                            <ActorItem v-bind="actor" :index="index"></ActorItem>
+                          </li>
+                      </ul>
+                      <ul v-if="subMenu === 'rejected'" class="applicant">
+                          <li
+                            class="applicant__item"
+                            v-for="(actor, index) in currentAudition.rejectedAuditionees"
+                            :key="index" @click="handleClickProfileDetail(actor)"
+                          >
+                            <ActorItem v-bind="actor" :index="index"></ActorItem>
+                          </li>
+                      </ul>
+                      <ul v-if="subMenu === 'pending'" class="applicant">
+                          <li
+                            class="applicant__item"
+                            v-for="(actor, index) in currentAudition.pendingAuditionees"
+                            :key="index" @click="handleClickProfileDetail(actor)"
+                          >
+                            <ActorItem v-bind="actor" :index="index"></ActorItem>
                           </li>
                       </ul>
                   </div>
@@ -133,7 +176,11 @@ export default {
           okText="확인"
         >
             <div>
-                <ActorDetail></ActorDetail>
+                <ActorDetail
+                  operationType="manage"
+                  :audition="currentAudition"
+                  @manageApplicant="handleManageApplicant"
+                ></ActorDetail>
             </div>
         </a-modal>
 

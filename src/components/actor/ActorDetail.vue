@@ -7,6 +7,8 @@ import { RouterLink } from 'vue-router';
 import { message } from 'ant-design-vue';
 import ThumbCard from '@/components/thumb/ThumbCard.vue';
 
+import { manageApplicant } from '../../service/auditions';
+
 export default {
   name: 'ActorDetail',
   components: {
@@ -18,6 +20,13 @@ export default {
     status: {
       type: String,
       default: '',
+    },
+    operationType: {
+      type: String,
+      default: 'request',
+    },
+    audition: {
+      default: null,
     },
   },
   data() {
@@ -170,7 +179,6 @@ export default {
     handleConfirmAddMovieProfile() {
 
     },
-    // 영상 디테일
     handleInputMovieProfileDetailURL(event) {
       const { value } = event.target;
       const regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
@@ -181,11 +189,16 @@ export default {
       } else {
         this.movieProfileDetail.imgSrc = null;
       }
-      // if(match)
-      // const youtubeId = regex.exec(value)[3];
-      // console.log(youtubeId);
     },
-
+    handleClickManage(operationType) {
+      manageApplicant({
+        operationType,
+        actorEmail: 'zoonyfil@nate.com',
+        auditionTitle: this.audition.title,
+      }).then(() => {
+        this.$emit('manageApplicant');
+      });
+    },
   },
   mounted() {
     console.log(this.status);
@@ -199,10 +212,35 @@ export default {
                 <span class="title">
                     프로필
                 </span>
-                <p class="btn-group" style="margin-left:auto;">
+
+                <p v-if="operationType === 'request'" class="btn-group" style="margin-left:auto;">
                     <a-button type='primary' size="large">제안하기</a-button>
-                    <a-button size="large" style="margin-left:10px;">스크랩</a-button>
                 </p>
+
+                <p v-if="operationType === 'manage'" class="btn-group" style="margin-left:auto;">
+                    <a-button
+                      type='primary'
+                      size="large"
+                      @click="() => handleClickManage('accept')"
+                    >
+                      합격
+                    </a-button>
+                    <a-button
+                      type='primary'
+                      size="large"
+                      @click="() => handleClickManage('reject')"
+                    >
+                      불합격
+                    </a-button>
+                    <a-button
+                      type='primary'
+                      size="large"
+                      @click="() => handleClickManage('postpone')"
+                    >
+                      보류
+                    </a-button>
+                </p>
+
             </div>
             <div class="panel__content">
                 <div class="detail-info">
@@ -552,5 +590,10 @@ export default {
 
         }
     }
+}
+
+.btn-group {
+  display: flex;
+  gap: 1em;
 }
 </style>
