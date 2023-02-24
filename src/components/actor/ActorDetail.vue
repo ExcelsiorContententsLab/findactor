@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router';
 import { message } from 'ant-design-vue';
 import ThumbCard from '@/components/thumb/ThumbCard.vue';
 
-import { manageApplicant } from '../../service/auditions';
+import { manageApplicant, request, isRequested } from '../../service/auditions';
 
 export default {
   name: 'ActorDetail',
@@ -27,6 +27,9 @@ export default {
     },
     audition: {
       default: null,
+    },
+    openAuditions: {
+      default: [],
     },
   },
   data() {
@@ -141,7 +144,7 @@ export default {
           role: '조연 - 이민성역',
         },
       ],
-
+      isAuditionRequested: {},
     };
   },
   setup() {
@@ -193,15 +196,36 @@ export default {
     handleClickManage(operationType) {
       manageApplicant({
         operationType,
-        actorEmail: 'zoonyfil@nate.com',
+        actorEmail: 'zoonyfil@nate.com', // TODO: 각 배우의 이메일로 변경
         auditionTitle: this.audition.title,
       }).then(() => {
         this.$emit('manageApplicant');
       });
     },
+    handleClickRequest(audition) {
+      request({
+        actorEmail: 'zoonyfil@nate.com', // TODO: 각 배우의 이메일로 변경
+        audition,
+      }).then(() => {
+        isRequested({
+          actorEmail: 'zoonyfil@nate.com',
+          auditionTitle: audition.title,
+        }).then(({ data }) => {
+          console.log(data);
+          this.isAuditionRequested[audition.title] = data;
+        });
+      }); // TODO: 호출 후에 해당 오디션이 해당 배우로 등록 되었는지 확인
+    },
   },
   mounted() {
-    console.log(this.status);
+    this.openAuditions.forEach((a) => {
+      isRequested({
+        auditionTitle: a.title,
+        actorEmail: 'zoonyfil@nate.com',
+      }).then(({ data }) => {
+        this.isAuditionRequested[a.title] = data;
+      });
+    });
   },
 };
 </script>
@@ -214,7 +238,17 @@ export default {
                 </span>
 
                 <p v-if="operationType === 'request'" class="btn-group" style="margin-left:auto;">
-                    <a-button type='primary' size="large">제안하기</a-button>
+                  <a-button
+                    type='primary'
+                    size="large"
+                    v-for="openAudition in openAuditions"
+                    :key="openAudition.title"
+                    @click="() => handleClickRequest(openAudition)"
+                    :disabled="isAuditionRequested[openAudition.title]"
+                  >
+                    &lt;{{ openAudition.title }}&gt;
+                    오디션 {{ isAuditionRequested[openAudition.title] ? '제안됨' : '제안하기' }}
+                  </a-button>
                 </p>
 
                 <p v-if="operationType === 'manage'" class="btn-group" style="margin-left:auto;">

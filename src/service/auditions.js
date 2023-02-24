@@ -36,3 +36,26 @@ export async function manageApplicant({
     `${API_URL}/auditions/${auditionTitle}/applicants?operationType=${operationType}&actorEmail=${actorEmail}`,
   );
 }
+
+export async function request({
+  audition,
+  actorEmail,
+}) {
+  return axios.post(
+    'http://localhost:8080/requests', // TODO: 프로덕션으로 교체
+    {
+      auditionTitle: audition.title,
+      actorEmail,
+      audition,
+    },
+  );
+}
+
+export async function isRequested({
+  auditionTitle,
+  actorEmail,
+}) {
+  return axios.get(
+    `http://localhost:8080/requests/requested?auditionTitle=${auditionTitle}&actorEmail=${actorEmail}`, // TODO: 프로덕션으로 교체
+  );
+}
