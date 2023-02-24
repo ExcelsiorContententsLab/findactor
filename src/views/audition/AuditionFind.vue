@@ -170,13 +170,15 @@ export default {
       return list;
     },
     filteredAuditionList() {
-      const { auditions } = this;
+      let { auditions } = this;
 
       auditions.sort((a, b) => {
         const endDate1 = dayjs(a.dateRange[1]);
         const endDate2 = dayjs(b.dateRange[1]);
         return endDate1.isAfter(endDate2) ? -1 : 1;
       });
+
+      auditions = auditions.filter(({ isClosed }) => !isClosed);
 
       const filterSkill = (audition) => (
         audition.prefer.some((skill) => this.selectedPrefer.includes(skill))

@@ -4,6 +4,8 @@ import ActorDetail from '../../../components/actor/ActorDetail.vue';
 
 import { loadAuditions } from '../../../service/auditions';
 
+import AuditionItem from '../../../components/autidtion/AuditionItem.vue';
+
 export default {
   name: 'production-audition-manage',
   data() {
@@ -13,6 +15,7 @@ export default {
       isProfileDetailVisible: false,
       selectedProfile: {},
       auditions: [],
+      closedAuditions: [],
       currentAudition: null,
     };
   },
@@ -49,7 +52,8 @@ export default {
   created() {
     loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
       .then((data) => {
-        this.auditions = data;
+        this.auditions = data.filter(({ isClosed }) => !isClosed);
+        this.closedAuditions = data.filter(({ isClosed }) => isClosed);
       });
   },
   components: {
@@ -62,7 +66,7 @@ export default {
 
         <a-tabs v-model:activeKey="activeKey" size="large" :tabBarStyle="{ 'font-weight': '700' }"
             @tabClick="handleTabClick">
-            <a-tab-pane key="ongoing" :tab="`진행중인 오디션`">
+            <a-tab-pane key="ongoing" :tab="`진행중인 오디션 (${auditions.length})`">
                 <div class="container__title">
                   진행중인 오디션
                 </div>
@@ -108,8 +112,16 @@ export default {
                   </div>
                 </div>
             </a-tab-pane>
-            <a-tab-pane key="closed" tab="마감된 오디션" force-render>
-
+            <a-tab-pane key="closed" :tab="`마감된 오디션 (${closedAuditions.length})`" force-render>
+              <ul >
+                <li
+                  v-for="audition in closedAuditions"
+                  :key="audition.title"
+                  class="closed-audition"
+                >
+                  - {{ audition.title }}
+                </li>
+              </ul>
             </a-tab-pane>
         </a-tabs>
 
@@ -131,6 +143,12 @@ export default {
     </div>
 </template>
 <style lang="scss" scoped>
+.closed-audition {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: dotted;
+}
+
 .production-audition-manage {
     min-height: calc(100vh - 300px);
     position: relative;
