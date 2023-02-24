@@ -134,6 +134,7 @@ export default {
     position: relative;
     border: 1px solid #dadada;
     width: 100%;
+    height: 100%;
     padding: 40px 30px;
 
     &--no-border {
