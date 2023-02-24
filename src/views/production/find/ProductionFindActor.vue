@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { number } from 'vue-types';
 import AuditionItem from '../../../components/autidtion/AuditionItem.vue';
 import ActorItem from '../../../components/actor/ActorItem.vue';
+import { loadAuditions } from '../../../service/auditions';
 
 export default {
   name: 'production-find-actor',
@@ -50,6 +51,7 @@ export default {
       selectedAgeRange: null,
       selectedHeightRange: null,
       selectedGender: null,
+      openAuditions: [],
     };
   },
   methods: {
@@ -106,6 +108,12 @@ export default {
   },
   components: {
     DownOutlined, SearchOutlined, AuditionItem, ReloadOutlined, AuditionItem, ActorItem,
+  },
+  created() {
+    loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
+      .then((data) => {
+        this.openAuditions = data.filter(({ isClosed }) => !isClosed);
+      });
   },
 };
 </script>
@@ -198,9 +206,15 @@ export default {
             </ul>
         </div>
 
-        <a-modal v-model:visible="isProfileDetailVisible" title="프로필 상세" width="1200px" cancelText="취소" okText="확인">
+        <a-modal
+          v-model:visible="isProfileDetailVisible"
+          title="프로필 상세"
+          width="1200px"
+          cancelText="취소"
+          okText="확인"
+        >
             <div>
-                <ActorDetail></ActorDetail>
+                <ActorDetail :openAuditions="openAuditions"></ActorDetail>
             </div>
         </a-modal>
 
