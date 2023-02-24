@@ -8,12 +8,17 @@ import {
   loadActorScrappedAutions,
 } from '../../service/actors';
 
+import {
+  loadRequestedAuditions,
+} from '../../service/auditions';
+
 export default {
   name: 'ProfileInterest',
   data() {
     return {
       openedProductionList: [],
       scraps: [],
+      auditions: [],
     };
   },
   computed: {
@@ -71,6 +76,11 @@ export default {
       this.scraps = data;
     });
   },
+  created() {
+    loadRequestedAuditions({ actorEmail: 'zoonyfil@nate.com' }).then(({ data }) => {
+      this.auditions = data.map(({ audition }) => audition);
+    });
+  },
   components: {
     AuditionItem, ProductionItem, ProductionItemOpen, ProductionItemOffer,
   },
@@ -121,21 +131,25 @@ export default {
                     </ul>
                 </div>
             </a-tab-pane>
+
             <a-tab-pane key="offer" tab="받은 제안">
                 <div class="container__title">
                     받은 제안({{ 1 }})
                 </div>
                 <div class="tab-panel tab-panel--open">
                     <ul class="open-list">
-                        <li class="open-list__item" v-for="(production, index) in myOfferedProductionList" :key="index">
-                            <template v-for="(audition, i) in production.auditionList" :key="i">
-                                <ProductionItemOffer v-bind="{ ...production, ...audition }" :index="index">
-                                </ProductionItemOffer>
-                            </template>
-                        </li>
+                      <li v-for="(audition, i) in auditions" :key="i">
+                        <AuditionItem
+                          :index="index"
+                          v-bind="audition"
+                          v-bind:audition="audition"
+                          operation-type="request"
+                        ></AuditionItem>
+                      </li>
                     </ul>
                 </div>
             </a-tab-pane>
+
         </a-tabs>
     </div>
 </template>

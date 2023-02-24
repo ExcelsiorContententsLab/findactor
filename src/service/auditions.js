@@ -42,7 +42,7 @@ export async function request({
   actorEmail,
 }) {
   return axios.post(
-    'http://localhost:8080/requests', // TODO: 프로덕션으로 교체
+    `${API_URL}/requests`,
     {
       auditionTitle: audition.title,
       actorEmail,
@@ -56,6 +56,12 @@ export async function isRequested({
   actorEmail,
 }) {
   return axios.get(
-    `http://localhost:8080/requests/requested?auditionTitle=${auditionTitle}&actorEmail=${actorEmail}`, // TODO: 프로덕션으로 교체
+    `${API_URL}/requests/requested?auditionTitle=${auditionTitle}&actorEmail=${actorEmail}`, // TODO: 프로덕션으로 교체
+  );
+}
+
+export async function loadRequestedAuditions({ actorEmail }) {
+  return axios.get(
+    `${API_URL}/requests?actorEmail=${actorEmail}`,
   );
 }
