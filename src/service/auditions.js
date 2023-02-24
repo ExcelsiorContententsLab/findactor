@@ -20,3 +20,9 @@ export async function checkApplied({ auditionTitle } = {
 }) {
   return axios.get(`${API_URL}/auditions/applied?auditionTitle=${auditionTitle}`);
 }
+
+export async function closeAudition({ auditionTitle } = {
+  auditionTitle: '',
+}) {
+  return axios.patch(`${API_URL}/auditions/close?auditionTitle=${auditionTitle}`);
+}

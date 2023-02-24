@@ -8,10 +8,11 @@ import { message } from 'ant-design-vue';
 import ThumbCard from '@/components/thumb/ThumbCard.vue';
 
 import {
-  loadProductionAuditions,
   loadProfile,
 } from '../../service/productions';
-import { loadAuditions } from '../../service/auditions';
+
+import { loadAuditions, closeAudition } from '../../service/auditions';
+import { load } from '../../persistence/storage';
 
 export default {
   name: 'production-info',
@@ -140,12 +141,16 @@ export default {
     },
   },
   created() {
-    loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
-      .then((data) => {
-        this.productAuditions = data;
-      });
+    this.load();
   },
   methods: {
+    load() {
+      console.log(111);
+      loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
+        .then((data) => {
+          this.productAuditions = data.filter(({ isClosed }) => !isClosed);
+        });
+    },
     handleClickAddMovieProfile() {
       this.isAddMovieProfileVisible = true;
     },
@@ -174,7 +179,13 @@ export default {
     handleAuditionModifyOk() {
       this.isAuditionVisible = false;
     },
-
+    handleCloseAudition(auditionTitle) {
+      closeAudition({ auditionTitle })
+        .then(() => {
+          this.isAuditionVisible = false;
+          this.load();
+        });
+    },
   },
   mounted() {
     console.log(this.status);
@@ -318,7 +329,11 @@ export default {
                 </div>
             </div>
             <div style="text-align:right">
-                <a-button size="large" type="primary">오디션 조기마감 하기</a-button>
+                <a-button
+                  size="large"
+                  type="primary"
+                  @click="() => handleCloseAudition(selectedAudition.title)"
+                >오디션 조기마감 하기</a-button>
             </div>
         </a-modal>
     </div>
