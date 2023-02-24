@@ -26,3 +26,13 @@ export async function closeAudition({ auditionTitle } = {
 }) {
   return axios.patch(`${API_URL}/auditions/close?auditionTitle=${auditionTitle}`);
 }
+
+export async function manageApplicant({
+  operationType,
+  actorEmail,
+  auditionTitle,
+}) {
+  return axios.patch(
+    `${API_URL}/auditions/${auditionTitle}/applicants?operationType=${operationType}&actorEmail=${actorEmail}`,
+  );
+}
