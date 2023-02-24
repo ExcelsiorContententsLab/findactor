@@ -11,7 +11,7 @@ const INACTIVE_ICON = '/assets/icon/diamond-false.svg';
 
 export default {
   name: 'AuditionItem',
-  props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dateRange', 'gender', 'onlyView', 'noBorder', 'audition'],
+  props: ['id', 'title', 'role', 'ageRange', 'productionName', 'prefer', 'genre', 'isScrap', 'tags', 'index', 'dateRange', 'gender', 'onlyView', 'noBorder', 'audition', 'operationType'],
   components: { AuditionDetail },
   data() {
     return {
@@ -112,7 +112,7 @@ export default {
         </span>
 
         <img
-            v-if="!onlyView"
+            v-if="!onlyView && operationType !== 'request'"
             class="icon"
             :src="isScrapped ? this.ACTIVE_ICON : this.INACTIVE_ICON"
             @click="handleClickAddFavorite"
@@ -125,7 +125,10 @@ export default {
           :okButtonProps="{ style: { display: 'none' } }"
           cancelText="확인"
         >
-          <AuditionDetail v-bind:audition="audition"></AuditionDetail>
+          <AuditionDetail
+            v-bind:audition="audition"
+            :operation-type="operationType"
+          ></AuditionDetail>
         </a-modal>
     </div>
 </template>

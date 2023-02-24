@@ -3,7 +3,7 @@ import { applyAudition, checkApplied } from '../../service/auditions';
 
 export default {
   name: 'AuditionDetail',
-  props: ['audition'],
+  props: ['audition', 'operationType'],
   data() {
     return {
       genreList: [
@@ -52,7 +52,21 @@ export default {
 };
 </script>
 <template>
-    <div class="apply-container">
+    <div v-if="operationType === 'request'" class="apply-container">
+      <a-button
+        type="primary"
+        size="large"
+      >
+        지원하기
+      </a-button>
+      <a-button
+        type="primary"
+        size="large"
+      >
+        거절하기
+      </a-button>
+    </div>
+    <div v-else class="apply-container">
       <a-button
         v-if="!isApplied"
         type="primary"
@@ -206,6 +220,7 @@ export default {
 <style lang="scss" scoped>
 .apply-container {
   display: flex;
+  gap: 1em;
   justify-content: end;
 }
 
