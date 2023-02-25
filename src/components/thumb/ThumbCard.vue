@@ -9,6 +9,7 @@ export default {
     role: String,
     year: Number,
     update: Boolean,
+    url: String,
     cardType: {
       default: '',
       type: String,
@@ -18,6 +19,11 @@ export default {
   methods: {
     handleClickRemove() {
       this.$emit('remove', this.index);
+    },
+    handleLink() {
+      if (this.url) {
+        window.open(this.url);
+      }
     },
   },
 
@@ -30,7 +36,12 @@ export default {
 };
 </script>
 <template>
-    <a-card class="thumb-card" hoverable style="width:240px; display:inline-block;">
+    <a-card
+      class="thumb-card" hoverable
+      @click="handleLink"
+      style="width:240px;
+      display:inline-block;"
+    >
         <template #cover>
             <div class="thumb-card__cover">
                 <img class="image" alt="example" :src="imgSrc" />
@@ -44,7 +55,7 @@ export default {
                         {{ role }}
                     </span>
                     <span class="year">
-                        {{ year }}년
+                        {{ year }}
                     </span>
                 </p>
             </template>

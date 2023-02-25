@@ -17,28 +17,28 @@ import print from '../utils/print';
 const actorPhilmography = [
   {
     title: '강철비2: 정상회담',
-    url: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A00%3A15.873Z-movie1.jpg',
+    url: 'https://movie.naver.com/movie/bi/mi/basic.naver?code=188909',
     imgSrc: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A00%3A15.873Z-movie1.jpg',
     role: '백두호 조타사 역',
     year: '2020',
   },
   {
     title: '가장 보통의 연애',
-    url: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A01%3A20.530Z-movie2.jpg',
+    url: 'https://movie.naver.com/movie/bi/mi/basic.naver?code=182205',
     imgSrc: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A01%3A20.530Z-movie2.jpg',
     role: '단역 이자카야 매니저',
     year: '2019',
   },
   {
     title: '마약왕',
-    url: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A01%3A54.551Z-movie3.jpg',
+    url: 'https://movie.naver.com/movie/bi/mi/basic.naver?code=157297',
     imgSrc: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A01%3A54.551Z-movie3.jpg',
     role: '단역-다방 앞 의원 의사역',
     year: '2018',
   },
   {
     title: '밤의 문이 열린다',
-    url: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A02%3A28.351Z-movie4.jpg',
+    url: 'https://movie.naver.com/movie/bi/mi/basic.naver?code=176625',
     imgSrc: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-16T08%3A02%3A28.351Z-movie4.jpg',
     role: '조연 - 이민성 역',
     year: '2019',
