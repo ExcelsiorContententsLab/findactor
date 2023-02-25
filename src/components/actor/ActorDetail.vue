@@ -627,10 +627,13 @@ export default {
     .panel {
         &__title {
             display: flex;
+            justify-content: space-between;
+            gap: 1em;
             align-items: center;
             margin-bottom: 20px;
 
             .title {
+                flex: 1;
                 font-weight: 900;
                 font-size: 22px;
                 color: #000000;
@@ -730,7 +733,8 @@ export default {
 }
 
 .btn-group {
-  display: flex;
+  display: grid;
   gap: 1em;
+  grid-template-columns: 1fr 1fr;
 }
 </style>
