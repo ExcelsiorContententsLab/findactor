@@ -10,6 +10,8 @@ import ThumbCard from '../thumb/ThumbCard.vue';
 
 import { manageApplicant, request, isRequested } from '../../service/auditions';
 
+import { scrapActor, isScrappedActor, unscrapActor } from '../../service/actors';
+
 export default {
   name: 'ActorDetail',
   components: {
@@ -178,6 +180,7 @@ export default {
         },
       ],
       isAuditionRequested: {},
+      isScrapped: false,
     };
   },
   setup() {
@@ -260,6 +263,16 @@ export default {
       const youtubeId = match[3];
       return `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
     },
+    handleScrap() {
+      scrapActor(this.actor);
+      this.isScrapped = true;
+      this.$emit('scrap');
+    },
+    handleCancelScrap() {
+      unscrapActor(this.actor);
+      this.isScrapped = false;
+      this.$emit('unscrap');
+    },
   },
   watch: {
     actor() {
@@ -279,6 +292,8 @@ export default {
           ...profile,
           imgSrc: profile.imgSrc || this.extractThumbnail(profile.url),
         }));
+
+      this.isScrapped = isScrappedActor(this.actor);
     },
   },
   mounted() {
@@ -298,6 +313,8 @@ export default {
         ...profile,
         imgSrc: profile.imgSrc || this.extractThumbnail(profile.url),
       }));
+
+    this.isScrapped = isScrappedActor(this.actor);
   },
 };
 </script>
@@ -305,9 +322,6 @@ export default {
     <div class="actor-portfolio">
         <div class="panel">
             <div class="panel__title">
-                <span class="title">
-                    프로필
-                </span>
                 <p v-if="operationType === 'request'" class="btn-group" style="margin-left:auto;">
                   <a-button
                     type='primary'
@@ -346,6 +360,26 @@ export default {
                     </a-button>
                 </p>
 
+            </div>
+            <div class="panel__title" v-if="operationType === 'request'">
+              <span class="title">
+              </span>
+              <a-button
+                v-if="!isScrapped"
+                type='primary'
+                size="large"
+                @click="handleScrap"
+              >
+                스크랩하기
+              </a-button>
+              <a-button
+                v-if="isScrapped"
+                type='primary'
+                size="large"
+                @click="handleCancelScrap"
+              >
+                스크랩취소
+              </a-button>
             </div>
             <div class="panel__content">
                 <div class="detail-info">
@@ -448,7 +482,6 @@ export default {
                 <span class="title">
                     작품경력
                 </span>
-
             </div>
             <div class="panel__content">
                 <a-list item-layout="horizontal" :data-source="actor.filmoList">
@@ -526,6 +559,12 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.ant-modal-title {
+  font-size: 3em;
+  font-weight: 700;
+  color: red;
+}
+
 .sns img {
   width: 50px;
 }
@@ -626,8 +665,6 @@ export default {
 
     .panel {
         &__title {
-            display: flex;
-            justify-content: space-between;
             gap: 1em;
             align-items: center;
             margin-bottom: 20px;
@@ -735,5 +772,9 @@ export default {
 .btn-group {
   display: flex;
   gap: 1em;
+  border: 3px solid #dddddd;
+  padding: 1em;
+  border-radius: 10px;
+  justify-content: left;
 }
 </style>

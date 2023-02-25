@@ -1,4 +1,5 @@
 <script>
+
 export default {
   name: 'actor-item',
   props: ['index', 'name', 'gender', 'age', 'height', 'weight', 'imgSrc'],
@@ -36,6 +37,12 @@ export default {
                 </span>
             </p>
         </div>
+        <img
+            class="icon"
+            :src="isScrapped ? ACTIVE_ICON : INACTIVE_ICON"
+            @click="handleClickAddFavorite"
+        />
+
     </div>
 </template>
 
@@ -91,9 +98,7 @@ export default {
                         margin: -2px 10px;
                     }
                 }
-
             }
-
         }
     }
 }

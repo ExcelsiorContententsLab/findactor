@@ -6,6 +6,7 @@ export const ACTOR_PHILMOGRAPHY = 'actor-philmography';
 export const ACTOR_AVATARS = 'actor-avatars';
 export const ACTOR_AUDITION_SCRAPS = 'actor-audition-scraps';
 export const ACTOR_PROFILE = 'actor-profile';
+export const SCRAPPED_ACTOR = 'scrapped-actor';
 
 export function loadActorPhilmography() {
   return load(ACTOR_PHILMOGRAPHY);
@@ -58,4 +59,26 @@ export function saveActorProfile(profile) {
 
 export function loadActorProfile() {
   return load(ACTOR_PROFILE);
+}
+
+export function unscrapActor(actor) {
+  const scrappedActors = load(SCRAPPED_ACTOR);
+  save(SCRAPPED_ACTOR, scrappedActors.filter(({ email }) => email !== actor.email));
+}
+
+export function isScrappedActor(actor) {
+  const scrappedActors = load(SCRAPPED_ACTOR);
+  return scrappedActors.some((a) => a.email === actor.email);
+}
+
+export function scrapActor(actor) {
+  if (isScrappedActor(actor)) {
+    return;
+  }
+  const scrappedActors = load(SCRAPPED_ACTOR);
+  save(SCRAPPED_ACTOR, [...scrappedActors, actor]);
+}
+
+export function loadScrappedActors() {
+  return load(SCRAPPED_ACTOR);
 }

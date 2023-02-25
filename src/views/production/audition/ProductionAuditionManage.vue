@@ -194,6 +194,7 @@ export default {
     </div>
 </template>
 <style lang="scss" scoped>
+
 .closed-audition {
   font-size: 1.5em;
   font-weight: bold;

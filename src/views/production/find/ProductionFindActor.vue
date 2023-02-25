@@ -294,6 +294,12 @@ export default {
 
 }
 
+.modalStyle .ant-modal-title {
+  font-size: 3em !important;
+  font-weight: 700 !important;
+  color: red !important;
+}
+
 .overlay {
     background: #fff;
     padding: 20px 24px;

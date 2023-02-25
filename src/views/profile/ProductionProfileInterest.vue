@@ -1,9 +1,11 @@
 <script>
-import { loadRequests } from '../../service/auditions';
+import { loadAuditions, loadRequests } from '../../service/auditions';
 
 import storedActors from '../../actors';
 
 import ActorItem from '../../components/actor/ActorItem.vue';
+
+import { loadScrappedActors } from '../../service/actors';
 
 export default {
   name: 'ProductionProfileInterest',
@@ -13,6 +15,8 @@ export default {
       actors: {},
       isProfileDetailVisible: false,
       selectedActor: {},
+      scrappedActors: [],
+      openAuditions: [],
     };
   },
   watch: {
@@ -42,11 +46,24 @@ export default {
       this.selectedActor = actor;
       this.isProfileDetailVisible = true;
     },
+    handleUnscrap() {
+      this.scrappedActors = loadScrappedActors();
+    },
+    handleScrap() {
+      this.scrappedActors = loadScrappedActors();
+    },
   },
   mounted() {
     loadRequests({ productionName: '(주)엑셀시오르콘텐츠랩' }).then((requests) => {
       this.requests = requests;
     });
+
+    this.scrappedActors = loadScrappedActors();
+
+    loadAuditions({ productionName: '(주)엑셀시오르콘텐츠랩' })
+      .then((data) => {
+        this.openAuditions = data.filter(({ isClosed }) => !isClosed);
+      });
   },
   components: { ActorItem },
 };
@@ -57,6 +74,20 @@ export default {
         <a-tabs v-model:activeKey="activeKey" size="large" :tabBarStyle="{ 'font-weight': '700' }"
             @tabClick="handleTabClick">
             <a-tab-pane key="scrap" :tab="`스크랩`">
+              <div
+                class="actor-scrap"
+              >
+                <ul>
+                    <li
+                      class="applicant__item"
+                      v-for="(actor, index) in scrappedActors"
+                      :key="index"
+                      @click="() => handleClickActor(actor)"
+                    >
+                      <ActorItem v-bind="actor" :index="index"></ActorItem>
+                    </li>
+                </ul>
+              </div>
             </a-tab-pane>
 
             <a-tab-pane key="open" tab="열람" disabled force-render>
@@ -93,6 +124,10 @@ export default {
         >
           <ActorDetail
             :actor="selectedActor"
+            operationType="request"
+            :openAuditions="openAuditions"
+            @unscrap="handleUnscrap"
+            @scrap="handleScrap"
           ></ActorDetail>
         </a-modal>
     </div>

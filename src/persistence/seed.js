@@ -3,6 +3,8 @@ import {
   saveActorAudtionScraps,
   saveActorPhilmography,
   saveActorProfile,
+  scrapActor,
+  SCRAPPED_ACTOR,
 } from '../service/actors';
 
 import {
@@ -13,6 +15,7 @@ import {
 import { saveAuditions } from '../service/common';
 
 import print from '../utils/print';
+import { save } from './storage';
 
 const actorPhilmography = [
   {
@@ -302,6 +305,8 @@ export default function seed() {
       },
     ],
   });
+
+  save(SCRAPPED_ACTOR, []);
 
   localStorage.setItem('isSeeded', 'true');
   print('데이터 시드가 완료 되었습니다.');
