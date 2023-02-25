@@ -63,7 +63,7 @@ export default {
                                         오디션 관리
                                     </a-menu-item>
                                 </RouterLink>
-                                <RouterLink to="/profile/interest?type=scrap">
+                                <RouterLink to="/production/profile/interest">
                                     <a-menu-item key="3" title=""
                                         style="font-size:18px; padding:8px 4px 14px 14px; width:140px; margin-bottom:4px; margin-left:4px;">
                                         <HeartOutlined></HeartOutlined>

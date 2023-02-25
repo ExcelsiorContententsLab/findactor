@@ -4,6 +4,8 @@ import ActorDetail from '../../../components/actor/ActorDetail.vue';
 
 import { loadAuditions } from '../../../service/auditions';
 
+import actors from '../../../actors';
+
 export default {
   name: 'production-audition-manage',
   data() {
@@ -15,6 +17,7 @@ export default {
       auditions: [],
       closedAuditions: [],
       currentAudition: null,
+      actors,
     };
   },
   computed: {
@@ -180,6 +183,7 @@ export default {
                   operationType="manage"
                   :audition="currentAudition"
                   @manageApplicant="handleManageApplicant"
+                  :actor="actors[1]"
                 ></ActorDetail>
             </div>
         </a-modal>

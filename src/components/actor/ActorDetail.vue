@@ -733,8 +733,7 @@ export default {
 }
 
 .btn-group {
-  display: grid;
+  display: flex;
   gap: 1em;
-  grid-template-columns: 1fr 1fr;
 }
 </style>

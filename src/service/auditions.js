@@ -78,3 +78,11 @@ export async function checkRejected({ auditionTitle, actorEmail }) {
     `${API_URL}/requests/reject?actorEmail=${actorEmail}&auditionTitle=${auditionTitle}`,
   );
 }
+
+export async function loadRequests({ productionName }) {
+  const { data } = await axios.get(
+    `${API_URL}/requests?productionName=${productionName}`,
+  );
+
+  return data;
+}

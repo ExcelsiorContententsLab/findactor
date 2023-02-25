@@ -1,7 +1,10 @@
 <script>
+import { loadRequests } from '../../service/auditions';
+
 export default {
   data() {
     return {
+      requestsCount: 0,
       MAP: [
         { id: 'A', value: '영어' },
         { id: 'B', value: '중국어' },
@@ -26,6 +29,12 @@ export default {
   computed: {
 
   },
+  mounted() {
+    loadRequests({ productionName: '(주)엑셀시오르콘텐츠랩' })
+      .then((data) => {
+        this.requestsCount = data.length;
+      });
+  },
 };
 </script>
 <template>
@@ -49,20 +58,28 @@ export default {
                 <ul class="info-list">
                     <li class="info-list__item">
                         <span class="label">스크랩</span>
-                        <router-link class="text" tag="span" to="/profile/interest?type=scrap">
+                        <router-link
+                            class="text"
+                            tag="span"
+                            to="production/profile/interest?type=scrap"
+                        >
                             7
                         </router-link>
                     </li>
                     <li class="info-list__item">
                         <span class="label">프로필 박스</span>
-                        <router-link class="text" tag="span" to="/profile/interest?type=open">
+                        <router-link class="text" tag="span" to="">
                             4
                         </router-link>
                     </li>
                     <li class="info-list__item">
                         <span class="label">제안한 오디션</span>
-                        <router-link class="text" tag="span" to="/profile/interest?type=offer">
-                            1
+                        <router-link
+                            class="text"
+                            tag="span"
+                            to="production/profile/interest?type=offer"
+                        >
+                            {{ requestsCount }}
                         </router-link>
                     </li>
                 </ul>

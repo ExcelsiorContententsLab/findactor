@@ -127,6 +127,15 @@ const router = createRouter({
       },
       component: () => import('../views/production/audition/ProductionAuditionManage.vue'),
     },
+    {
+      path: '/production/profile/interest',
+      name: 'production-profile-interest',
+      meta: {
+        layout: 'ProductionLayout',
+        title: 'MY 관심',
+      },
+      component: () => import('../views/profile/ProductionProfileInterest.vue'),
+    },
   ],
 });
 
