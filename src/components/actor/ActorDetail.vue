@@ -5,7 +5,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { RouterLink } from 'vue-router';
 import { message } from 'ant-design-vue';
-import ThumbCard from '@/components/thumb/ThumbCard.vue';
+
+import ThumbCard from '../thumb/ThumbCard.vue';
 
 import { manageApplicant, request, isRequested } from '../../service/auditions';
 
@@ -15,6 +16,7 @@ export default {
     Swiper,
     SwiperSlide,
     RouterLink,
+    ThumbCard,
   },
   props: {
     status: {
@@ -31,6 +33,37 @@ export default {
     openAuditions: {
       default: [],
     },
+    actor: {
+      default: {
+        name: '',
+        gender: '',
+        age: '',
+        height: '',
+        weight: '',
+        imgSrc: '',
+        birthDate: '',
+        email: '',
+        phone: '',
+        skills: '',
+        sns: {},
+        movieProfileList: [
+          {
+            title: '',
+            url: '',
+            imgSrc: '',
+            role: '',
+            year: '',
+          },
+        ],
+        imageProfileList: [
+          {
+            imgSrc: '',
+            kind: '',
+            role: '',
+          },
+        ],
+      },
+    },
   },
   data() {
     return {
@@ -44,7 +77,7 @@ export default {
       },
       movieProfileList: [
         {
-          imgSrc: '/assets/thumb1.jpg',
+          imgSrc: 'https://www.youtube.com/watch?v=Zy2Ht5gehsQ ',
           title: '구르미 그린 달빛',
           role: '단역 가나단역',
           year: 2021,
@@ -82,7 +115,7 @@ export default {
       ],
       imageProfileList: [
         {
-          imgSrc: '/assets/imageProfile/1.jpg',
+          imgSrc: 'https://www.youtube.com/watch?v=Zy2Ht5gehsQ',
           kind: '상업드라마',
           role: '단역 가나다역',
         },
@@ -196,7 +229,7 @@ export default {
     handleClickManage(operationType) {
       manageApplicant({
         operationType,
-        actorEmail: 'zoonyfil@nate.com', // TODO: 각 배우의 이메일로 변경
+        actorEmail: this.actor.email,
         auditionTitle: this.audition.title,
       }).then(() => {
         this.$emit('manageApplicant');
@@ -204,17 +237,28 @@ export default {
     },
     handleClickRequest(audition) {
       request({
-        actorEmail: 'zoonyfil@nate.com', // TODO: 각 배우의 이메일로 변경
+        actorEmail: this.actor.email, // TODO: 각 배우의 이메일로 변경
         audition,
       }).then(() => {
         isRequested({
-          actorEmail: 'zoonyfil@nate.com',
+          actorEmail: this.actor.email,
           auditionTitle: audition.title,
         }).then(({ data }) => {
           console.log(data);
           this.isAuditionRequested[audition.title] = data;
         });
       }); // TODO: 호출 후에 해당 오디션이 해당 배우로 등록 되었는지 확인
+    },
+    extractThumbnail(url) {
+      const regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+      const match = regex.exec(url);
+
+      if (!match) {
+        return url;
+      }
+
+      const youtubeId = match[3];
+      return `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
     },
   },
   mounted() {
@@ -226,6 +270,14 @@ export default {
         this.isAuditionRequested[a.title] = data;
       });
     });
+
+    // 영상 프로필 변경
+    // eslint-disable-next-line vue/no-mutating-props
+    this.actor.movieProfileList = this.actor.movieProfileList
+      .map((profile) => ({
+        ...profile,
+        imgSrc: profile.imgSrc || this.extractThumbnail(profile.url),
+      }));
   },
 };
 </script>
@@ -236,7 +288,6 @@ export default {
                 <span class="title">
                     프로필
                 </span>
-
                 <p v-if="operationType === 'request'" class="btn-group" style="margin-left:auto;">
                   <a-button
                     type='primary'
@@ -279,46 +330,47 @@ export default {
             <div class="panel__content">
                 <div class="detail-info">
                     <div class="left">
-                        <p class="name">이승찬</p>
+                        <p class="name">{{ actor.name }}</p>
                         <p class="info">
-                            <span class="info__item">남자</span>
-                            <span class="info__item">29세</span>
-                            <span class="info__item">176cm</span>
-                            <span class="info__item">72kg</span>
+                            <span class="info__item">{{ actor.gender }}</span>
+                            <span class="info__item">{{ actor.age }} 세</span>
+                            <span class="info__item">{{ actor.height }} cm</span>
+                            <span class="info__item">{{ actor.weight }} kg</span>
                         </p>
                         <p class="info2">
                             <span class="label">생년월일</span>
-                            <span class="text">1994.11.04</span>
+                            <span class="text">{{ actor.birthDate }}</span>
                         </p>
                         <p class="info2">
                             <span class="label">이메일</span>
-                            <span class="text">zoonyfil@nate.com</span>
+                            <span class="text">{{ actor.email }}</span>
                         </p>
                         <p class="info2">
                             <span class="label">연락처</span>
-                            <span class="text">010-6714-0130</span>
+                            <span class="text">{{ actor.phone }}</span>
                         </p>
                     </div>
                     <div class="right">
                         <div class="info3">
                             <span class="label">특기</span>
                             <p class="info">
-                                <span class="info__item">액션</span>
-                                <span class="info__item">사투리연기</span>
-                                <span class="info__item">운전</span>
+                                <span class="info__item">{{ actor.skills }}</span>
                             </p>
                         </div>
                         <div class="info3">
                             <span class="label">SNS</span>
-                            <p class="sns">
+                            <p v-if="actor.sns.kakao" class="sns">
                                 <img class="icon" src="@/assets/kakao_icon.svg" />
-                                <span class="text">zoonyfil</span>
+                                <span class="text">{{ actor.sns.kakao }}</span>
                             </p>
-                            <p class="sns">
+                            <p v-if="actor.sns.youtube" class="sns">
                                 <img src="@/assets/youtube_icon.svg" />
-                                <span class="text">http://www.youtube.com/zoonyfil</span>
+                                <span class="text">{{ actor.sns.youtube }}</span>
                             </p>
-
+                            <p v-if="actor.sns.instagram" class="sns">
+                                <img src="@/assets/instagram-icon.png" />
+                                <span class="text">{{ actor.sns.instagram }}</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -331,10 +383,21 @@ export default {
                 </span>
             </div>
             <div class="panel__content">
-                <swiper :modules="modules" :slides-per-view="isUpdate ? 5 : 4" :space-between="20" navigation>
-                    <swiper-slide v-for="(movieProfile, index) in $store.state.profile.movieList" :key="index">
-                        <ThumbCard v-bind="movieProfile" :index="index" :update="status === 'update'"
-                            @remove="handleRemoveThumbCard"></ThumbCard>
+                <swiper
+                  :modules="modules"
+                  :slides-per-view="isUpdate ? 5 : 4"
+                  :space-between="20" navigation
+                >
+                    <swiper-slide
+                      v-for="(movieProfile, index) in actor.movieProfileList"
+                      :key="index"
+                    >
+                        <ThumbCard
+                          v-bind="movieProfile"
+                          :index="index"
+                          :update="status === 'update'"
+                          @remove="handleRemoveThumbCard"
+                        ></ThumbCard>
                     </swiper-slide>
                 </swiper>
             </div>
@@ -348,8 +411,14 @@ export default {
             <div class="panel__content">
                 <swiper :modules="modules" :slides-per-view="'auto'" :space-between="10" navigation
                     class="image-profile">
-                    <swiper-slide v-for="(imageProfile, index) in imageProfileList" :key="index">
-                        <ThumbImage v-bind="imageProfile" :update="status === 'update'"></ThumbImage>
+                    <swiper-slide
+                      v-for="(imageProfile, index) in actor.imageProfileList"
+                      :key="index"
+                    >
+                        <ThumbImage
+                          v-bind="imageProfile"
+                          :update="status === 'update'"
+                        ></ThumbImage>
                     </swiper-slide>
                 </swiper>
             </div>
@@ -362,7 +431,7 @@ export default {
 
             </div>
             <div class="panel__content">
-                <a-list item-layout="horizontal" :data-source="filmoList">
+                <a-list item-layout="horizontal" :data-source="actor.filmoList">
                     <template #renderItem="{ item }">
                         <a-list-item class="profile-filemo">
                             <a-list-item-meta :description="item.role">
@@ -377,11 +446,21 @@ export default {
                 </a-list>
             </div>
         </div>
-        <a-modal v-model:visible="isAddMovieProfileVisible" title="영상 프로필 추가" @ok="handleConfirmAddMovieProfile"
-            cancelText="취소" okText="확인">
-            <a-form class="movie-profile-edit" :label-col="{ style: { width: '100px' } }" :wapper-col="{ span: 6 }"
-                autocomplete="off">
-                <a-form-item label="영상 URL" :rules="[{ required: true, message: '연기 영상은 필수 입력값 입니다.' }]">
+        <a-modal
+          v-model:visible="isAddMovieProfileVisible"
+          title="영상 프로필 추가"
+          @ok="handleConfirmAddMovieProfile"
+          cancelText="취소" okText="확인"
+        >
+            <a-form
+              class="movie-profile-edit"
+              :label-col="{ style: { width: '100px' } }"
+              :wapper-col="{ span: 6 }"
+              autocomplete="off">
+                <a-form-item
+                  label="영상 URL"
+                  :rules="[{ required: true, message: '연기 영상은 필수 입력값 입니다.' }]"
+                  >
                     <a-input v-model:value="movieProfileDetail.url" placeholder="연기 영상 링크"
                         @input="handleInputMovieProfileDetailURL" />
                 </a-form-item>
@@ -427,6 +506,10 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.sns img {
+  width: 50px;
+}
+
 .movie-profile-edit {
     &__thumb {
         display: flex;

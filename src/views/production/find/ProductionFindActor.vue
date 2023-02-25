@@ -6,6 +6,8 @@ import AuditionItem from '../../../components/autidtion/AuditionItem.vue';
 import ActorItem from '../../../components/actor/ActorItem.vue';
 import { loadAuditions } from '../../../service/auditions';
 
+import actors from '../../../actors';
+
 export default {
   name: 'production-find-actor',
   setup() {
@@ -96,7 +98,7 @@ export default {
       return list;
     },
     filteredActorList() {
-      let origin = this.$store.state.production.findActorList;
+      let origin = actors;
       if (this.selectedGender) { origin = origin.filter((v) => v.gender === this.selectedGender); }
       if (this.selectedAgeRange) { origin = origin.filter((v) => parseInt(v.age) >= this.selectedAgeRange[0] && parseInt(v.age) <= this.selectedAgeRange[1]); }
       if (this.selectedHeightRange) { origin = origin.filter((v) => parseInt(v.height) >= this.selectedHeightRange[0] && parseInt(v.height) <= this.selectedHeightRange[1]); }
@@ -214,7 +216,9 @@ export default {
           okText="확인"
         >
             <div>
-                <ActorDetail :openAuditions="openAuditions"></ActorDetail>
+                <ActorDetail
+                  :actor="selectedProfile"
+                  :openAuditions="openAuditions"></ActorDetail>
             </div>
         </a-modal>
 
