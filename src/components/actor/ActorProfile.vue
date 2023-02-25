@@ -1,5 +1,6 @@
 <script>
-import { loadActorProfile } from '../../service/actors';
+import { loadActorProfile, loadActorScrappedAutions } from '../../service/actors';
+import { loadRequestedAuditions } from '../../service/auditions';
 
 export default {
   data() {
@@ -35,11 +36,18 @@ export default {
         tags: [],
       },
       scrapCount: 0,
+      requestCount: 0,
     };
   },
   mounted() {
     this.profile = loadActorProfile();
     // TODO: 스크랩 카운트 읽어오기
+    loadActorScrappedAutions().then((data) => {
+      this.scrapCount = data.length;
+    });
+    loadRequestedAuditions({ actorEmail: 'zoonyfil@nate.com' }).then(({ data }) => {
+      this.requestCount = data.length;
+    });
   },
 };
 </script>
@@ -91,14 +99,18 @@ export default {
                     </li>
                     <li class="info-list__item">
                         <span class="label">열람</span>
-                        <router-link class="text" tag="span" to="/profile/interest?type=open">
+                        <router-link
+                            class="text"
+                            tag="span"
+                            to=""
+                          >
                             15
                         </router-link>
                     </li>
                     <li class="info-list__item">
                         <span class="label">받은 제안</span>
                         <router-link class="text" tag="span" to="/profile/interest?type=offer">
-                            1
+                            {{ requestCount }}
                         </router-link>
                     </li>
                 </ul>

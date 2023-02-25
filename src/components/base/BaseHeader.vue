@@ -22,6 +22,9 @@ export default {
       accessToken.value = '';
       this.$router.push({ path: '/login' });
     },
+    handleClickSetup() {
+      this.$router.push({ path: '/actor' });
+    },
   },
 };
 </script>
@@ -71,6 +74,7 @@ export default {
                                     </a-menu-item>
                                 </RouterLink>
                                 <a-menu-item key="4"
+                                    @click="handleClickSetup"
                                     style="font-size:18px; padding:8px 4px 14px 14px; width:140px; margin-bottom:4px; margin-left:4px;">
                                     <SettingOutlined></SettingOutlined>
                                     설정

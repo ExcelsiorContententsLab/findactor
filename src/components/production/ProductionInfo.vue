@@ -186,6 +186,9 @@ export default {
           this.load();
         });
     },
+    handleClickAuditionees() {
+      this.$router.push({ path: '/production/audition/manage' });
+    },
   },
   mounted() {
     console.log(this.status);
@@ -294,10 +297,22 @@ export default {
                                 <span class="role">{{ ROLE_MAP[audition.role] }}</span>
                             </div>
                             <div class="info">
-                                <p class="info__elem">
+                                <p class="info__elem" @click="handleClickAuditionees">
                                     <span class="label">지원자</span>
                                     <span class="count">(
                                       {{ audition.appliedAuditionees.length }}
+                                    )</span>
+                                </p>
+                                <p disabled class="info__elem">
+                                    <span class="label">응답완료</span>
+                                    <span class="count">(
+                                      0
+                                    )</span>
+                                </p>
+                                <p disabled class="info__elem">
+                                    <span class="label">미응답</span>
+                                    <span class="count">(
+                                      0
                                     )</span>
                                 </p>
                             </div>
