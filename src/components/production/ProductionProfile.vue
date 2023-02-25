@@ -67,8 +67,8 @@ export default {
                     </li>
                 </ul>
             </div>
-            <div class="box">
-                <img src="@/assets/production/notice.svg" />
+            <div class="box box--left-align">
+              공지 사항
             </div>
         </div>
     </div>
@@ -90,6 +90,9 @@ export default {
             &:not(:last-child) {
                 border-bottom: 2px solid #dadada;
             }
+            color: black;
+            font-weight: 400;
+            font-size: 1.2em;
 
             padding: 36px;
 

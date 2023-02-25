@@ -22,6 +22,9 @@ export default {
       accessToken.value = '';
       this.$router.push({ path: '/login' });
     },
+    handleClickSetup() {
+      this.$router.push({ path: '/production' });
+    },
   },
 };
 </script>
@@ -48,6 +51,7 @@ export default {
                         <template #overlay>
                             <a-menu size="large">
                                 <a-menu-item key="1"
+                                    disabled
                                     style="font-size:18px; padding:8px 4px 14px 14px; width:140px; margin-bottom:4px; margin-left:4px;">
                                     <BellOutlined></BellOutlined>
                                     알림
@@ -67,7 +71,9 @@ export default {
                                     </a-menu-item>
                                 </RouterLink>
                                 <a-menu-item key="4"
-                                    style="font-size:18px; padding:8px 4px 14px 14px; width:140px; margin-bottom:4px; margin-left:4px;">
+                                    @click="handleClickSetup"
+                                    style="font-size:18px; padding:8px 4px 14px 14px; width:140px; margin-bottom:4px; margin-left:4px;"
+                                  >
                                     <SettingOutlined></SettingOutlined>
                                     설정
                                 </a-menu-item>

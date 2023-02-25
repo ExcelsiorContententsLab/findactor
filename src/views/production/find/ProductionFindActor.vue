@@ -194,10 +194,9 @@ export default {
         </div>
         <div class="production-find-actor__content container">
             <div class="header">
-                <a-select v-model:value="sort" class="sort" style="width: 140px;" @focus="focus" size="large"
+                <a-select disabled v-model:value="sort" class="sort" style="width: 140px;" @focus="focus" size="large"
                     @change="handleChange">
                     <a-select-option value="1">인기순</a-select-option>
-                    <a-select-option value="2">최신순</a-select-option>
                 </a-select>
             </div>
             <ul class="applicant">

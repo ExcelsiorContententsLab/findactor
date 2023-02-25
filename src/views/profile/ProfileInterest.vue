@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     myProductionList() {
-      return this.$store.state.productionList.filter((v) => v.isLiked);
+      return [];
     },
     myOfferedProductionList() {
       const productionList = [{
@@ -93,7 +93,7 @@ export default {
             @tabClick="handleTabClick">
             <a-tab-pane key="scrap" :tab="`스크랩`">
                 <div class="container__title">
-                    관심 제작사 리스트({{ 4 }})
+                    관심 제작사 리스트({{ 0 }})
                 </div>
                 <div class="tab-panel tab-panel--production">
                     <ul class="production-list">
@@ -110,6 +110,7 @@ export default {
                         <li class="audition-list__item" v-for="(scrap, index) in scraps" :key="index">
                             <AuditionItem
                               v-bind="scrap"
+                              :audition="scrap"
                               :index="index"
                               @scrapToggled="handleScrapToggled"
                               ></AuditionItem>
@@ -119,7 +120,7 @@ export default {
                 </div>
 
             </a-tab-pane>
-            <a-tab-pane key="open" tab="열람" force-render>
+            <a-tab-pane key="open" tab="열람" disabled force-render>
                 <div class="container__title">
                     열람한 제작사 리스트({{ scraps.length }})
                 </div>
@@ -134,7 +135,7 @@ export default {
 
             <a-tab-pane key="offer" tab="받은 제안">
                 <div class="container__title">
-                    받은 제안({{ 1 }})
+                    받은 제안({{ auditions.length }})
                 </div>
                 <div class="tab-panel tab-panel--open">
                     <ul class="open-list">
