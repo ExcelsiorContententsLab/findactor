@@ -261,17 +261,37 @@ export default {
       return `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
     },
   },
+  watch: {
+    actor() {
+      this.openAuditions.forEach((a) => {
+        console.log({ email: this.actor.email });
+        isRequested({
+          auditionTitle: a.title,
+          actorEmail: this.actor.email,
+        }).then(({ data }) => {
+          this.isAuditionRequested[a.title] = data;
+        });
+      });
+
+      // eslint-disable-next-line vue/no-mutating-props
+      this.actor.movieProfileList = this.actor.movieProfileList
+        .map((profile) => ({
+          ...profile,
+          imgSrc: profile.imgSrc || this.extractThumbnail(profile.url),
+        }));
+    },
+  },
   mounted() {
     this.openAuditions.forEach((a) => {
+      console.log({ email: this.actor.email });
       isRequested({
         auditionTitle: a.title,
-        actorEmail: 'zoonyfil@nate.com',
+        actorEmail: this.actor.email,
       }).then(({ data }) => {
         this.isAuditionRequested[a.title] = data;
       });
     });
 
-    // 영상 프로필 변경
     // eslint-disable-next-line vue/no-mutating-props
     this.actor.movieProfileList = this.actor.movieProfileList
       .map((profile) => ({
