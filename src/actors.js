@@ -2,7 +2,7 @@ const actors = [
   {
     name: '클라라',
     gender: 'female',
-    age: '68',
+    age: '29',
     height: '168',
     weight: '50',
     imgSrc: 'https://findactor.s3.ap-northeast-2.amazonaws.com/2023-02-24T03%3A08%3A56.407Z-%C3%A1%C2%84%C2%8F%C3%A1%C2%85%C2%B3%C3%A1%C2%86%C2%AF%C3%A1%C2%84%C2%85%C3%A1%C2%85%C2%A1%C3%A1%C2%84%C2%85%C3%A1%C2%85%C2%A11.jpg',
@@ -126,7 +126,7 @@ const actors = [
     ],
     imageProfileList: [
       {
-        imgSrc: 'https://www.youtube.com/watch?v=Zy2Ht5gehsQ',
+        imgSrc: '/assets/imageProfile/1.jpg',
         kind: '상업드라마',
         role: '단역 가나다역',
       },

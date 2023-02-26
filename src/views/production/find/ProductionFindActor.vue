@@ -211,8 +211,8 @@ export default {
           v-model:visible="isProfileDetailVisible"
           title="프로필 상세"
           width="1200px"
-          cancelText="취소"
-          okText="확인"
+          :okButtonProps="{ style: { display: 'none' } }"
+          cancelText="확인"
         >
             <div>
                 <ActorDetail

@@ -41,7 +41,6 @@ export default {
   },
   mounted() {
     this.profile = loadActorProfile();
-    // TODO: 스크랩 카운트 읽어오기
     loadActorScrappedAutions().then((data) => {
       this.scrapCount = data.length;
     });

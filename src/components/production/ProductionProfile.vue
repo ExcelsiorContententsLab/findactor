@@ -1,10 +1,12 @@
 <script>
+import { loadScrappedActors } from '../../service/actors';
 import { loadRequests } from '../../service/auditions';
 
 export default {
   data() {
     return {
       requestsCount: 0,
+      scrapCount: 0,
       MAP: [
         { id: 'A', value: '영어' },
         { id: 'B', value: '중국어' },
@@ -34,6 +36,8 @@ export default {
       .then((data) => {
         this.requestsCount = data.length;
       });
+
+    this.scrapCount = loadScrappedActors().length;
   },
 };
 </script>
@@ -63,7 +67,7 @@ export default {
                             tag="span"
                             to="production/profile/interest?type=scrap"
                         >
-                            7
+                            {{ scrapCount }}
                         </router-link>
                     </li>
                     <li class="info-list__item">

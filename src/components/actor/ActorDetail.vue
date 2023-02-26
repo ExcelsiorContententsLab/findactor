@@ -386,7 +386,10 @@ export default {
                     <div class="left">
                         <p class="name">{{ actor.name }}</p>
                         <p class="info">
-                            <span class="info__item">{{ actor.gender }}</span>
+                            <span class="info__item">{{ {
+                              male: '남자',
+                              female: '여자'
+                            }[actor.gender] }}</span>
                             <span class="info__item">{{ actor.age }} 세</span>
                             <span class="info__item">{{ actor.height }} cm</span>
                             <span class="info__item">{{ actor.weight }} kg</span>
