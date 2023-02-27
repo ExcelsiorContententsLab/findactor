@@ -46,7 +46,7 @@ export default {
       this.$router.replace(`/production/audition/manage?type=${val}`);
     },
     handleClickProfileDetail(profile) {
-      this.selectedProfile = profile;
+      this.selectedProfile = actors.find(({ email }) => profile.email === email);
       this.isProfileDetailVisible = true;
     },
     handleManageApplicant() {
@@ -125,7 +125,10 @@ export default {
                             v-for="(actor, index) in currentAudition.appliedAuditionees"
                             :key="index" @click="handleClickProfileDetail(actor)"
                           >
-                            <ActorItem v-bind="actor" :index="index"></ActorItem>
+                            <ActorItem
+                              v-bind="actors.find(({ email }) => actor.email === email)"
+                              :index="index">
+                            </ActorItem>
                           </li>
                       </ul>
                       <ul v-if="subMenu === 'passed'" class="applicant">
@@ -134,7 +137,8 @@ export default {
                             v-for="(actor, index) in currentAudition.passedAuditionees"
                             :key="index" @click="handleClickProfileDetail(actor)"
                           >
-                            <ActorItem v-bind="actor" :index="index"></ActorItem>
+                            <ActorItem v-bind="actors.find(({ email }) => actor.email === email)"
+                              :index="index"></ActorItem>
                           </li>
                       </ul>
                       <ul v-if="subMenu === 'rejected'" class="applicant">
@@ -143,7 +147,8 @@ export default {
                             v-for="(actor, index) in currentAudition.rejectedAuditionees"
                             :key="index" @click="handleClickProfileDetail(actor)"
                           >
-                            <ActorItem v-bind="actor" :index="index"></ActorItem>
+                            <ActorItem v-bind="actors.find(({ email }) => actor.email === email)"
+                              :index="index"></ActorItem>
                           </li>
                       </ul>
                       <ul v-if="subMenu === 'pending'" class="applicant">
@@ -152,7 +157,8 @@ export default {
                             v-for="(actor, index) in currentAudition.pendingAuditionees"
                             :key="index" @click="handleClickProfileDetail(actor)"
                           >
-                            <ActorItem v-bind="actor" :index="index"></ActorItem>
+                            <ActorItem v-bind="actors.find(({ email }) => actor.email === email)"
+                              :index="index"></ActorItem>
                           </li>
                       </ul>
                   </div>
@@ -183,7 +189,7 @@ export default {
                   operationType="manage"
                   :audition="currentAudition"
                   @manageApplicant="handleManageApplicant"
-                  :actor="actors[1]"
+                  :actor="selectedProfile"
                 ></ActorDetail>
             </div>
         </a-modal>

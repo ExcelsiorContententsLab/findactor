@@ -300,19 +300,28 @@ export default {
                                 <p class="info__elem" @click="handleClickAuditionees">
                                     <span class="label">지원자</span>
                                     <span class="count">(
-                                      {{ audition.appliedAuditionees.length }}
+                                      {{ (audition.appliedAuditionees.length +
+                                         audition.passedAuditionees.length +
+                                         audition.pendingAuditionees.length +
+                                         audition.rejectedAuditionees.length) }}
                                     )</span>
                                 </p>
                                 <p disabled class="info__elem">
                                     <span class="label">응답완료</span>
                                     <span class="count">(
-                                      0
+                                      {{ (
+                                          audition.passedAuditionees.length +
+                                         audition.pendingAuditionees.length +
+                                         audition.rejectedAuditionees.length)
+                                      }}
                                     )</span>
                                 </p>
                                 <p disabled class="info__elem">
                                     <span class="label">미응답</span>
                                     <span class="count">(
-                                      0
+                                      {{
+                                        audition.appliedAuditionees.length
+                                      }}
                                     )</span>
                                 </p>
                             </div>
